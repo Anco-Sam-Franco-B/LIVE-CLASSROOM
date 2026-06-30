@@ -1,6 +1,6 @@
-# LIVE-CLASSROOM
+# Live Class Code (LCC)
 
-A comprehensive Enterprise Learning Management System (LMS) built with React and Node.js that enables live online classroom experiences with integrated video conferencing, course management, assessments, and payment processing.
+A comprehensive Enterprise Live Class Code (LCC) built with React and Node.js that enables live online classroom experiences with integrated video conferencing, course management, assessments, and payment processing.
 
 ## 📋 Table of Contents
 
@@ -24,7 +24,7 @@ A comprehensive Enterprise Learning Management System (LMS) built with React and
 
 ## Overview
 
-LIVE-CLASSROOM is an enterprise-grade Learning Management System designed for modern educational institutions and corporate training programs. It provides a full-featured platform for creating and managing courses, conducting live classes via video conferencing, tracking student progress, assessing knowledge through quizzes and assignments, and managing payments and subscriptions.
+Live Class Code (LCC) is an enterprise-grade Learning Management System designed for modern educational institutions and corporate training programs. It provides a full-featured platform for creating and managing courses, conducting live classes via video conferencing, tracking student progress, assessing knowledge through quizzes and assignments, and managing payments and subscriptions.
 
 ### Key Use Cases
 - **Educational Institutions**: Manage online and blended learning programs
@@ -773,7 +773,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For questions, issues, or suggestions:
 
-- 📧 Email: support@live-classroom.com
+- 📧 Email: ancosamfranco250@gmail.com
 - 🐛 Issues: [GitHub Issues](https://github.com/Anco-Sam-Franco-B/LIVE-CLASSROOM/issues)
 - 💬 Discussions: [GitHub Discussions](https://github.com/Anco-Sam-Franco-B/LIVE-CLASSROOM/discussions)
 
