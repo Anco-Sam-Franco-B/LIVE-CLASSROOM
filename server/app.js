@@ -14,7 +14,7 @@ const helmetConfig = {
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      frameSrc: ["'self'", "http://localhost:5000", "wss://live-class-2xabczgn.livekit.cloud"],
+      frameSrc: ["'self'", "https://api-lcc.onrender.com", "wss://live-class-2xabczgn.livekit.cloud"],
       frameAncestors: ["'self'", env.CLIENT_URL],
       connectSrc: ["'self'", "https://live-class-2xabczgn.livekit.cloud", "wss://live-class-2xabczgn.livekit.cloud"],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
