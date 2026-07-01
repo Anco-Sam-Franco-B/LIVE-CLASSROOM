@@ -18,7 +18,7 @@ const env = {
   SMTP_USER: process.env.SMTP_USER,
   SMTP_PASS: process.env.SMTP_PASS,
   EMAIL_FROM: process.env.EMAIL_FROM || "noreply@liveclasscode.com",
-  CLIENT_URL: process.env.CLIENT_URL || "https://live-class-fygj.onrender.com",
+  CLIENT_URL: process.env.CLIENT_URL || "https://lcc-learn.onrender.com",
   UPLOAD_DIR: process.env.UPLOAD_DIR || "uploads",
   MAX_FILE_SIZE: parseInt(process.env.MAX_FILE_SIZE) || 10485760,
   LIVEKIT_HOST: process.env.LIVEKIT_HOST,
