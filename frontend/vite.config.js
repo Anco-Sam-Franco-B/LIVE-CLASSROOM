@@ -10,7 +10,7 @@ export default defineConfig({
       '/api': { target: 'https://api-lcc.onrender.com', changeOrigin: true },
       '/uploads': { target: 'https://api-lcc.onrender.com', changeOrigin: true },
       '/socket.io': { target: 'https://api-lcc.onrender.com', ws: true, changeOrigin: true },
-      '/jaas': { target: 'https://api-lcc.onrender.com/', changeOrigin: true, ws: true },
+      '/jaas': { target: 'https://api-lcc.onrender.com', changeOrigin: true, ws: true },
     },
   },
 })
