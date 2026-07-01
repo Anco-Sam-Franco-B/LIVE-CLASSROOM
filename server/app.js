@@ -28,7 +28,7 @@ const helmetConfig = {
 };
 app.use(helmet(helmetConfig));
 app.use(cors({
-  origin: env.CLIENT_URL,
+  origin: "*",
   credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
