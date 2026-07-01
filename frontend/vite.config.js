@@ -7,10 +7,10 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/api': { target: 'https://api-lcc.onrender.com', changeOrigin: true },
-      '/uploads': { target: 'https://api-lcc.onrender.com', changeOrigin: true },
-      '/socket.io': { target: 'https://api-lcc.onrender.com', ws: true, changeOrigin: true },
-      '/jaas': { target: 'https://api-lcc.onrender.com', changeOrigin: true, ws: true },
+      '/api': { target: 'http://localhost:5000', changeOrigin: true },
+      '/uploads': { target: 'http://localhost:5000', changeOrigin: true },
+      '/socket.io': { target: 'http://localhost:5000', ws: true, changeOrigin: true },
+      '/jaas': { target: 'http://localhost:5000', changeOrigin: true, ws: true },
     },
   },
 })

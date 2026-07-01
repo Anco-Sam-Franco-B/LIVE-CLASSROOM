@@ -97,7 +97,7 @@ export default function TeacherAssignments() {
         title="Assignments"
         description={`${assignments.length} assignment${assignments.length !== 1 ? 's' : ''}`}
         actions={
-          <button onClick={openCreateModal} className="btn-primary flex items-center space-x-2">
+          <button onClick={openCreateModal} className="neon-btn flex items-center space-x-2">
             <Plus size={20} /><span>Create Assignment</span>
           </button>
         }
@@ -105,25 +105,25 @@ export default function TeacherAssignments() {
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setShowModal(false)}>
-          <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto p-6" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">{editing ? 'Edit Assignment' : 'Create Assignment'}</h2>
+          <div className="rounded-xl shadow-2xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto p-6" style={{ background: 'var(--bg-card)' }} onClick={(e) => e.stopPropagation()}>
+            <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{editing ? 'Edit Assignment' : 'Create Assignment'}</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                <input className="input-field" required value={form.title} onChange={(e) => update('title', e.target.value)} />
+                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Title</label>
+                <input className="neon-input" required value={form.title} onChange={(e) => update('title', e.target.value)} />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <textarea className="input-field" rows={4} value={form.description} onChange={(e) => update('description', e.target.value)} />
+                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Description</label>
+                <textarea className="neon-input" rows={4} value={form.description} onChange={(e) => update('description', e.target.value)} />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
-                  <input type="date" className="input-field" value={form.due_date} onChange={(e) => update('due_date', e.target.value)} />
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Due Date</label>
+                  <input type="date" className="neon-input" value={form.due_date} onChange={(e) => update('due_date', e.target.value)} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Course</label>
-                  <select className="input-field" required value={form.course_id} onChange={(e) => update('course_id', e.target.value)}>
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Course</label>
+                  <select className="neon-input" required value={form.course_id} onChange={(e) => update('course_id', e.target.value)}>
                     <option value="">Select course</option>
                     {courses.map((c) => <option key={c.id} value={c.id}>{c.title}</option>)}
                   </select>
@@ -131,21 +131,21 @@ export default function TeacherAssignments() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Total Points</label>
-                  <input type="number" min="0" className="input-field" required value={form.total_points} onChange={(e) => update('total_points', e.target.value)} />
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Total Points</label>
+                  <input type="number" min="0" className="neon-input" required value={form.total_points} onChange={(e) => update('total_points', e.target.value)} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Passing Points</label>
-                  <input type="number" min="0" className="input-field" required value={form.passing_points} onChange={(e) => update('passing_points', e.target.value)} />
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Passing Points</label>
+                  <input type="number" min="0" className="neon-input" required value={form.passing_points} onChange={(e) => update('passing_points', e.target.value)} />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Allowed File Types</label>
-                <input className="input-field" placeholder="e.g. pdf, doc, zip" value={form.file_types} onChange={(e) => update('file_types', e.target.value)} />
+                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Allowed File Types</label>
+                <input className="neon-input" placeholder="e.g. pdf, doc, zip" value={form.file_types} onChange={(e) => update('file_types', e.target.value)} />
               </div>
               <div className="flex space-x-3 pt-2">
-                <button type="submit" className="btn-primary">{editing ? 'Update' : 'Create'}</button>
-                <button type="button" onClick={() => { setShowModal(false); setEditing(null); }} className="btn-secondary">Cancel</button>
+                <button type="submit" className="neon-btn">{editing ? 'Update' : 'Create'}</button>
+                <button type="button" onClick={() => { setShowModal(false); setEditing(null); }} className="neon-btn-ghost">Cancel</button>
               </div>
             </form>
           </div>
@@ -157,15 +157,15 @@ export default function TeacherAssignments() {
       ) : (
         <div className="space-y-4">
           {assignments.map((a) => (
-            <div key={a.id} className="card">
+            <div key={a.id} className="neon-card" style={{ background: 'var(--bg-card)' }}>
               <div className="flex items-start justify-between">
                 <div className="flex items-start space-x-3 min-w-0 flex-1">
-                  <FileText className="text-indigo-600 mt-1 shrink-0" size={20} />
+                  <FileText style={{ color: 'var(--neon)' }} size={20} className="mt-1 shrink-0" />
                   <div>
-                    <h3 className="font-semibold text-gray-900">{a.title}</h3>
-                    <p className="text-sm text-gray-500">{a.course_title}</p>
-                    <p className="text-sm text-gray-600 mt-1 line-clamp-2">{a.description}</p>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500 mt-1">
+                    <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>{a.title}</h3>
+                    <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{a.course_title}</p>
+                    <p className="text-sm mt-1 line-clamp-2" style={{ color: 'var(--text-secondary)' }}>{a.description}</p>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
                       <span>Points: {a.total_points} / Pass: {a.passing_points}</span>
                       <span>Due: {a.due_date ? new Date(a.due_date).toLocaleDateString() : 'No deadline'}</span>
                       {a.file_types && <span>Files: {a.file_types}</span>}
@@ -173,8 +173,12 @@ export default function TeacherAssignments() {
                   </div>
                 </div>
                 <div className="flex items-center space-x-1 ml-4 shrink-0">
-                  <button onClick={() => handleEdit(a)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-indigo-600"><Pencil size={16} /></button>
-                  <button onClick={() => setConfirmDelete(a.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-600"><Trash2 size={16} /></button>
+                  <button onClick={() => handleEdit(a)} className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }}
+                    onMouseEnter={e=>{e.currentTarget.style.background='rgba(0,255,65,0.1)';e.currentTarget.style.color='var(--neon)'}}
+                    onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}}><Pencil size={16} /></button>
+                  <button onClick={() => setConfirmDelete(a.id)} className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }}
+                    onMouseEnter={e=>{e.currentTarget.style.background='rgba(0,255,65,0.1)';e.currentTarget.style.color='#ff3232'}}
+                    onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}}><Trash2 size={16} /></button>
                 </div>
               </div>
             </div>

@@ -29,13 +29,13 @@ export default function PaymentHistory() {
 
   const statusBadge = (status) => {
     const map = {
-      completed: 'badge-success',
-      pending: 'badge-warning',
-      processing: 'badge-info',
-      failed: 'badge-danger',
-      refunded: 'badge-info'
+      completed: 'neon-badge-success',
+      pending: 'neon-badge-warning',
+      processing: 'neon-badge-info',
+      failed: 'neon-badge-danger',
+      refunded: 'neon-badge-info'
     };
-    return <span className={`badge ${map[status] || 'badge-info'}`}>{status}</span>;
+    return <span className={`neon-badge ${map[status] || 'neon-badge-info'}`}>{status}</span>;
   };
 
   const formatDate = (date) => {
@@ -91,51 +91,51 @@ export default function PaymentHistory() {
       {payments.length === 0 ? (
         <EmptyState icon={CreditCard} title="No payment history" description="Payments for course enrollments will appear here." />
       ) : (
-        <div className="card overflow-hidden">
+        <div className="neon-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 font-medium text-gray-500">Date</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-500">Course</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-500">Method</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-500">Transaction ID</th>
-                  <th className="text-right py-3 px-4 font-medium text-gray-500">Amount</th>
-                  <th className="text-center py-3 px-4 font-medium text-gray-500">Status</th>
-                  <th className="text-right py-3 px-4 font-medium text-gray-500">Actions</th>
+                <tr style={{ borderBottom: '1px solid var(--border-neon)' }}>
+                  <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Date</th>
+                  <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Course</th>
+                  <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Method</th>
+                  <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Transaction ID</th>
+                  <th className="text-right py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Amount</th>
+                  <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Status</th>
+                  <th className="text-right py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {payments.map((p) => (
-                  <tr key={p.id} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="py-3 px-4 text-gray-600 whitespace-nowrap">{formatDate(p.created_at)}</td>
-                    <td className="py-3 px-4 text-gray-900 max-w-[200px] truncate">{p.course_title || '-'}</td>
-                    <td className="py-3 px-4 text-gray-600 whitespace-nowrap">
+                  <tr key={p.id} style={{ borderBottom: '1px solid var(--border-neon)' }} onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,255,65,0.05)'} onMouseLeave={e => e.currentTarget.style.background = ''}>
+                    <td className="py-3 px-4 whitespace-nowrap" style={{ color: 'var(--text-secondary)' }}>{formatDate(p.created_at)}</td>
+                    <td className="py-3 px-4 max-w-[200px] truncate" style={{ color: 'var(--text-primary)' }}>{p.course_title || '-'}</td>
+                    <td className="py-3 px-4 whitespace-nowrap" style={{ color: 'var(--text-secondary)' }}>
                       {p.payment_method === 'mtn_momo' ? 'MTN MoMo' :
                        p.payment_method === 'airtel_money' ? 'Airtel Money' : p.payment_method}
                     </td>
-                    <td className="py-3 px-4 text-gray-500 text-xs font-mono max-w-[120px] truncate">{p.transaction_id || '-'}</td>
-                    <td className="py-3 px-4 text-right text-gray-900 font-medium whitespace-nowrap">{p.currency} {parseFloat(p.amount).toLocaleString()}</td>
+                    <td className="py-3 px-4 text-xs font-mono max-w-[120px] truncate" style={{ color: 'var(--text-secondary)' }}>{p.transaction_id || '-'}</td>
+                    <td className="py-3 px-4 text-right font-medium whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>{p.currency} {parseFloat(p.amount).toLocaleString()}</td>
                     <td className="py-3 px-4 text-center">{statusBadge(p.status)}</td>
                     <td className="py-3 px-4 text-right">
                       <div className="flex justify-end space-x-1">
                         {p.status === 'completed' && (
                           <>
-                            <button onClick={() => handleViewReceipt(p.id)} className="p-2 rounded-lg text-indigo-600 hover:bg-indigo-50" title="View Receipt">
+                            <button onClick={() => handleViewReceipt(p.id)} className="p-2 rounded-lg" title="View Receipt" style={{ color: 'var(--neon)' }} onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,255,65,0.1)'} onMouseLeave={e => e.currentTarget.style.background = ''}>
                               <FileText size={16} />
                             </button>
-                            <button onClick={() => handleViewInvoice(p.id)} className="p-2 rounded-lg text-indigo-600 hover:bg-indigo-50" title="View Invoice">
+                            <button onClick={() => handleViewInvoice(p.id)} className="p-2 rounded-lg" title="View Invoice" style={{ color: 'var(--neon)' }} onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,255,65,0.1)'} onMouseLeave={e => e.currentTarget.style.background = ''}>
                               <Download size={16} />
                             </button>
                           </>
                         )}
                         {p.status === 'failed' && (
-                          <button onClick={() => handleRetry(p.id)} className="p-2 rounded-lg text-amber-600 hover:bg-amber-50" title="Retry Payment">
+                          <button onClick={() => handleRetry(p.id)} className="p-2 rounded-lg" title="Retry Payment" style={{ color: '#ffc800' }} onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,200,0,0.1)'} onMouseLeave={e => e.currentTarget.style.background = ''}>
                             <RefreshCw size={16} />
                           </button>
                         )}
                         {p.status === 'processing' && (
-                          <button onClick={() => handleViewReceipt(p.id)} className="p-2 rounded-lg text-gray-400" title="Pending">
+                          <button onClick={() => handleViewReceipt(p.id)} className="p-2 rounded-lg" title="Pending" style={{ color: 'var(--text-muted)' }}>
                             <Eye size={16} />
                           </button>
                         )}

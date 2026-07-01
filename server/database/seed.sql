@@ -124,6 +124,9 @@ INSERT INTO permissions (name, slug, description, module) VALUES
   -- Settings
   ('View Settings', 'view-settings', 'Can view settings', 'settings'),
   ('Edit Settings', 'edit-settings', 'Can edit settings', 'settings'),
+  -- CMS
+  ('View CMS Content', 'view-cms', 'Can view CMS content', 'cms'),
+  ('Edit CMS Content', 'edit-cms', 'Can edit CMS content', 'cms'),
   -- Audit
   ('View Audit Logs', 'view-audit-logs', 'Can view audit logs', 'audit'),
   -- Announcements

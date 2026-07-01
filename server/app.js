@@ -73,6 +73,7 @@ app.use("/api/admin", require("./routes/admin"));
 app.use("/api/settings", require("./routes/settings"));
 app.use("/api/certificate-templates", require("./routes/certificateTemplates"));
 app.use("/api/announcements", require("./routes/announcements"));
+app.use("/api/cms", require("./routes/cms"));
 
 // Health check
 app.get("/api/health", (req, res) => {

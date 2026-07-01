@@ -45,41 +45,41 @@ export default function CertificateManagement() {
       {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
       <PageHeader title="Certificate Management" description={`${total} certificate${total !== 1 ? 's' : ''} issued`} />
 
-      <div className="card overflow-hidden">
-        <div className="p-4 border-b border-gray-200">
-          <DebouncedInput value={search} onChange={setSearch} placeholder="Search by student or course..." className="input-field max-w-md" />
+      <div className="neon-card overflow-hidden">
+        <div className="p-4 border-b" style={{ borderColor: 'var(--border-neon)' }}>
+          <DebouncedInput value={search} onChange={setSearch} placeholder="Search by student or course..." className="neon-input max-w-md" />
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full text-sm neon-table">
             <thead>
-              <tr className="border-b border-gray-200 bg-gray-50">
-                <th className="text-left py-3 px-4 font-medium text-gray-500">Student</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-500">Course</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-500">Certificate #</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-500">Issued</th>
-                <th className="text-center py-3 px-4 font-medium text-gray-500">Grade</th>
-                <th className="text-center py-3 px-4 font-medium text-gray-500">Actions</th>
+              <tr className="border-b" style={{ borderColor: 'var(--border-neon)', background: 'var(--bg-dark)' }}>
+                <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Student</th>
+                <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Course</th>
+                <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Certificate #</th>
+                <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Issued</th>
+                <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Grade</th>
+                <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {certificates.map((cert) => (
-                <tr key={cert.id} className="border-b border-gray-100 hover:bg-gray-50">
+                <tr key={cert.id} className="border-b" style={{ borderColor: 'var(--border-neon)' }} onMouseEnter={e=>e.currentTarget.style.background='rgba(0,255,65,0.05)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
                   <td className="py-3 px-4">
-                    <span className="font-medium text-gray-900">{cert.student_name}</span>
-                    <span className="block text-xs text-gray-400">{cert.student_email}</span>
+                    <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{cert.student_name}</span>
+                    <span className="block text-xs" style={{ color: 'var(--text-muted)' }}>{cert.student_email}</span>
                   </td>
-                  <td className="py-3 px-4 text-gray-600 max-w-[200px] truncate">{cert.course_title}</td>
+                  <td className="py-3 px-4 max-w-[200px] truncate" style={{ color: 'var(--text-secondary)' }}>{cert.course_title}</td>
                   <td className="py-3 px-4">
-                    <code className="text-xs bg-gray-100 px-2 py-1 rounded">{cert.certificate_number}</code>
+                    <code className="text-xs px-2 py-1 rounded" style={{ background: 'var(--bg-card)' }}>{cert.certificate_number}</code>
                   </td>
-                  <td className="py-3 px-4 text-gray-600 whitespace-nowrap">{new Date(cert.issued_at).toLocaleDateString()}</td>
+                  <td className="py-3 px-4 whitespace-nowrap" style={{ color: 'var(--text-secondary)' }}>{new Date(cert.issued_at).toLocaleDateString()}</td>
                   <td className="py-3 px-4 text-center">
-                    <span className="badge badge-info">{cert.grade || '-'}</span>
+                    <span className="neon-badge neon-badge-info">{cert.grade || '-'}</span>
                   </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center justify-center space-x-2">
-                      <a href={cert.certificate_url} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-indigo-600" title="View"><ExternalLink size={16} /></a>
-                      <button onClick={() => setConfirmRevoke(cert.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-600" title="Revoke"><Trash2 size={16} /></button>
+                      <a href={cert.certificate_url} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }} onMouseEnter={e=>{e.currentTarget.style.background='rgba(0,255,65,0.05)';e.currentTarget.style.color='var(--neon)'}} onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}} title="View"><ExternalLink size={16} /></a>
+                      <button onClick={() => setConfirmRevoke(cert.id)} className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }} onMouseEnter={e=>{e.currentTarget.style.background='rgba(0,255,65,0.05)';e.currentTarget.style.color='#ff3232'}} onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}} title="Revoke"><Trash2 size={16} /></button>
                     </div>
                   </td>
                 </tr>
@@ -90,7 +90,7 @@ export default function CertificateManagement() {
         {certificates.length === 0 && (
           <EmptyState icon={Award} title="No certificates issued" description="Certificates appear here once issued to students." />
         )}
-        {total > limit && <div className="p-4 border-t border-gray-200"><Pagination page={page} total={total} limit={limit} onPageChange={setPage} /></div>}
+        {total > limit && <div className="p-4 border-t" style={{ borderColor: 'var(--border-neon)' }}><Pagination page={page} total={total} limit={limit} onPageChange={setPage} /></div>}
       </div>
 
       {confirmRevoke && (

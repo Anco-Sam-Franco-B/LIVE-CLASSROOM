@@ -42,17 +42,17 @@ export default function TeacherDashboard() {
   }, [loadData]);
 
   const statCards = [
-    { icon: BookOpen, label: 'Courses', value: stats?.totalCourses || 0, sub: `${stats?.publishedCourses || 0} published`, color: 'bg-blue-500' },
-    { icon: Users, label: 'Students', value: stats?.totalStudents || 0, sub: `${stats?.activeStudents || 0} active`, color: 'bg-green-500' },
-    { icon: Video, label: 'Meetings', value: stats?.meetings?.total || 0, sub: `${stats?.meetings?.scheduled || 0} upcoming`, color: 'bg-orange-500' },
-    { icon: DollarSign, label: 'Revenue', value: formatCurrency(stats?.revenue || 0, currency), sub: `${formatCurrency(stats?.todayRevenue || 0, currency)} today`, color: 'bg-purple-500', trend: stats?.todayRevenue },
+    { icon: BookOpen, label: 'Courses', value: stats?.totalCourses || 0, sub: `${stats?.publishedCourses || 0} published`, color: '#0096ff' },
+    { icon: Users, label: 'Students', value: stats?.totalStudents || 0, sub: `${stats?.activeStudents || 0} active`, color: 'var(--neon)' },
+    { icon: Video, label: 'Meetings', value: stats?.meetings?.total || 0, sub: `${stats?.meetings?.scheduled || 0} upcoming`, color: '#ffc800' },
+    { icon: DollarSign, label: 'Revenue', value: formatCurrency(stats?.revenue || 0, currency), sub: `${formatCurrency(stats?.todayRevenue || 0, currency)} today`, color: '#7fff00', trend: stats?.todayRevenue },
   ];
 
   if (loading) return <><PageHeader title="Teacher Dashboard" /><StatsSkeleton /></>;
 
   const enrollmentData = {
     labels: (stats?.enrollmentTrend || []).slice(-6).map(i => new Date(i.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })),
-    datasets: [{ label: 'Enrollments', data: (stats?.enrollmentTrend || []).slice(-6).map(i => i.count), backgroundColor: '#4f46e5', borderRadius: 6 }],
+    datasets: [{ label: 'Enrollments', data: (stats?.enrollmentTrend || []).slice(-6).map(i => i.count), backgroundColor: 'var(--neon)', borderRadius: 6 }],
   };
 
   const gradeData = {
@@ -69,113 +69,114 @@ export default function TeacherDashboard() {
       <PageHeader title="Teacher Dashboard"
         actions={
           <div className="flex items-center space-x-3">
-            {lastUpdated && <span className="text-xs text-gray-400">{lastUpdated.toLocaleTimeString()}</span>}
+            {lastUpdated && <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{lastUpdated.toLocaleTimeString()}</span>}
             <CurrencySelector onCurrencyChange={setCurrency} />
-            <Link to="/teacher/courses/create" className="btn-primary flex items-center space-x-2 text-sm"><Plus size={18} /><span>Create Course</span></Link>
+            <Link to="/teacher/courses/create" className="neon-btn flex items-center space-x-2 text-sm"><Plus size={18} /><span>Create Course</span></Link>
           </div>
         }
       />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {statCards.map((card) => (
-          <div key={card.label} className="card flex items-center space-x-4">
-            <div className={`w-12 h-12 ${card.color} rounded-lg flex items-center justify-center shrink-0`}>
+          <div key={card.label} className="neon-card flex items-center space-x-4" style={{ background: 'var(--bg-card)' }}>
+            <div className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0" style={{ background: card.color }}>
               <card.icon className="text-white" size={24} />
             </div>
             <div className="min-w-0">
-              <div className="text-2xl font-bold text-gray-900 truncate">{card.value}</div>
-              <div className="text-sm text-gray-500">{card.label}</div>
-              {card.sub && <div className="text-xs mt-0.5 text-gray-400">{card.sub}</div>}
+              <div className="text-2xl font-bold truncate" style={{ color: 'var(--text-primary)' }}>{card.value}</div>
+              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>{card.label}</div>
+              {card.sub && <div className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>{card.sub}</div>}
             </div>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="card p-3 flex items-center space-x-3">
-          <TrendingUp size={18} className="text-indigo-500 shrink-0" />
-          <div><p className="text-xs text-gray-500">Today Revenue</p><p className="font-bold text-sm text-gray-900">{formatCurrency(todayRevenue, currency)}</p></div>
+        <div className="neon-card p-3 flex items-center space-x-3" style={{ background: 'var(--bg-card)' }}>
+          <TrendingUp size={18} style={{ color: 'var(--neon)' }} className="shrink-0" />
+          <div><p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Today Revenue</p><p className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{formatCurrency(todayRevenue, currency)}</p></div>
         </div>
-        <div className="card p-3 flex items-center space-x-3">
-          <Award size={18} className="text-green-500 shrink-0" />
-          <div><p className="text-xs text-gray-500">Total Revenue</p><p className="font-bold text-sm text-gray-900">{formatCurrency(revenue, currency)}</p></div>
+        <div className="neon-card p-3 flex items-center space-x-3" style={{ background: 'var(--bg-card)' }}>
+          <Award size={18} style={{ color: 'var(--neon)' }} className="shrink-0" />
+          <div><p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Total Revenue</p><p className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{formatCurrency(revenue, currency)}</p></div>
         </div>
-        <div className="card p-3 flex items-center space-x-3">
-          <Calendar size={18} className="text-orange-500 shrink-0" />
-          <div><p className="text-xs text-gray-500">Transactions</p><p className="font-bold text-sm text-gray-900">{transactions}</p></div>
+        <div className="neon-card p-3 flex items-center space-x-3" style={{ background: 'var(--bg-card)' }}>
+          <Calendar size={18} style={{ color: '#ffc800' }} className="shrink-0" />
+          <div><p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Transactions</p><p className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{transactions}</p></div>
         </div>
-        <div className="card p-3 flex items-center space-x-3">
-          <Users size={18} className="text-blue-500 shrink-0" />
-          <div><p className="text-xs text-gray-500">Active Students</p><p className="font-bold text-sm text-gray-900">{stats?.activeStudents || 0}</p></div>
+        <div className="neon-card p-3 flex items-center space-x-3" style={{ background: 'var(--bg-card)' }}>
+          <Users size={18} style={{ color: '#0096ff' }} className="shrink-0" />
+          <div><p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Active Students</p><p className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{stats?.activeStudents || 0}</p></div>
         </div>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8 mb-8">
-        <div className="card"><h2 className="text-lg font-semibold text-gray-900 mb-4">Enrollment Trend</h2><Bar data={enrollmentData} options={chartOptions(currency)} height={80} /></div>
-        <div className="card"><h2 className="text-lg font-semibold text-gray-900 mb-4">Grade Distribution</h2><Bar data={gradeData} options={{ responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } }, x: { grid: { display: false } } } }} height={80} /></div>
+        <div className="neon-card" style={{ background: 'var(--bg-card)' }}><h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Enrollment Trend</h2><Bar data={enrollmentData} options={chartOptions(currency)} height={80} /></div>
+        <div className="neon-card" style={{ background: 'var(--bg-card)' }}><h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Grade Distribution</h2><Bar data={gradeData} options={{ responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } }, x: { grid: { display: false } } } }} height={80} /></div>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8 mb-8">
-        <div className="card">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Courses</h2>
+        <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
+          <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Courses</h2>
           <div className="space-y-3">
             {stats?.courses?.slice(0, 5).map(course => (
-              <Link key={course.id} to={`/teacher/courses/${course.id}/edit`} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50">
+              <Link key={course.id} to={`/teacher/courses/${course.id}/edit`} className="flex items-center justify-between p-3 rounded-lg"
+                onMouseEnter={e=>e.currentTarget.style.background='rgba(0,255,65,0.05)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
                 <div className="min-w-0 flex-1">
-                  <p className="font-medium text-gray-900 truncate">{course.title}</p>
-                  <p className="text-sm text-gray-500">{course.active_students || 0} active students</p>
+                  <p className="font-medium truncate" style={{ color: 'var(--text-primary)' }}>{course.title}</p>
+                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{course.active_students || 0} active students</p>
                 </div>
-                <span className={`badge shrink-0 ml-2 ${course.is_published ? 'badge-success' : 'badge-warning'}`}>{course.status}</span>
+                <span className={`neon-badge shrink-0 ml-2 ${course.is_published ? 'neon-badge-success' : 'neon-badge-warning'}`}>{course.status}</span>
               </Link>
             ))}
-            {(!stats?.courses || stats.courses.length === 0) && <p className="text-gray-400 text-center py-4">No courses yet. <Link to="/teacher/courses/create" className="text-indigo-600">Create one</Link></p>}
+            {(!stats?.courses || stats.courses.length === 0) && <p className="text-center py-4" style={{ color: 'var(--text-muted)' }}>No courses yet. <Link to="/teacher/courses/create" style={{ color: 'var(--neon)' }}>Create one</Link></p>}
           </div>
         </div>
-        <div className="card">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Enrollments</h2>
+        <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
+          <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Recent Enrollments</h2>
           <div className="space-y-3">
             {stats?.recentEnrollments?.slice(0, 5).map(e => (
               <div key={e.id} className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 truncate mr-2">{e.student_name}</span>
-                <span className="text-gray-400 shrink-0 text-xs">{new Date(e.enrolled_at).toLocaleDateString()}</span>
+                <span className="truncate mr-2" style={{ color: 'var(--text-secondary)' }}>{e.student_name}</span>
+                <span className="shrink-0 text-xs" style={{ color: 'var(--text-muted)' }}>{new Date(e.enrolled_at).toLocaleDateString()}</span>
               </div>
             ))}
-            {(!stats?.recentEnrollments || stats.recentEnrollments.length === 0) && <p className="text-gray-400 text-center py-4">No recent enrollments</p>}
+            {(!stats?.recentEnrollments || stats.recentEnrollments.length === 0) && <p className="text-center py-4" style={{ color: 'var(--text-muted)' }}>No recent enrollments</p>}
           </div>
         </div>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8">
-        <div className="card">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Upcoming Meetings</h2>
+        <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
+          <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Upcoming Meetings</h2>
           <div className="space-y-3">
             {stats?.meetings?.upcoming?.slice(0, 5).map(m => (
               <div key={m.id} className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 truncate mr-2">{m.title}</span>
-                <span className="text-gray-400 shrink-0">{new Date(m.scheduled_at).toLocaleDateString()}</span>
+                <span className="truncate mr-2" style={{ color: 'var(--text-secondary)' }}>{m.title}</span>
+                <span className="shrink-0" style={{ color: 'var(--text-muted)' }}>{new Date(m.scheduled_at).toLocaleDateString()}</span>
               </div>
             ))}
-            {(!stats?.meetings?.upcoming || stats.meetings.upcoming.length === 0) && <p className="text-gray-400 text-center py-4">No upcoming meetings</p>}
+            {(!stats?.meetings?.upcoming || stats.meetings.upcoming.length === 0) && <p className="text-center py-4" style={{ color: 'var(--text-muted)' }}>No upcoming meetings</p>}
           </div>
         </div>
-        <div className="card">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Performance</h2>
+        <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
+          <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Performance</h2>
           <div className="grid grid-cols-2 gap-4">
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <p className="text-2xl font-bold text-blue-600">{stats?.publishedCourses || 0}/{stats?.totalCourses || 0}</p>
-              <p className="text-xs text-gray-500">Courses Published</p>
+            <div className="text-center p-4 rounded-lg" style={{ background: 'rgba(0,150,255,0.1)' }}>
+              <p className="text-2xl font-bold" style={{ color: '#0096ff' }}>{stats?.publishedCourses || 0}/{stats?.totalCourses || 0}</p>
+              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Courses Published</p>
             </div>
-            <div className="text-center p-4 bg-green-50 rounded-lg">
-              <p className="text-2xl font-bold text-green-600">{stats?.totalStudents || 0}</p>
-              <p className="text-xs text-gray-500">Total Students</p>
+            <div className="text-center p-4 rounded-lg" style={{ background: 'rgba(0,255,65,0.1)' }}>
+              <p className="text-2xl font-bold" style={{ color: 'var(--neon)' }}>{stats?.totalStudents || 0}</p>
+              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Total Students</p>
             </div>
-            <div className="text-center p-4 bg-purple-50 rounded-lg">
-              <p className="text-2xl font-bold text-purple-600">{formatCurrency(revenue, currency)}</p>
-              <p className="text-xs text-gray-500">Revenue</p>
+            <div className="text-center p-4 rounded-lg" style={{ background: 'rgba(127,255,0,0.1)' }}>
+              <p className="text-2xl font-bold" style={{ color: '#7fff00' }}>{formatCurrency(revenue, currency)}</p>
+              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Revenue</p>
             </div>
-            <div className="text-center p-4 bg-orange-50 rounded-lg">
-              <p className="text-2xl font-bold text-orange-600">{stats?.meetings?.completed || 0}</p>
-              <p className="text-xs text-gray-500">Meetings Done</p>
+            <div className="text-center p-4 rounded-lg" style={{ background: 'rgba(255,200,0,0.1)' }}>
+              <p className="text-2xl font-bold" style={{ color: '#ffc800' }}>{stats?.meetings?.completed || 0}</p>
+              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Meetings Done</p>
             </div>
           </div>
         </div>

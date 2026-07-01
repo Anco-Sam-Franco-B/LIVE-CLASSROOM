@@ -41,40 +41,41 @@ export default function TeacherCourses() {
 
   return (
     <div>
-      <PageHeader title="My Courses" description={`${courses.length} courses`} actions={<Link to="/teacher/courses/create" className="btn-primary flex items-center space-x-2"><Plus size={20} /><span>New Course</span></Link>} />
+      <PageHeader title="My Courses" description={`${courses.length} courses`} actions={<Link to="/teacher/courses/create" className="neon-btn flex items-center space-x-2"><Plus size={20} /><span>New Course</span></Link>} />
       {courses.length === 0 ? (
-        <EmptyState icon={Edit} title="No courses yet" description="Create your first course to get started." action={<Link to="/teacher/courses/create" className="btn-primary">Create Course</Link>} />
+        <EmptyState icon={Edit} title="No courses yet" description="Create your first course to get started." action={<Link to="/teacher/courses/create" className="neon-btn">Create Course</Link>} />
       ) : (
-        <div className="card overflow-hidden">
+        <div className="neon-card overflow-hidden" style={{ background: 'var(--bg-card)' }}>
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-200">
-                <th className="text-left py-3 px-4 font-medium text-gray-500">Course</th>
-                <th className="text-center py-3 px-4 font-medium text-gray-500">Students</th>
-                <th className="text-center py-3 px-4 font-medium text-gray-500">Rating</th>
-                <th className="text-center py-3 px-4 font-medium text-gray-500">Status</th>
-                <th className="text-right py-3 px-4 font-medium text-gray-500">Actions</th>
+              <tr style={{ borderColor: 'var(--border-neon)' }}>
+                <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Course</th>
+                <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Students</th>
+                <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Rating</th>
+                <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Status</th>
+                <th className="text-right py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {courses.map((course) => (
-                <tr key={course.id} className="border-b border-gray-100 hover:bg-gray-50">
+                <tr key={course.id} style={{ borderColor: 'var(--border-neon)' }}
+                  onMouseEnter={e=>e.currentTarget.style.background='rgba(0,255,65,0.05)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
                   <td className="py-3 px-4">
-                    <p className="font-medium text-gray-900 truncate max-w-xs">{course.title}</p>
-                    <p className="text-xs text-gray-500">{course.category_name}</p>
+                    <p className="font-medium truncate max-w-xs" style={{ color: 'var(--text-primary)' }}>{course.title}</p>
+                    <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{course.category_name}</p>
                   </td>
-                  <td className="py-3 px-4 text-center text-gray-600">{course.student_count}</td>
-                  <td className="py-3 px-4 text-center text-gray-600">{parseFloat(course.rating).toFixed(1)}</td>
+                  <td className="py-3 px-4 text-center" style={{ color: 'var(--text-secondary)' }}>{course.student_count}</td>
+                  <td className="py-3 px-4 text-center" style={{ color: 'var(--text-secondary)' }}>{parseFloat(course.rating).toFixed(1)}</td>
                   <td className="py-3 px-4 text-center">
-                    <button onClick={() => togglePublish(course.id)} className={`badge ${course.is_published ? 'badge-success' : 'badge-warning'}`}>
+                    <button onClick={() => togglePublish(course.id)} className={`neon-badge ${course.is_published ? 'neon-badge-success' : 'neon-badge-warning'}`}>
                       {course.is_published ? 'Published' : 'Draft'}
                     </button>
                   </td>
                   <td className="py-3 px-4 text-right">
                     <div className="flex justify-end space-x-2">
-                      <Link to={`/courses/${course.slug}`} className="btn-outline p-2"><Eye size={16} /></Link>
-                      <Link to={`/teacher/courses/${course.id}/edit`} className="btn-outline p-2"><Edit size={16} /></Link>
-                      <button onClick={() => setConfirm({ action: () => deleteCourse(course.id), title: 'Delete Course', message: `Delete "${course.title}"?` })} className="btn-danger p-2"><Trash2 size={16} /></button>
+                      <Link to={`/courses/${course.slug}`} className="neon-btn-outline p-2"><Eye size={16} /></Link>
+                      <Link to={`/teacher/courses/${course.id}/edit`} className="neon-btn-outline p-2"><Edit size={16} /></Link>
+                      <button onClick={() => setConfirm({ action: () => deleteCourse(course.id), title: 'Delete Course', message: `Delete "${course.title}"?` })} className="neon-btn-ghost p-2" style={{ background: '#ff3232' }}><Trash2 size={16} /></button>
                     </div>
                   </td>
                 </tr>

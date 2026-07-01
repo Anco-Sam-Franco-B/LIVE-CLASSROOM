@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react';
 import { BookOpen, Video, Award, Users, BarChart3, CreditCard, MessageSquare, Bell, FileText, Shield, Globe, Zap } from 'lucide-react';
+import { cmsAPI } from '../../services/api';
 
 const featuresList = [
   { icon: Video, title: 'Live Virtual Classrooms', desc: 'Real-time interactive classes with HD video, screen sharing, chat, and file sharing.' },
@@ -16,23 +18,74 @@ const featuresList = [
 ];
 
 export default function Features() {
+  const [cms, setCms] = useState({});
+  useEffect(() => {
+    cmsAPI.getPublic('features')
+      .then(({ data }) => { if (data.data) setCms(data.data); })
+      .catch(() => {});
+  }, []);
+
+  const displayFeatures = featuresList.map((f, i) => ({ ...f, ...(cms.features?.items?.[i] || {}) }));
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div className="text-center mb-16">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Platform Features</h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">Everything you need to run a successful online learning program.</p>
-      </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {featuresList.map((f) => (
-          <div key={f.title} className="card hover:shadow-lg transition-shadow">
-            <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-              <f.icon className="text-indigo-600" size={24} />
+    <div style={{ background: 'var(--bg-dark)' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-extrabold mb-4" style={{
+            background: 'linear-gradient(135deg, var(--neon), #00bfff, var(--neon))',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundSize: '200% 200%',
+            animation: 'gradientShift 4s ease infinite',
+          }}>
+            {cms.hero?.title || "Platform Features"}
+          </h1>
+          <p className="text-lg max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
+            {cms.hero?.subtitle || "Everything you need to run a successful online learning program."}
+          </p>
+          <div className="w-20 h-1 mx-auto mt-6 rounded-full" style={{ background: 'var(--neon)', boxShadow: 'var(--neon-glow)' }} />
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {displayFeatures.map((f) => (
+            <div
+              key={f.title}
+              className="neon-card overflow-hidden"
+              style={{
+                borderTop: '3px solid var(--border-neon)',
+                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                cursor: 'default',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-6px)';
+                e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,255,65,0.15)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              <div
+                className="w-14 h-14 rounded-full flex items-center justify-center mb-4"
+                style={{
+                  background: 'rgba(0,255,65,0.08)',
+                  boxShadow: '0 0 20px rgba(0,255,65,0.15)',
+                  border: '1px solid rgba(0,255,65,0.2)',
+                }}
+              >
+                <f.icon style={{ color: 'var(--neon)' }} size={26} />
+              </div>
+              <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>{f.title}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{f.desc}</p>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">{f.title}</h3>
-            <p className="text-gray-600 text-sm">{f.desc}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
+      <style>{`
+        @keyframes gradientShift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+      `}</style>
     </div>
   );
 }

@@ -75,6 +75,7 @@ import AdminMeetings from '../pages/admin/AdminMeetings';
 import CertificateTemplates from '../pages/admin/CertificateTemplates';
 import AdminAnnouncements from '../pages/admin/AdminAnnouncements';
 import CategoriesManagement from '../pages/admin/CategoriesManagement';
+import CmsContent from '../pages/admin/CmsContent';
 
 export const router = createBrowserRouter([
   // Public Routes
@@ -172,6 +173,7 @@ export const router = createBrowserRouter([
       { path: 'announcements', element: <AdminAnnouncements /> },
       { path: 'roles', element: <RoleManagement /> },
       { path: 'settings', element: <SystemSettings /> },
+      { path: 'cms', element: <CmsContent /> },
       { path: 'audit-logs', element: <AuditLogs /> },
       { path: 'reports', element: <AdminReports /> },
       { path: '*', element: <NotFound /> },

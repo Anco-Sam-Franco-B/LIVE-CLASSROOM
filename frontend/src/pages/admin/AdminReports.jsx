@@ -27,25 +27,25 @@ export default function AdminReports() {
     <div>
       <PageHeader title="Reports" description="Revenue and enrollment analytics" />
       <div className="grid lg:grid-cols-2 gap-6">
-        <div className="card">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Revenue Report</h2>
+        <div className="neon-card">
+          <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Revenue Report</h2>
           <div className="space-y-3">
             {revenue.map((item) => (
               <div key={item.date} className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">{new Date(item.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
-                <span className="font-medium text-gray-900">UGX {parseFloat(item.revenue).toLocaleString()}</span>
-                <span className="text-gray-400">{item.transactions} transactions</span>
+                <span style={{ color: 'var(--text-secondary)' }}>{new Date(item.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+                <span className="font-medium" style={{ color: 'var(--text-primary)' }}>UGX {parseFloat(item.revenue).toLocaleString()}</span>
+                <span style={{ color: 'var(--text-muted)' }}>{item.transactions} transactions</span>
               </div>
             ))}
           </div>
         </div>
-        <div className="card">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Enrollment Report</h2>
+        <div className="neon-card">
+          <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Enrollment Report</h2>
           <div className="space-y-3">
             {enrollments.map((item) => (
               <div key={item.date} className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">{new Date(item.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
-                <span className="font-medium text-gray-900">{item.enrollments} enrollments</span>
+                <span style={{ color: 'var(--text-secondary)' }}>{new Date(item.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+                <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{item.enrollments} enrollments</span>
               </div>
             ))}
           </div>

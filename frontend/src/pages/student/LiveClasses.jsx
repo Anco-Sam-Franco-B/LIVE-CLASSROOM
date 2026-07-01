@@ -36,21 +36,21 @@ export default function LiveClasses() {
       ) : (
         <div className="space-y-4">
           {meetings.map((meeting) => (
-            <div key={meeting.id} className="card flex items-center justify-between">
+            <div key={meeting.id} className="neon-card flex items-center justify-between">
               <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center shrink-0">
-                  <Video className="text-red-600" size={24} />
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(255,50,50,0.1)' }}>
+                  <Video size={24} style={{ color: '#ff3232' }} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">{meeting.title}</h3>
-                  <p className="text-sm text-gray-500">{meeting.course_title}</p>
-                  <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500">
+                  <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>{meeting.title}</h3>
+                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{meeting.course_title}</p>
+                  <div className="flex items-center space-x-4 mt-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
                     <span className="flex items-center space-x-1"><Calendar size={14} /><span>{new Date(meeting.scheduled_at).toLocaleDateString()}</span></span>
                     <span className="flex items-center space-x-1"><Clock size={14} /><span>{meeting.duration_minutes} min</span></span>
                   </div>
                 </div>
               </div>
-              <button onClick={() => handleJoin(meeting)} className="btn-primary">
+              <button onClick={() => handleJoin(meeting)} className="neon-btn">
                 Join
               </button>
             </div>

@@ -26,14 +26,14 @@ export default function StudentAnnouncements() {
   };
 
   const priorityIcon = (p) => {
-    if (p === 'urgent') return <AlertTriangle className="text-red-500 shrink-0" size={20} />;
-    if (p === 'high') return <AlertTriangle className="text-orange-500 shrink-0" size={20} />;
-    return <Megaphone className="text-indigo-500 shrink-0" size={20} />;
+    if (p === 'urgent') return <AlertTriangle className="shrink-0" size={20} style={{ color: '#ff3232' }} />;
+    if (p === 'high') return <AlertTriangle className="shrink-0" size={20} style={{ color: '#ffc800' }} />;
+    return <Megaphone className="shrink-0" size={20} style={{ color: 'var(--neon)' }} />;
   };
 
   const priorityBadge = (p) => {
-    const map = { urgent: 'badge-danger', high: 'badge-warning', normal: 'badge-info', low: 'badge-secondary' };
-    return <span className={`badge ${map[p] || 'badge-info'}`}>{p}</span>;
+    const map = { urgent: 'neon-badge-danger', high: 'neon-badge-warning', normal: 'neon-badge-info', low: 'neon-badge-info' };
+    return <span className={`neon-badge ${map[p] || 'neon-badge-info'}`}>{p}</span>;
   };
 
   if (loading) return <><PageHeader title="Announcements" /><ListSkeleton count={5} /></>;
@@ -48,17 +48,17 @@ export default function StudentAnnouncements() {
       ) : (
         <div className="space-y-4">
           {announcements.map((a) => (
-            <div key={a.id} className={`card ${!a.is_read ? 'ring-2 ring-indigo-200' : ''}`} onClick={() => !a.is_read && handleMarkRead(a.id)}>
+            <div key={a.id} className="neon-card" style={!a.is_read ? { boxShadow: '0 0 0 2px var(--neon)' } : {}} onClick={() => !a.is_read && handleMarkRead(a.id)}>
               <div className="flex items-start space-x-3">
                 {priorityIcon(a.priority)}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center space-x-2 mb-1">
-                    <h3 className="font-semibold text-gray-900">{a.title}</h3>
+                    <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>{a.title}</h3>
                     {priorityBadge(a.priority)}
-                    {!a.is_read && <span className="w-2 h-2 bg-indigo-600 rounded-full shrink-0" />}
+                    {!a.is_read && <span className="w-2 h-2 rounded-full shrink-0" style={{ background: 'var(--neon)' }} />}
                   </div>
-                  <p className="text-sm text-gray-600 whitespace-pre-wrap">{a.content}</p>
-                  <div className="flex items-center space-x-4 mt-2 text-xs text-gray-400">
+                  <p className="text-sm whitespace-pre-wrap" style={{ color: 'var(--text-secondary)' }}>{a.content}</p>
+                  <div className="flex items-center space-x-4 mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
                     <span>By {a.author_name}</span>
                     <span>{new Date(a.published_at).toLocaleDateString()}</span>
                     {a.course_id && <span>Course specific</span>}

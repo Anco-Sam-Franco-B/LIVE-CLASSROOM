@@ -15,7 +15,7 @@ export default function CategoriesManagement() {
   const [showModal, setShowModal] = useState(null);
   const [saving, setSaving] = useState(false);
   const [editTarget, setEditTarget] = useState(null);
-  const [form, setForm] = useState({ name: '', description: '', icon: '', color: '#4f46e5', sortOrder: 0 });
+  const [form, setForm] = useState({ name: '', description: '', icon: '', color: '#00ff41', sortOrder: 0 });
 
   const load = useCallback(() => {
     setLoading(true);
@@ -27,7 +27,7 @@ export default function CategoriesManagement() {
 
   useEffect(() => { load(); }, [load]);
 
-  const resetForm = () => setForm({ name: '', description: '', icon: '', color: '#4f46e5', sortOrder: 0 });
+  const resetForm = () => setForm({ name: '', description: '', icon: '', color: '#00ff41', sortOrder: 0 });
 
   const openAdd = () => {
     setEditTarget(null);
@@ -37,7 +37,7 @@ export default function CategoriesManagement() {
 
   const openEdit = (cat) => {
     setEditTarget(cat);
-    setForm({ name: cat.name, description: cat.description || '', icon: cat.icon || '', color: cat.color || '#4f46e5', sortOrder: cat.sort_order || 0 });
+    setForm({ name: cat.name, description: cat.description || '', icon: cat.icon || '', color: cat.color || '#00ff41', sortOrder: cat.sort_order || 0 });
     setShowModal('edit');
   };
 
@@ -81,41 +81,41 @@ export default function CategoriesManagement() {
   return (
     <div className="max-w-4xl">
       <PageHeader title="Categories" description="Manage course categories">
-        <button onClick={openAdd} className="btn-primary"><Plus size={18} /> Add Category</button>
+        <button onClick={openAdd} className="neon-btn"><Plus size={18} /> Add Category</button>
       </PageHeader>
 
       {loading ? (
         <TableSkeleton rows={4} cols={5} />
       ) : categories.length === 0 ? (
-        <EmptyState title="No categories yet" description="Create your first category to organize courses" action={<button onClick={openAdd} className="btn-primary"><Plus size={18} /> Add Category</button>} />
+        <EmptyState title="No categories yet" description="Create your first category to organize courses" action={<button onClick={openAdd} className="neon-btn"><Plus size={18} /> Add Category</button>} />
       ) : (
-        <div className="card overflow-hidden">
-          <table className="w-full">
+        <div className="neon-card overflow-hidden">
+          <table className="w-full neon-table">
             <thead>
-              <tr className="border-b border-gray-200 bg-gray-50">
-                <th className="text-left p-3 text-sm font-medium text-gray-500">Name</th>
-                <th className="text-left p-3 text-sm font-medium text-gray-500">Description</th>
-                <th className="text-center p-3 text-sm font-medium text-gray-500">Courses</th>
-                <th className="text-center p-3 text-sm font-medium text-gray-500">Order</th>
-                <th className="text-right p-3 text-sm font-medium text-gray-500">Actions</th>
+              <tr className="border-b" style={{ borderColor: 'var(--border-neon)', background: 'var(--bg-dark)' }}>
+                <th className="text-left p-3 text-sm font-medium" style={{ color: 'var(--text-muted)' }}>Name</th>
+                <th className="text-left p-3 text-sm font-medium" style={{ color: 'var(--text-muted)' }}>Description</th>
+                <th className="text-center p-3 text-sm font-medium" style={{ color: 'var(--text-muted)' }}>Courses</th>
+                <th className="text-center p-3 text-sm font-medium" style={{ color: 'var(--text-muted)' }}>Order</th>
+                <th className="text-right p-3 text-sm font-medium" style={{ color: 'var(--text-muted)' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {categories.map((cat) => (
-                <tr key={cat.id} className="border-b border-gray-100 hover:bg-gray-50">
+                <tr key={cat.id} className="border-b" style={{ borderColor: 'var(--border-neon)' }} onMouseEnter={e=>e.currentTarget.style.background='rgba(0,255,65,0.05)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
                   <td className="p-3">
                     <div className="flex items-center gap-2">
-                      <span className="w-4 h-4 rounded-full inline-block" style={{ backgroundColor: cat.color || '#4f46e5' }} />
+                      <span className="w-4 h-4 rounded-full inline-block" style={{ backgroundColor: cat.color || '#00ff41' }} />
                       <span className="font-medium">{cat.name}</span>
                     </div>
                   </td>
-                  <td className="p-3 text-sm text-gray-600">{cat.description || '—'}</td>
+                  <td className="p-3 text-sm" style={{ color: 'var(--text-secondary)' }}>{cat.description || '\u2014'}</td>
                   <td className="p-3 text-center text-sm">{cat.course_count || 0}</td>
                   <td className="p-3 text-center text-sm">{cat.sort_order || 0}</td>
                   <td className="p-3 text-right">
                     <div className="flex justify-end gap-1">
-                      <button onClick={() => openEdit(cat)} className="btn-icon" title="Edit"><Edit3 size={16} /></button>
-                      <button onClick={() => handleDelete(cat)} className="btn-icon text-red-500 hover:bg-red-50" title="Delete"><Trash2 size={16} /></button>
+                      <button onClick={() => openEdit(cat)} className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }} onMouseEnter={e=>{e.currentTarget.style.background='rgba(0,255,65,0.05)';e.currentTarget.style.color='var(--neon)'}} onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}} title="Edit"><Edit3 size={16} /></button>
+                      <button onClick={() => handleDelete(cat)} className="p-1.5 rounded-lg" style={{ color: '#ff3232' }} onMouseEnter={e=>e.currentTarget.style.background='rgba(255,50,50,0.1)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'} title="Delete"><Trash2 size={16} /></button>
                     </div>
                   </td>
                 </tr>
@@ -126,37 +126,37 @@ export default function CategoriesManagement() {
       )}
 
       {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowModal(null)}>
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg p-6" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ background: 'rgba(0,0,0,0.5)' }} onClick={() => setShowModal(null)}>
+          <div className="rounded-xl shadow-xl w-full max-w-lg p-6" style={{ background: 'var(--bg-card)' }} onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold">{editTarget ? 'Edit Category' : 'Add Category'}</h2>
-              <button onClick={() => setShowModal(null)} className="btn-icon"><X size={20} /></button>
+              <button onClick={() => setShowModal(null)} className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }} onMouseEnter={e=>{e.currentTarget.style.background='rgba(0,255,65,0.05)';e.currentTarget.style.color='var(--text-primary)'}} onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}}><X size={20} /></button>
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-                <input type="text" required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="input-field" placeholder="e.g., Programming" />
+                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Name *</label>
+                <input type="text" required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="neon-input" placeholder="e.g., Programming" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <textarea rows={2} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="input-field" placeholder="Brief description of this category" />
+                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Description</label>
+                <textarea rows={2} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="neon-input" placeholder="Brief description of this category" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Color</label>
                   <div className="flex items-center gap-2">
-                    <input type="color" value={form.color} onChange={e => setForm({ ...form, color: e.target.value })} className="w-10 h-10 rounded border cursor-pointer" />
-                    <span className="text-sm text-gray-500">{form.color}</span>
+                    <input type="color" value={form.color} onChange={e => setForm({ ...form, color: e.target.value })} className="w-10 h-10 rounded cursor-pointer" style={{ border: '1px solid var(--border-neon)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-muted)' }}>{form.color}</span>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
-                  <input type="number" value={form.sortOrder} onChange={e => setForm({ ...form, sortOrder: parseInt(e.target.value) || 0 })} className="input-field" placeholder="0" />
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Sort Order</label>
+                  <input type="number" value={form.sortOrder} onChange={e => setForm({ ...form, sortOrder: parseInt(e.target.value) || 0 })} className="neon-input" placeholder="0" />
                 </div>
               </div>
               <div className="flex justify-end gap-2 pt-2">
-                <button type="button" onClick={() => setShowModal(null)} className="btn-secondary">Cancel</button>
-                <button type="submit" disabled={saving} className={`btn-primary ${saving ? 'btn-loading' : ''}`}>
+                <button type="button" onClick={() => setShowModal(null)} className="neon-btn-ghost">Cancel</button>
+                <button type="submit" disabled={saving} className={`neon-btn ${saving ? 'btn-loading' : ''}`}>
                   {saving ? 'Saving...' : editTarget ? 'Update' : 'Create'}
                 </button>
               </div>

@@ -24,29 +24,29 @@ export default function Grades() {
       {grades.length === 0 ? (
         <EmptyState icon={GraduationCap} title="No grades available yet" />
       ) : (
-        <div className="card overflow-hidden">
+        <div className="neon-card overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-200">
-                <th className="text-left py-3 px-4 font-medium text-gray-500">Course</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-500">Item</th>
-                <th className="text-center py-3 px-4 font-medium text-gray-500">Score</th>
-                <th className="text-center py-3 px-4 font-medium text-gray-500">Percentage</th>
-                <th className="text-center py-3 px-4 font-medium text-gray-500">Grade</th>
+              <tr style={{ borderBottom: '1px solid var(--border-neon)' }}>
+                <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Course</th>
+                <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Item</th>
+                <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Score</th>
+                <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Percentage</th>
+                <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Grade</th>
               </tr>
             </thead>
             <tbody>
               {grades.map((g) => (
-                <tr key={g.id} className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="py-3 px-4 text-gray-900">{g.course_title}</td>
-                  <td className="py-3 px-4 text-gray-600">{g.assignment_title || g.quiz_title || '-'}</td>
-                  <td className="py-3 px-4 text-center text-gray-900">{g.score}/{g.total_points}</td>
+                <tr key={g.id} style={{ borderBottom: '1px solid var(--border-neon)' }} onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,255,65,0.05)'} onMouseLeave={e => e.currentTarget.style.background = ''}>
+                  <td className="py-3 px-4" style={{ color: 'var(--text-primary)' }}>{g.course_title}</td>
+                  <td className="py-3 px-4" style={{ color: 'var(--text-secondary)' }}>{g.assignment_title || g.quiz_title || '-'}</td>
+                  <td className="py-3 px-4 text-center" style={{ color: 'var(--text-primary)' }}>{g.score}/{g.total_points}</td>
                   <td className="py-3 px-4 text-center">
-                    <span className={`badge ${parseFloat(g.percentage) >= 70 ? 'badge-success' : parseFloat(g.percentage) >= 50 ? 'badge-warning' : 'badge-danger'}`}>
+                    <span className={`neon-badge ${parseFloat(g.percentage) >= 70 ? 'neon-badge-success' : parseFloat(g.percentage) >= 50 ? 'neon-badge-warning' : 'neon-badge-danger'}`}>
                       {parseFloat(g.percentage).toFixed(0)}%
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-center font-bold text-gray-900">{g.letter_grade}</td>
+                  <td className="py-3 px-4 text-center font-bold" style={{ color: 'var(--text-primary)' }}>{g.letter_grade}</td>
                 </tr>
               ))}
             </tbody>

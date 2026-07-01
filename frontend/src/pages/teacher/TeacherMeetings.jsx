@@ -86,11 +86,11 @@ export default function TeacherMeetings() {
   return (
     <div>
       {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
-      <PageHeader title="Meetings" description={`${meetings.length} meeting${meetings.length !== 1 ? 's' : ''}`} actions={<button onClick={() => { resetForm(); setShowForm(true); }} className="btn-primary flex items-center space-x-2"><Plus size={20} /><span>Schedule</span></button>} />
+      <PageHeader title="Meetings" description={`${meetings.length} meeting${meetings.length !== 1 ? 's' : ''}`} actions={<button onClick={() => { resetForm(); setShowForm(true); }} className="neon-btn flex items-center space-x-2"><Plus size={20} /><span>Schedule</span></button>} />
 
       {showForm && (
-        <div className="card mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">{editingMeeting ? 'Edit Meeting' : 'Schedule Meeting'}</h3>
+        <div className="neon-card mb-6" style={{ background: 'var(--bg-card)' }}>
+          <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{editingMeeting ? 'Edit Meeting' : 'Schedule Meeting'}</h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2">
@@ -104,38 +104,38 @@ export default function TeacherMeetings() {
               <Input label="Duration (min)" type="number" value={form.durationMinutes} onChange={e => setForm({ ...form, durationMinutes: parseInt(e.target.value) })} />
             </div>
             <div className="flex space-x-3">
-              <button type="submit" className="btn-primary">{editingMeeting ? 'Update' : 'Schedule'} Meeting</button>
-              <button type="button" onClick={resetForm} className="btn-secondary">Cancel</button>
+              <button type="submit" className="neon-btn">{editingMeeting ? 'Update' : 'Schedule'} Meeting</button>
+              <button type="button" onClick={resetForm} className="neon-btn-ghost">Cancel</button>
             </div>
           </form>
         </div>
       )}
 
       {meetings.length === 0 && !showForm ? (
-        <EmptyState icon={Video} title="No meetings scheduled" description="Schedule a live class to get started." action={<button onClick={() => setShowForm(true)} className="btn-primary">Schedule Meeting</button>} />
+        <EmptyState icon={Video} title="No meetings scheduled" description="Schedule a live class to get started." action={<button onClick={() => setShowForm(true)} className="neon-btn">Schedule Meeting</button>} />
       ) : (
         <div className="space-y-4">
           {meetings.map((meeting) => (
-            <div key={meeting.id} className="card flex items-center justify-between">
+            <div key={meeting.id} className="neon-card flex items-center justify-between" style={{ background: 'var(--bg-card)' }}>
               <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center shrink-0">
-                  <Video className="text-red-600" size={24} />
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(255,50,50,0.1)' }}>
+                  <Video style={{ color: '#ff3232' }} size={24} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">{meeting.title}</h3>
-                  <p className="text-sm text-gray-500">{meeting.description} {meeting.course_title && `- ${meeting.course_title}`}</p>
-                  <p className="text-sm text-gray-500 mt-1">{new Date(meeting.scheduled_at).toLocaleString()} - {meeting.duration_minutes}min</p>
+                  <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>{meeting.title}</h3>
+                  <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{meeting.description} {meeting.course_title && `- ${meeting.course_title}`}</p>
+                  <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>{new Date(meeting.scheduled_at).toLocaleString()} - {meeting.duration_minutes}min</p>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
                 {meeting.status === 'scheduled' && (
                   <>
-                    <button onClick={() => openEdit(meeting)} className="btn-outline p-2"><Pencil size={16} /></button>
-                    <button onClick={() => setConfirm({ action: () => deleteMeeting(meeting.id), title: 'Delete Meeting', message: `Delete "${meeting.title}"?` })} className="btn-danger p-2"><Trash2 size={16} /></button>
+                    <button onClick={() => openEdit(meeting)} className="neon-btn-outline p-2"><Pencil size={16} /></button>
+                    <button onClick={() => setConfirm({ action: () => deleteMeeting(meeting.id), title: 'Delete Meeting', message: `Delete "${meeting.title}"?` })} className="neon-btn-ghost p-2" style={{ background: '#ff3232' }}><Trash2 size={16} /></button>
                   </>
                 )}
-                <button onClick={() => handleJoin(meeting)} className="btn-primary text-sm">Join</button>
-                <span className={`badge ${meeting.status === 'live' ? 'badge-success' : meeting.status === 'ended' ? 'badge-danger' : 'badge-info'}`}>{meeting.status}</span>
+                <button onClick={() => handleJoin(meeting)} className="neon-btn text-sm">Join</button>
+                <span className={`neon-badge ${meeting.status === 'live' ? 'neon-badge-success' : meeting.status === 'ended' ? 'neon-badge-danger' : 'neon-badge-info'}`}>{meeting.status}</span>
               </div>
             </div>
           ))}

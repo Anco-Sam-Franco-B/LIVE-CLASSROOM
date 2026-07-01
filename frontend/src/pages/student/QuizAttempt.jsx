@@ -68,14 +68,14 @@ export default function QuizAttempt() {
     }
   };
 
-  if (loading) return <div className="text-center py-12"><div className="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full mx-auto" /></div>;
+  if (loading) return <div className="text-center py-12"><div className="animate-spin w-8 h-8 border-4 rounded-full mx-auto" style={{ borderColor: 'var(--neon)', borderTopColor: 'transparent' }} /></div>;
 
   if (!attempt) {
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">{quiz?.title}</h1>
-        <p className="text-gray-600 mb-8">{quiz?.description}</p>
-        <button onClick={startAttempt} className="btn-primary text-lg px-12">Start Quiz</button>
+        <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>{quiz?.title}</h1>
+        <p className="mb-8" style={{ color: 'var(--text-secondary)' }}>{quiz?.description}</p>
+        <button onClick={startAttempt} className="neon-btn text-lg px-12">Start Quiz</button>
       </div>
     );
   }
@@ -84,26 +84,26 @@ export default function QuizAttempt() {
     <div className="max-w-3xl mx-auto">
       {timeLeft !== null && (
         <div className="text-center mb-6">
-          <div className="text-lg font-semibold text-gray-900">
+          <div className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
             Time Left: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
           </div>
         </div>
       )}
       <div className="space-y-6">
         {quiz?.questions?.map((q, i) => (
-          <div key={q.id} className="card">
-            <h3 className="font-medium text-gray-900 mb-3">{i + 1}. {q.question_text}</h3>
+          <div key={q.id} className="neon-card">
+            <h3 className="font-medium mb-3" style={{ color: 'var(--text-primary)' }}>{i + 1}. {q.question_text}</h3>
             {q.options?.map((opt, oi) => (
-              <label key={oi} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
-                <input type="radio" name={`q-${q.id}`} value={opt} checked={answers[q.id] === opt} onChange={e => setAnswers(prev => ({ ...prev, [q.id]: e.target.value }))} className="text-indigo-600" />
-                <span className="text-sm text-gray-700">{opt}</span>
+              <label key={oi} className="flex items-center space-x-3 p-3 rounded-lg cursor-pointer" onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,255,65,0.05)'} onMouseLeave={e => e.currentTarget.style.background = ''}>
+                <input type="radio" name={`q-${q.id}`} value={opt} checked={answers[q.id] === opt} onChange={e => setAnswers(prev => ({ ...prev, [q.id]: e.target.value }))} style={{ accentColor: 'var(--neon)' }} />
+                <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{opt}</span>
               </label>
             ))}
           </div>
         ))}
       </div>
       <div className="text-center mt-8">
-        <button onClick={handleSubmit} className="btn-primary px-12">Submit Answers</button>
+        <button onClick={handleSubmit} className="neon-btn px-12">Submit Answers</button>
       </div>
     </div>
   );

@@ -28,16 +28,16 @@ export default function ResetPassword() {
     <div className="min-h-[80vh] flex items-center justify-center px-4">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">Reset Password</h2>
-          <p className="mt-2 text-gray-600">Enter your new password</p>
+          <h2 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>Reset Password</h2>
+          <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>Enter your new password</p>
         </div>
-        <form onSubmit={handleSubmit} className="card space-y-6">
-          {error && <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm">{error}</div>}
+        <form onSubmit={handleSubmit} className="neon-card space-y-6">
+          {error && <div className="px-4 py-3 rounded-lg text-sm" style={{ background: 'rgba(255,0,0,0.1)', color: '#ff4444' }}>{error}</div>}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
-            <input type="password" required value={password} onChange={e => setPassword(e.target.value)} className="input-field" placeholder="Min 8 characters" />
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>New Password</label>
+            <input type="password" required value={password} onChange={e => setPassword(e.target.value)} className="neon-input" placeholder="Min 8 characters" />
           </div>
-          <button type="submit" disabled={loading} className="btn-primary w-full">{loading ? 'Resetting...' : 'Reset Password'}</button>
+          <button type="submit" disabled={loading} className="neon-btn w-full" style={{ background: 'var(--neon)', color: '#fff' }}>{loading ? 'Resetting...' : 'Reset Password'}</button>
         </form>
       </div>
     </div>

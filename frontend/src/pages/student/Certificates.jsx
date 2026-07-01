@@ -91,80 +91,80 @@ export default function Certificates() {
             });
             return (
               <div key={cert.id}
-                className="relative bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300 group"
+                className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 group" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-neon)', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }} onMouseEnter={e => e.currentTarget.style.boxShadow = '0 10px 15px rgba(0,255,65,0.15)' } onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)' }
                 onClick={() => setSelected(selected?.id === cert.id ? null : cert)}
               >
-                <div className="h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
+                <div className="h-1.5" style={{ background: 'linear-gradient(to right, var(--neon), #7fff00, #ff69b4)' }} />
 
                 <div className="p-5">
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-3">
-                      <div className="p-2.5 rounded-xl bg-gradient-to-br from-indigo-50 to-purple-50">
-                        <Award className="text-indigo-600" size={28} />
+                      <div className="p-2.5 rounded-xl" style={{ background: 'rgba(0,255,65,0.1)' }}>
+                        <Award size={28} style={{ color: 'var(--neon)' }} />
                       </div>
                       <div>
-                        <h3 className="font-bold text-gray-900 text-lg">{cert.course_title}</h3>
-                        <div className="flex items-center gap-1.5 mt-1 text-xs text-gray-500">
-                          <ShieldCheck size={12} className="text-indigo-400" />
+                        <h3 className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>{cert.course_title}</h3>
+                        <div className="flex items-center gap-1.5 mt-1 text-xs" style={{ color: 'var(--text-secondary)' }}>
+                          <ShieldCheck size={12} style={{ color: 'var(--neon)' }} />
                           <span className="font-mono">{cert.certificate_number}</span>
                         </div>
                         {cert.teacher_name && (
-                          <p className="text-xs text-gray-400 mt-1">Issued by {cert.teacher_name}</p>
+                          <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Issued by {cert.teacher_name}</p>
                         )}
                       </div>
                     </div>
                     <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button onClick={(e) => { e.stopPropagation(); shareCert(cert); }}
-                        className="p-2 rounded-lg bg-gray-50 hover:bg-blue-50 text-gray-400 hover:text-blue-600 transition-colors" title="Share">
+                        className="p-2 rounded-lg transition-colors" title="Share" style={{ background: 'var(--bg-card)', color: 'var(--text-muted)' }} onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,150,255,0.1)'; e.currentTarget.style.color = '#0096ff'; }} onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-card)'; e.currentTarget.style.color = 'var(--text-muted)'; }}>
                         <Share2 size={16} />
                       </button>
                       <button onClick={(e) => { e.stopPropagation(); window.open(verifyUrl, '_blank'); }}
-                        className="p-2 rounded-lg bg-gray-50 hover:bg-indigo-50 text-gray-400 hover:text-indigo-600 transition-colors" title="Verify">
+                        className="p-2 rounded-lg transition-colors" title="Verify" style={{ background: 'var(--bg-card)', color: 'var(--text-muted)' }} onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,255,65,0.1)'; e.currentTarget.style.color = 'var(--neon)'; }} onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-card)'; e.currentTarget.style.color = 'var(--text-muted)'; }}>
                         <ExternalLink size={16} />
                       </button>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 mt-4 text-xs text-gray-500">
+                  <div className="flex items-center gap-4 mt-4 text-xs" style={{ color: 'var(--text-secondary)' }}>
                     <div className="flex items-center gap-1.5">
-                      <Calendar size={13} className="text-indigo-400" />
+                      <Calendar size={13} style={{ color: 'var(--neon)' }} />
                       <span>{new Date(cert.issued_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
                     </div>
                     {cert.grade && (
                       <div className="flex items-center gap-1.5">
-                        <Award size={13} className="text-green-400" />
-                        <span>Grade: <strong className="text-gray-700">{cert.grade}</strong></span>
+                        <Award size={13} style={{ color: 'var(--neon)' }} />
+                        <span>Grade: <strong style={{ color: 'var(--text-secondary)' }}>{cert.grade}</strong></span>
                       </div>
                     )}
                   </div>
 
                   <div className={`mt-4 transition-all duration-300 ${selected?.id === cert.id ? 'opacity-100 max-h-96' : 'opacity-0 max-h-0 overflow-hidden'}`}>
-                    <div className="border-t border-gray-100 pt-4">
+                    <div style={{ borderTop: '1px solid var(--border-neon)' }} className="pt-4">
                       <div className="flex items-start gap-4">
-                        <div className="p-1.5 bg-white rounded-lg shadow-sm border border-gray-100 shrink-0">
+                        <div className="p-1.5 rounded-lg shrink-0" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-neon)', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
                           <QRCodeSVG value={qrValue} size={72} level="M" fgColor="#4f46e5" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs font-medium text-gray-500 mb-2">Actions</p>
+                          <p className="text-xs font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Actions</p>
                           <div className="flex flex-wrap gap-2">
                             <button onClick={(e) => { e.stopPropagation(); downloadCert(cert); }}
-                              className="btn-indigo text-xs py-1.5 px-3 rounded-lg flex items-center gap-1.5">
+                              className="neon-btn text-xs py-1.5 px-3 rounded-lg flex items-center gap-1.5">
                               {downloading === cert.id ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
                               <span>Download PDF</span>
                             </button>
                             <button onClick={(e) => { e.stopPropagation(); copyLink(cert); }}
-                              className="btn-outline text-xs py-1.5 px-3 rounded-lg flex items-center gap-1.5">
-                              {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
+                              className="neon-btn-outline text-xs py-1.5 px-3 rounded-lg flex items-center gap-1.5">
+                              {copied ? <Check size={14} style={{ color: 'var(--neon)' }} /> : <Copy size={14} />}
                               <span>{copied ? 'Copied!' : 'Copy Link'}</span>
                             </button>
                           </div>
                           <div className="flex gap-2 mt-2">
                             <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(verifyUrl)}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-                              className="p-1.5 rounded-lg bg-gray-100 hover:bg-blue-100 text-gray-500 hover:text-blue-600 transition-colors" title="Share on Facebook">
+                              className="p-1.5 rounded-lg transition-colors" title="Share on Facebook" style={{ background: 'var(--bg-card)', color: 'var(--text-secondary)' }} onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,150,255,0.1)'; e.currentTarget.style.color = '#0096ff'; }} onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-card)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}>
                               <Globe size={14} />
                             </a>
                             <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I earned my certificate "${cert.course_title}"!`)}&url=${encodeURIComponent(verifyUrl)}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-                              className="p-1.5 rounded-lg bg-gray-100 hover:bg-sky-100 text-gray-500 hover:text-sky-600 transition-colors" title="Share on Twitter">
+                              className="p-1.5 rounded-lg transition-colors" title="Share on Twitter" style={{ background: 'var(--bg-card)', color: 'var(--text-secondary)' }} onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,150,255,0.1)'; e.currentTarget.style.color = '#0096ff'; }} onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-card)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}>
                               <MessageCircle size={14} />
                             </a>
                           </div>

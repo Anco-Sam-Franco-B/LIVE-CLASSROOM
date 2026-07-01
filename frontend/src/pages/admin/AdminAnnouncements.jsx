@@ -58,8 +58,8 @@ export default function AdminAnnouncements() {
   };
 
   const priorityBadge = (p) => {
-    const map = { urgent: 'badge-danger', high: 'badge-warning', normal: 'badge-info', low: 'badge-secondary' };
-    return <span className={`badge ${map[p] || 'badge-info'}`}>{p}</span>;
+    const map = { urgent: 'neon-badge-danger', high: 'neon-badge-warning', normal: 'neon-badge-info', low: 'neon-badge-secondary' };
+    return <span className={`neon-badge ${map[p] || 'neon-badge-info'}`}>{p}</span>;
   };
 
   if (loading) return <><PageHeader title="Announcements" /><ListSkeleton count={5} /></>;
@@ -67,11 +67,11 @@ export default function AdminAnnouncements() {
   return (
     <div>
       {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
-      <PageHeader title="Announcements" description="Send announcements to students and teachers" actions={!showForm && <button onClick={() => { setEditing(null); setForm({ title: '', content: '', priority: 'normal', targetAudience: 'all', courseId: '' }); setShowForm(true); }} className="btn-primary flex items-center space-x-2"><Plus size={20} /><span>New Announcement</span></button>} />
+      <PageHeader title="Announcements" description="Send announcements to students and teachers" actions={!showForm && <button onClick={() => { setEditing(null); setForm({ title: '', content: '', priority: 'normal', targetAudience: 'all', courseId: '' }); setShowForm(true); }} className="neon-btn flex items-center space-x-2"><Plus size={20} /><span>New Announcement</span></button>} />
 
       {showForm && (
-        <div className="card mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">{editing ? 'Edit Announcement' : 'Create Announcement'}</h2>
+        <div className="neon-card mb-8">
+          <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{editing ? 'Edit Announcement' : 'Create Announcement'}</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input label="Title" required value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
             <Textarea label="Content" required value={form.content} onChange={e => setForm({ ...form, content: e.target.value })} rows={5} />
@@ -87,8 +87,8 @@ export default function AdminAnnouncements() {
               </Select>
             </div>
             <div className="flex space-x-3">
-              <button type="submit" className="btn-primary">{editing ? 'Update' : 'Create'}</button>
-              <button type="button" onClick={() => { setShowForm(false); setEditing(null); }} className="btn-secondary">Cancel</button>
+              <button type="submit" className="neon-btn">{editing ? 'Update' : 'Create'}</button>
+              <button type="button" onClick={() => { setShowForm(false); setEditing(null); }} className="neon-btn-ghost">Cancel</button>
             </div>
           </form>
         </div>
@@ -99,15 +99,15 @@ export default function AdminAnnouncements() {
       ) : (
         <div className="space-y-4">
           {announcements.map((a) => (
-            <div key={a.id} className="card">
+            <div key={a.id} className="neon-card">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center space-x-2 mb-1">
-                    <h3 className="font-semibold text-gray-900">{a.title}</h3>
+                    <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>{a.title}</h3>
                     {priorityBadge(a.priority)}
                   </div>
-                  <p className="text-sm text-gray-600 whitespace-pre-wrap">{a.content}</p>
-                  <div className="flex items-center space-x-4 mt-3 text-xs text-gray-400">
+                  <p className="text-sm whitespace-pre-wrap" style={{ color: 'var(--text-secondary)' }}>{a.content}</p>
+                  <div className="flex items-center space-x-4 mt-3 text-xs" style={{ color: 'var(--text-muted)' }}>
                     <span>By {a.author_name}</span>
                     <span>{new Date(a.published_at).toLocaleDateString()}</span>
                     <span>{a.read_count || 0} reads</span>
@@ -115,8 +115,8 @@ export default function AdminAnnouncements() {
                   </div>
                 </div>
                 <div className="flex items-center space-x-1 ml-4">
-                  <button onClick={() => handleEdit(a)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-indigo-600"><Edit2 size={16} /></button>
-                  <button onClick={() => setConfirmDelete(a.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-600"><Trash2 size={16} /></button>
+                  <button onClick={() => handleEdit(a)} className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }} onMouseEnter={e=>{e.currentTarget.style.background='rgba(0,255,65,0.05)';e.currentTarget.style.color='var(--neon)'}} onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}}><Edit2 size={16} /></button>
+                  <button onClick={() => setConfirmDelete(a.id)} className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }} onMouseEnter={e=>{e.currentTarget.style.background='rgba(0,255,65,0.05)';e.currentTarget.style.color='#ff3232'}} onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}}><Trash2 size={16} /></button>
                 </div>
               </div>
             </div>

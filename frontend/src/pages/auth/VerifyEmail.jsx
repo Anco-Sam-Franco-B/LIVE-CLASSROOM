@@ -57,21 +57,21 @@ export default function VerifyEmail() {
     <div className="min-h-[80vh] flex items-center justify-center px-4">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">Verify Email</h2>
-          <p className="mt-2 text-gray-600">Enter the verification code sent to {email}</p>
+          <h2 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>Verify Email</h2>
+          <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>Enter the verification code sent to {email}</p>
         </div>
-        <form onSubmit={handleSubmit} className="card space-y-6">
-          {message && <div className={`px-4 py-3 rounded-lg text-sm ${message.includes('Failed') ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>{message}</div>}
+        <form onSubmit={handleSubmit} className="neon-card space-y-6">
+          {message && <div className="px-4 py-3 rounded-lg text-sm" style={{ background: message.includes('Failed') ? 'rgba(255,0,0,0.1)' : 'rgba(0,255,65,0.1)', color: message.includes('Failed') ? '#ff4444' : 'var(--neon)' }}>{message}</div>}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Verification Code</label>
-            <input type="text" required value={code} onChange={e => setCode(e.target.value)} className="input-field text-center text-2xl tracking-widest" placeholder="000000" maxLength={6} />
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Verification Code</label>
+            <input type="text" required value={code} onChange={e => setCode(e.target.value)} className="neon-input text-center text-2xl tracking-widest" placeholder="000000" maxLength={6} />
           </div>
-          <button type="submit" disabled={loading} className="btn-primary w-full">{loading ? 'Verifying...' : 'Verify Email'}</button>
+          <button type="submit" disabled={loading} className="neon-btn w-full" style={{ background: 'var(--neon)', color: '#fff' }}>{loading ? 'Verifying...' : 'Verify Email'}</button>
           <div className="text-center">
             {cooldown > 0 ? (
-              <span className="text-sm text-gray-400">Resend code in {cooldown}s</span>
+              <span className="text-sm" style={{ color: 'var(--text-muted)' }}>Resend code in {cooldown}s</span>
             ) : (
-              <button type="button" onClick={handleResend} disabled={resending || !email} className="text-sm text-indigo-600 hover:text-indigo-500 font-medium inline-flex items-center space-x-1">
+              <button type="button" onClick={handleResend} disabled={resending || !email} className="text-sm font-medium inline-flex items-center space-x-1" style={{ color: 'var(--neon)' }}>
                 <RefreshCw size={14} className={resending ? 'animate-spin' : ''} />
                 <span>{resending ? 'Sending...' : 'Resend code'}</span>
               </button>

@@ -117,29 +117,29 @@ export default function StudentSettings() {
   return (
     <div className="max-w-3xl">
       {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Settings</h1>
+      <h1 className="text-2xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>Settings</h1>
 
-      <div className="card mb-6">
+      <div className="neon-card mb-6">
         <div className="flex items-center space-x-4 mb-6">
           <div className="relative">
-            <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center overflow-hidden">
-              {user?.avatar_url ? <img src={user.avatar_url} alt="" className="w-full h-full object-cover" /> : <User className="text-indigo-600" size={36} />}
+            <div className="w-20 h-20 rounded-full flex items-center justify-center overflow-hidden" style={{ background: 'rgba(0,255,65,0.1)' }}>
+              {user?.avatar_url ? <img src={user.avatar_url} alt="" className="w-full h-full object-cover" /> : <User size={36} style={{ color: 'var(--neon)' }} />}
             </div>
-            <label className="absolute bottom-0 right-0 w-7 h-7 bg-indigo-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-indigo-700 transition shadow-lg">
+            <label className="absolute bottom-0 right-0 w-7 h-7 rounded-full flex items-center justify-center cursor-pointer transition shadow-lg" style={{ background: 'var(--neon)' }} onMouseEnter={e => e.currentTarget.style.background = '#00cc52'} onMouseLeave={e => e.currentTarget.style.background = 'var(--neon)'}>
               <Camera className="text-white" size={14} />
               <input type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" />
             </label>
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">{user?.first_name} {user?.last_name}</h2>
-            <p className="text-sm text-gray-500">{user?.email}</p>
-            {profile.headline && <p className="text-sm text-indigo-600">{profile.headline}</p>}
+            <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{user?.first_name} {user?.last_name}</h2>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{user?.email}</p>
+            {profile.headline && <p className="text-sm" style={{ color: 'var(--neon)' }}>{profile.headline}</p>}
           </div>
         </div>
 
-        <div className="flex space-x-1 border-b border-gray-200 mb-6">
+        <div className="flex space-x-1 mb-6" style={{ borderBottom: '1px solid var(--border-neon)' }}>
           {tabs.map(tab => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`flex items-center space-x-2 px-4 py-2.5 text-sm font-medium border-b-2 transition ${activeTab === tab.id ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
+            <button key={tab.id} onClick={() => setActiveTab(tab.id)} className="flex items-center space-x-2 px-4 py-2.5 text-sm font-medium border-b-2 transition" style={{ borderBottomColor: activeTab === tab.id ? 'var(--neon)' : 'transparent', color: activeTab === tab.id ? 'var(--neon)' : 'var(--text-muted)' }} onMouseEnter={e => { if (activeTab !== tab.id) e.currentTarget.style.color = 'var(--text-secondary)'; }} onMouseLeave={e => { if (activeTab !== tab.id) e.currentTarget.style.color = 'var(--text-muted)'; }}>
               <tab.icon size={18} /><span>{tab.label}</span>
             </button>
           ))}
@@ -163,38 +163,38 @@ export default function StudentSettings() {
               <Input label="Country" value={profile.country} onChange={e => setProfile({ ...profile, country: e.target.value })} />
             </div>
 
-            <div><label className="block text-sm font-medium text-gray-700 mb-2">Skills</label>
+            <div><label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Skills</label>
               <div className="flex items-center space-x-2 mb-2">
-                <input type="text" value={newSkill} onChange={e => setNewSkill(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addSkill())} className="input flex-1" placeholder="Add a skill..." />
-                <button type="button" onClick={addSkill} className="btn-secondary"><Plus size={18} /></button>
+                <input type="text" value={newSkill} onChange={e => setNewSkill(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addSkill())} className="neon-input flex-1" placeholder="Add a skill..." />
+                <button type="button" onClick={addSkill} className="neon-btn-ghost"><Plus size={18} /></button>
               </div>
               <div className="flex flex-wrap gap-2">
                 {profile.skills.map(skill => (
-                  <span key={skill} className="inline-flex items-center space-x-1 px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm"><span>{skill}</span><button type="button" onClick={() => removeSkill(skill)} className="hover:text-red-500"><X size={14} /></button></span>
+                  <span key={skill} className="inline-flex items-center space-x-1 px-3 py-1 rounded-full text-sm" style={{ background: 'rgba(0,255,65,0.1)', color: 'var(--neon)' }}><span>{skill}</span><button type="button" onClick={() => removeSkill(skill)} style={{ color: '#ff3232' }}><X size={14} /></button></span>
                 ))}
               </div>
             </div>
 
-            <div><label className="block text-sm font-medium text-gray-700 mb-2">Social Links</label>
+            <div><label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Social Links</label>
               {profile.socialLinks.map((link, i) => (
                 <div key={i} className="flex items-center space-x-2 mb-2">
-                  <input type="text" value={link.platform} onChange={e => updateSocialLink(i, 'platform', e.target.value)} className="input w-32" placeholder="Platform" />
-                  <input type="url" value={link.url} onChange={e => updateSocialLink(i, 'url', e.target.value)} className="input flex-1" placeholder="URL" />
-                  <button type="button" onClick={() => removeSocialLink(i)} className="p-2 text-red-500 hover:text-red-700"><X size={18} /></button>
+                  <input type="text" value={link.platform} onChange={e => updateSocialLink(i, 'platform', e.target.value)} className="neon-input w-32" placeholder="Platform" />
+                  <input type="url" value={link.url} onChange={e => updateSocialLink(i, 'url', e.target.value)} className="neon-input flex-1" placeholder="URL" />
+                  <button type="button" onClick={() => removeSocialLink(i)} className="p-2" style={{ color: '#ff3232' }} onMouseEnter={e => e.currentTarget.style.color = '#ff6666'} onMouseLeave={e => e.currentTarget.style.color = '#ff3232'}><X size={18} /></button>
                 </div>
               ))}
-              <button type="button" onClick={addSocialLink} className="text-sm text-indigo-600 hover:text-indigo-500 flex items-center space-x-1"><Plus size={16} /><span>Add Social Link</span></button>
+              <button type="button" onClick={addSocialLink} className="text-sm flex items-center space-x-1" style={{ color: 'var(--neon)' }} onMouseEnter={e => e.currentTarget.style.color = '#00cc52'} onMouseLeave={e => e.currentTarget.style.color = 'var(--neon)'}><Plus size={16} /><span>Add Social Link</span></button>
             </div>
 
-            <button type="submit" disabled={saving} className="btn-primary">{saving ? 'Saving...' : 'Save Changes'}</button>
+            <button type="submit" disabled={saving} className="neon-btn">{saving ? 'Saving...' : 'Save Changes'}</button>
           </form>
         )}
 
         {activeTab === 'education' && (
           <div className="space-y-4">
             {profile.education.map((edu, i) => (
-              <div key={i} className="p-4 border border-gray-200 rounded-lg relative">
-                <button type="button" onClick={() => removeEducation(i)} className="absolute top-2 right-2 text-red-500 hover:text-red-700"><X size={18} /></button>
+              <div key={i} className="p-4 rounded-lg relative" style={{ border: '1px solid var(--border-neon)' }}>
+                <button type="button" onClick={() => removeEducation(i)} className="absolute top-2 right-2" style={{ color: '#ff3232' }} onMouseEnter={e => e.currentTarget.style.color = '#ff6666'} onMouseLeave={e => e.currentTarget.style.color = '#ff3232'}><X size={18} /></button>
                 <div className="grid grid-cols-2 gap-4">
                   <Input label="Institution" value={edu.institution} onChange={e => updateEducation(i, 'institution', e.target.value)} />
                   <Input label="Degree" value={edu.degree} onChange={e => updateEducation(i, 'degree', e.target.value)} />
@@ -206,15 +206,15 @@ export default function StudentSettings() {
                 </div>
               </div>
             ))}
-            <button type="button" onClick={addEducation} className="text-sm text-indigo-600 hover:text-indigo-500 flex items-center space-x-1"><Plus size={16} /><span>Add Education</span></button>
+            <button type="button" onClick={addEducation} className="text-sm flex items-center space-x-1" style={{ color: 'var(--neon)' }} onMouseEnter={e => e.currentTarget.style.color = '#00cc52'} onMouseLeave={e => e.currentTarget.style.color = 'var(--neon)'}><Plus size={16} /><span>Add Education</span></button>
           </div>
         )}
 
         {activeTab === 'experience' && (
           <div className="space-y-4">
             {profile.experience.map((exp, i) => (
-              <div key={i} className="p-4 border border-gray-200 rounded-lg relative">
-                <button type="button" onClick={() => removeExperience(i)} className="absolute top-2 right-2 text-red-500 hover:text-red-700"><X size={18} /></button>
+              <div key={i} className="p-4 rounded-lg relative" style={{ border: '1px solid var(--border-neon)' }}>
+                <button type="button" onClick={() => removeExperience(i)} className="absolute top-2 right-2" style={{ color: '#ff3232' }} onMouseEnter={e => e.currentTarget.style.color = '#ff6666'} onMouseLeave={e => e.currentTarget.style.color = '#ff3232'}><X size={18} /></button>
                 <div className="grid grid-cols-2 gap-4">
                   <Input label="Company" value={exp.company} onChange={e => updateExperience(i, 'company', e.target.value)} />
                   <Input label="Position" value={exp.position} onChange={e => updateExperience(i, 'position', e.target.value)} />
@@ -227,7 +227,7 @@ export default function StudentSettings() {
                 <Textarea label="Description" value={exp.description} onChange={e => updateExperience(i, 'description', e.target.value)} rows={2} />
               </div>
             ))}
-            <button type="button" onClick={addExperience} className="text-sm text-indigo-600 hover:text-indigo-500 flex items-center space-x-1"><Plus size={16} /><span>Add Experience</span></button>
+            <button type="button" onClick={addExperience} className="text-sm flex items-center space-x-1" style={{ color: 'var(--neon)' }} onMouseEnter={e => e.currentTarget.style.color = '#00cc52'} onMouseLeave={e => e.currentTarget.style.color = 'var(--neon)'}><Plus size={16} /><span>Add Experience</span></button>
           </div>
         )}
 
@@ -235,7 +235,7 @@ export default function StudentSettings() {
           <form onSubmit={changePassword} className="space-y-4 max-w-md">
             <Input label="Current Password" type="password" value={passwords.currentPassword} onChange={e => setPasswords({ ...passwords, currentPassword: e.target.value })} />
             <Input label="New Password" type="password" value={passwords.newPassword} onChange={e => setPasswords({ ...passwords, newPassword: e.target.value })} placeholder="Min 8 characters" />
-            <button type="submit" disabled={saving} className="btn-primary">{saving ? 'Changing...' : 'Change Password'}</button>
+            <button type="submit" disabled={saving} className="neon-btn">{saving ? 'Changing...' : 'Change Password'}</button>
           </form>
         )}
       </div>

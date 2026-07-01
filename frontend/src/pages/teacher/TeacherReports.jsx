@@ -21,30 +21,30 @@ export default function TeacherReports() {
     <div>
       <PageHeader title="Reports" />
       <div className="grid lg:grid-cols-2 gap-6">
-        <div className="card">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Course Performance</h2>
+        <div className="neon-card">
+          <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Course Performance</h2>
           {report?.courses?.length > 0 ? (
             <div className="space-y-3">
               {report.courses.map(c => (
                 <div key={c.id} className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">{c.title}</span>
+                  <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{c.title}</span>
                   <div className="flex items-center space-x-4">
-                    <span className="text-sm text-gray-500">{c.student_count} students</span>
-                    <span className={`badge ${c.is_published ? 'badge-success' : 'badge-warning'}`}>{c.status}</span>
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{c.student_count} students</span>
+                    <span className={`neon-badge ${c.is_published ? 'neon-badge-success' : 'neon-badge-warning'}`}>{c.status}</span>
                   </div>
                 </div>
               ))}
             </div>
-          ) : <p className="text-gray-400 text-center py-4">No course data</p>}
+          ) : <p className="text-center py-4" style={{ color: 'var(--text-muted)' }}>No course data</p>}
         </div>
-        <div className="card">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Enrollment Trend</h2>
+        <div className="neon-card">
+          <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Enrollment Trend</h2>
           {report?.enrollmentTrend?.length > 0 ? report.enrollmentTrend.map((item) => (
             <div key={item.date} className="flex items-center justify-between text-sm py-1">
-              <span className="text-gray-600">{new Date(item.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+              <span style={{ color: 'var(--text-secondary)' }}>{new Date(item.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
               <span className="font-medium">{item.count}</span>
             </div>
-          )) : <p className="text-gray-400 text-center py-4">No enrollment data</p>}
+          )) : <p className="text-center py-4" style={{ color: 'var(--text-muted)' }}>No enrollment data</p>}
         </div>
       </div>
     </div>

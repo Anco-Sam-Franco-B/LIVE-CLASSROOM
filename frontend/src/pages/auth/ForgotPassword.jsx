@@ -24,18 +24,18 @@ export default function ForgotPassword() {
     <div className="min-h-[80vh] flex items-center justify-center px-4">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">Forgot Password</h2>
-          <p className="mt-2 text-gray-600">Enter your email to receive reset instructions</p>
+          <h2 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>Forgot Password</h2>
+          <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>Enter your email to receive reset instructions</p>
         </div>
-        <form onSubmit={handleSubmit} className="card space-y-6">
-          {message && <div className={`px-4 py-3 rounded-lg text-sm ${message.includes('Failed') ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>{message}</div>}
+        <form onSubmit={handleSubmit} className="neon-card space-y-6">
+          {message && <div className="px-4 py-3 rounded-lg text-sm" style={{ background: message.includes('Failed') ? 'rgba(255,0,0,0.1)' : 'rgba(0,255,65,0.1)', color: message.includes('Failed') ? '#ff4444' : 'var(--neon)' }}>{message}</div>}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} className="input-field" placeholder="you@example.com" />
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Email</label>
+            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} className="neon-input" placeholder="you@example.com" />
           </div>
-          <button type="submit" disabled={loading} className="btn-primary w-full">{loading ? 'Sending...' : 'Send Reset Link'}</button>
-          <p className="text-center text-sm text-gray-600">
-            <Link to="/login" className="text-indigo-600 hover:text-indigo-500">Back to login</Link>
+          <button type="submit" disabled={loading} className="neon-btn w-full" style={{ background: 'var(--neon)', color: '#fff' }}>{loading ? 'Sending...' : 'Send Reset Link'}</button>
+          <p className="text-center text-sm" style={{ color: 'var(--text-secondary)' }}>
+            <Link to="/login" style={{ color: 'var(--neon)' }}>Back to login</Link>
           </p>
         </form>
       </div>

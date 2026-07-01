@@ -69,14 +69,14 @@ export default function StudentCourseCatalog() {
 
       <div className="flex flex-wrap gap-4 mb-6">
         <div className="flex-1 min-w-[200px] relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search courses..." className="input-field pl-10" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={20} style={{ color: 'var(--text-muted)' }} />
+          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search courses..." className="neon-input pl-10" />
         </div>
-        <select value={category} onChange={e => setCategory(e.target.value)} className="input-field w-auto">
+        <select value={category} onChange={e => setCategory(e.target.value)} className="neon-input w-auto">
           <option value="">All Categories</option>
           {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
-        <select value={level} onChange={e => setLevel(e.target.value)} className="input-field w-auto">
+        <select value={level} onChange={e => setLevel(e.target.value)} className="neon-input w-auto">
           <option value="">All Levels</option>
           <option value="beginner">Beginner</option>
           <option value="intermediate">Intermediate</option>
@@ -87,43 +87,43 @@ export default function StudentCourseCatalog() {
       {loading ? (
         <CardSkeleton count={6} />
       ) : filtered.length === 0 ? (
-        <div className="text-center py-12 text-gray-500">No courses found</div>
+        <div className="text-center py-12" style={{ color: 'var(--text-secondary)' }}>No courses found</div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map(course => {
             const isEnrolled = enrolledIds.has(course.id);
             return (
-              <div key={course.id} className="card hover:shadow-lg transition-shadow overflow-hidden p-0 flex flex-col">
+              <div key={course.id} className="neon-card overflow-hidden p-0 flex flex-col" onMouseEnter={e => e.currentTarget.style.boxShadow = '0 10px 15px rgba(0,255,65,0.15)'} onMouseLeave={e => e.currentTarget.style.boxShadow = ''}>
                 <button onClick={() => navigate(`/student/courses/${course.id}`)} className="text-left">
                   <img src={course.thumbnail_url || 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=200&fit=crop'} alt={course.title} className="w-full h-44 object-cover" loading="lazy" />
                 </button>
                 <div className="p-5 flex-1 flex flex-col">
                   <button onClick={() => navigate(`/student/courses/${course.id}`)} className="text-left">
                     <div className="flex items-center space-x-2 mb-2">
-                      <span className="badge badge-info">{course.level}</span>
-                      {course.is_free && <span className="badge badge-success">Free</span>}
-                      {isEnrolled && <span className="badge bg-green-100 text-green-700 border-green-200">Enrolled</span>}
+                      <span className="neon-badge neon-badge-info">{course.level}</span>
+                      {course.is_free && <span className="neon-badge neon-badge-success">Free</span>}
+                      {isEnrolled && <span className="neon-badge" style={{ background: 'rgba(0,255,65,0.1)', color: 'var(--neon)', borderColor: 'var(--neon)' }}>Enrolled</span>}
                     </div>
-                    <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{course.title}</h3>
-                    <p className="text-sm text-gray-500 mb-3">{course.teacher_name}</p>
-                    <div className="flex items-center justify-between text-sm text-gray-500 mb-3">
-                      <span className="flex items-center space-x-1"><Star className="text-yellow-400 fill-current" size={16} /><span>{parseFloat(course.rating).toFixed(1)}</span></span>
+                    <h3 className="font-semibold mb-2 line-clamp-2" style={{ color: 'var(--text-primary)' }}>{course.title}</h3>
+                    <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>{course.teacher_name}</p>
+                    <div className="flex items-center justify-between text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
+                      <span className="flex items-center space-x-1"><Star size={16} style={{ color: '#ffc800' }} className="fill-current" /><span>{parseFloat(course.rating).toFixed(1)}</span></span>
                       <span className="flex items-center space-x-1"><Users size={16} /><span>{course.enrollment_count}</span></span>
                       <span className="flex items-center space-x-1"><BookOpen size={16} /><span>{course.total_lessons} lessons</span></span>
                     </div>
                   </button>
                   <div className="mt-auto">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="font-semibold text-lg text-indigo-600">
+                      <span className="font-semibold text-lg" style={{ color: 'var(--neon)' }}>
                         {course.is_free ? 'Free' : `UGX ${parseFloat(course.price || 0).toLocaleString()}`}
                       </span>
                     </div>
                     {isEnrolled ? (
-                      <button onClick={() => navigate(`/student/courses/${course.id}/learn`)} className="btn-primary w-full flex items-center justify-center space-x-2">
+                      <button onClick={() => navigate(`/student/courses/${course.id}/learn`)} className="neon-btn w-full flex items-center justify-center space-x-2">
                         <ExternalLink size={18} /><span>Continue Learning</span>
                       </button>
                     ) : (
-                      <button onClick={() => handleEnroll(course)} disabled={enrolling === course.id} className={`${course.is_free || course.price === 0 ? 'btn-primary' : 'btn-warning'} w-full flex items-center justify-center space-x-2`}>
+                      <button onClick={() => handleEnroll(course)} disabled={enrolling === course.id} className="neon-btn w-full flex items-center justify-center space-x-2">
                         {enrolling === course.id ? (
                           <><span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4" /><span>Enrolling...</span></>
                         ) : course.is_free || course.price === 0 ? (

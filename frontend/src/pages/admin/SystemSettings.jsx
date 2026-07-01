@@ -52,19 +52,19 @@ function SettingsField({ label, value, onChange, onUpload, uploading }) {
     return (
       <label className="relative inline-flex items-center cursor-pointer">
         <input type="checkbox" checked={value === true} onChange={e => onChange(e.target.checked)} className="sr-only peer" />
-        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600" />
+        <div className="w-11 h-6 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all" style={{ background: value ? 'var(--neon)' : 'var(--bg-card)', border: '1px solid var(--border-neon)' }} />
       </label>
     );
   }
 
   const numericKeys = ['max_file_upload_size', 'max_login_attempts', 'lockout_duration_minutes', 'session_timeout_minutes', 'password_min_length'];
   if (numericKeys.includes(label)) {
-    return <input type="number" value={displayVal} onChange={e => onChange(Number(e.target.value))} className="input" />;
+    return <input type="number" value={displayVal} onChange={e => onChange(Number(e.target.value))} className="neon-input" />;
   }
 
   if (label === 'default_timezone') {
     return (
-      <select value={displayVal} onChange={e => onChange(e.target.value)} className="input">
+      <select value={displayVal} onChange={e => onChange(e.target.value)} className="neon-input">
         <option value="">Select timezone</option>
         <optgroup label="Africa">
           <option value="Africa/Kampala">Africa/Kampala (UTC+3)</option>
@@ -91,12 +91,12 @@ function SettingsField({ label, value, onChange, onUpload, uploading }) {
   }
 
   if (['allowed_file_types', 'course_levels', 'payment_providers'].includes(label)) {
-    return <input type="text" value={displayVal} onChange={e => onChange(e.target.value.split(',').map(s => s.trim()))} className="input" placeholder="Comma-separated values" />;
+    return <input type="text" value={displayVal} onChange={e => onChange(e.target.value.split(',').map(s => s.trim()))} className="neon-input" placeholder="Comma-separated values" />;
   }
 
   if (label === 'platform_currency') {
     return (
-      <select value={displayVal} onChange={e => onChange(e.target.value)} className="input">
+      <select value={displayVal} onChange={e => onChange(e.target.value)} className="neon-input">
         <option value="UGX">UGX - Ugandan Shilling</option>
         <option value="KES">KES - Kenyan Shilling</option>
         <option value="TZS">TZS - Tanzanian Shilling</option>
@@ -109,7 +109,7 @@ function SettingsField({ label, value, onChange, onUpload, uploading }) {
 
   if (['default_user_role'].includes(label)) {
     return (
-      <select value={displayVal} onChange={e => onChange(e.target.value)} className="input">
+      <select value={displayVal} onChange={e => onChange(e.target.value)} className="neon-input">
         <option value="student">Student</option>
         <option value="teacher">Teacher</option>
       </select>
@@ -117,32 +117,32 @@ function SettingsField({ label, value, onChange, onUpload, uploading }) {
   }
 
   if (['brand_primary_color', 'brand_secondary_color'].includes(label)) {
-    return <input type="color" value={displayVal || '#4f46e5'} onChange={e => onChange(e.target.value)} className="h-10 w-16 rounded-lg border border-gray-300 cursor-pointer" />;
+    return <input type="color" value={displayVal || '#00ff41'} onChange={e => onChange(e.target.value)} className="h-10 w-16 rounded-lg cursor-pointer" style={{ border: '1px solid var(--border-neon)' }} />;
   }
 
   if (label === 'certificate_signature_url') {
     return (
       <div className="space-y-3">
         {value ? (
-          <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
-            <img src={value} alt="Signature" className="h-12 object-contain rounded border border-gray-200 bg-white" />
+          <div className="flex items-center gap-4 p-3 rounded-lg" style={{ background: 'var(--bg-dark)', border: '1px solid var(--border-neon)' }}>
+            <img src={value} alt="Signature" className="h-12 object-contain rounded" style={{ border: '1px solid var(--border-neon)', background: 'var(--bg-card)' }} />
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-gray-700 font-medium truncate">Current Signature</p>
-              <p className="text-xs text-gray-400 truncate">{value}</p>
+              <p className="text-sm font-medium truncate" style={{ color: 'var(--text-primary)' }}>Current Signature</p>
+              <p className="text-xs truncate" style={{ color: 'var(--text-muted)' }}>{value}</p>
             </div>
-            <button type="button" onClick={() => onChange('')} className="p-1.5 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors" title="Remove">
+            <button type="button" onClick={() => onChange('')} className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }} onMouseEnter={e=>{e.currentTarget.style.background='rgba(255,50,50,0.1)';e.currentTarget.style.color='#ff3232'}} onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}} title="Remove">
               <Trash2 size={16} />
             </button>
           </div>
         ) : (
-          <div className="flex items-center justify-center p-6 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-            <p className="text-sm text-gray-400">No signature uploaded</p>
+          <div className="flex items-center justify-center p-6 rounded-lg" style={{ background: 'var(--bg-dark)', border: '2px dashed var(--border-neon)' }}>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>No signature uploaded</p>
           </div>
         )}
 
         {signatureMode === 'draw' ? (
           <div className="relative">
-            <button type="button" onClick={() => setSignatureMode(null)} className="absolute -top-2 -right-2 z-10 p-1 bg-white rounded-full shadow border border-gray-200 text-gray-400 hover:text-gray-600 transition-colors">
+            <button type="button" onClick={() => setSignatureMode(null)} className="absolute -top-2 -right-2 z-10 p-1 rounded-full shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-neon)', color: 'var(--text-muted)' }} onMouseEnter={e=>e.currentTarget.style.color='var(--text-primary)'} onMouseLeave={e=>e.currentTarget.style.color='var(--text-muted)'}>
               <X size={14} />
             </button>
             <SignaturePad
@@ -169,15 +169,15 @@ function SettingsField({ label, value, onChange, onUpload, uploading }) {
         ) : (
           <div className="flex items-center gap-3 flex-wrap">
             <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/gif,image/svg+xml" className="hidden" onChange={onUpload} />
-            <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className="btn-outline flex items-center gap-2 text-sm">
+            <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className="neon-btn-outline flex items-center gap-2 text-sm">
               <FileImage size={16} />
               {uploading ? 'Uploading...' : 'Upload Image'}
             </button>
-            <button type="button" onClick={() => setSignatureMode('draw')} className="btn-outline flex items-center gap-2 text-sm">
+            <button type="button" onClick={() => setSignatureMode('draw')} className="neon-btn-outline flex items-center gap-2 text-sm">
               <PenLine size={16} />
               Draw Signature
             </button>
-            <span className="text-xs text-gray-400">PNG with transparent background recommended</span>
+            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>PNG with transparent background recommended</span>
           </div>
         )}
       </div>
@@ -187,12 +187,12 @@ function SettingsField({ label, value, onChange, onUpload, uploading }) {
   if (['platform_logo', 'platform_favicon'].includes(label)) {
     return (
       <div className="flex items-center space-x-2">
-        <input type="text" value={displayVal} onChange={e => onChange(e.target.value)} className="input flex-1" placeholder="URL" />
+        <input type="text" value={displayVal} onChange={e => onChange(e.target.value)} className="neon-input flex-1" placeholder="URL" />
       </div>
     );
   }
 
-  return <input type="text" value={displayVal} onChange={e => onChange(e.target.value)} className="input" />;
+  return <input type="text" value={displayVal} onChange={e => onChange(e.target.value)} className="neon-input" />;
 }
 
 export default function SystemSettings() {
@@ -245,7 +245,7 @@ export default function SystemSettings() {
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center py-20"><RefreshCw size={32} className="text-indigo-600 animate-spin" /></div>;
+    return <div className="flex items-center justify-center py-20"><RefreshCw size={32} style={{ color: 'var(--neon)' }} className="animate-spin" /></div>;
   }
 
   const labels = {
@@ -294,8 +294,8 @@ export default function SystemSettings() {
 
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
-          <Settings size={28} className="text-indigo-600" />
-          <h1 className="text-2xl font-bold text-gray-900">System Settings</h1>
+          <Settings size={28} style={{ color: 'var(--neon)' }} />
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>System Settings</h1>
         </div>
       </div>
 
@@ -303,27 +303,34 @@ export default function SystemSettings() {
         <div className="w-56 shrink-0 space-y-1">
           {Object.entries(SETTINGS_GROUPS).map(([group, { icon: Icon }]) => (
             <button key={group} onClick={() => setActiveGroup(group)}
-              className={`flex items-center space-x-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left ${activeGroup === group ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100'}`}>
+              style={{
+                background: activeGroup === group ? 'rgba(0,255,65,0.1)' : 'transparent',
+                color: activeGroup === group ? 'var(--neon)' : 'var(--text-secondary)',
+                border: activeGroup === group ? '1px solid var(--border-neon)' : '1px solid transparent'
+              }}
+              className="flex items-center space-x-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left"
+              onMouseEnter={e=>{if(activeGroup!==group){e.currentTarget.style.background='rgba(0,255,65,0.05)';e.currentTarget.style.color='var(--neon)'}}}
+              onMouseLeave={e=>{if(activeGroup!==group){e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-secondary)'}}}>
               <Icon size={18} /><span>{group}</span>
             </button>
           ))}
         </div>
 
-        <form onSubmit={saveSettings} className="flex-1 card">
+        <form onSubmit={saveSettings} className="flex-1 neon-card">
           <div className="flex items-center space-x-3 mb-6">
-            {(() => { const g = SETTINGS_GROUPS[activeGroup]; const Icon = g.icon; return <><Icon size={24} className="text-indigo-600" /><h2 className="text-lg font-semibold text-gray-900">{activeGroup} Settings</h2></>; })()}
+            {(() => { const g = SETTINGS_GROUPS[activeGroup]; const Icon = g.icon; return <><Icon size={24} style={{ color: 'var(--neon)' }} /><h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{activeGroup} Settings</h2></>; })()}
           </div>
           <div className="space-y-5">
             {groupKeys.map(key => (
               <div key={key}>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">{labels[key] || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</label>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-secondary)' }}>{labels[key] || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</label>
                 <SettingsField label={key} value={settings[key]} onChange={val => handleChange(key, val)} onUpload={handleUpload} uploading={uploading} />
               </div>
             ))}
-            {groupKeys.length === 0 && <p className="text-sm text-gray-400 py-4 text-center">No settings available in this group.</p>}
+            {groupKeys.length === 0 && <p className="text-sm py-4 text-center" style={{ color: 'var(--text-muted)' }}>No settings available in this group.</p>}
           </div>
-          <div className="pt-6 mt-6 border-t border-gray-200">
-            <button type="submit" disabled={saving} className="btn-primary inline-flex items-center space-x-2">
+          <div className="pt-6 mt-6 border-t" style={{ borderColor: 'var(--border-neon)' }}>
+            <button type="submit" disabled={saving} className="neon-btn inline-flex items-center space-x-2">
               <Save size={18} /><span>{saving ? 'Saving...' : 'Save Settings'}</span>
             </button>
           </div>

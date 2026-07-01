@@ -8,6 +8,7 @@
     "dev": "nodemon server.js",
     "setup-db": "node database/setup.js",
     "seed": "node database/seed.js",
+    "seed-cms": "node database/seed-cms.js",
     "test": "jest --forceExit --detectOpenHandles",
     "test:watch": "jest --watchAll --forceExit",
     "lint": "eslint ."

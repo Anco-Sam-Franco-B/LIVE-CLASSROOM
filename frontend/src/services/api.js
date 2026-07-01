@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://api-lcc.onrender.com/api';
+const API_URL = '/api';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -325,6 +325,16 @@ export const subscriptionsAPI = {
   create: (data) => api.post('/subscriptions', data),
   update: (id, data) => api.put(`/subscriptions/${id}`, data),
   cancel: (id) => api.delete(`/subscriptions/${id}`),
+};
+
+// CMS API
+export const cmsAPI = {
+  getAll: () => api.get('/cms'),
+  getPage: (page) => api.get(`/cms/${page}`),
+  updateSection: (page, section, content) => api.put(`/cms/${page}/${section}`, { content }),
+  toggleSection: (page, section) => api.patch(`/cms/${page}/${section}/toggle`),
+  resetSection: (page, section) => api.delete(`/cms/${page}/${section}`),
+  getPublic: (page) => api.get(`/cms/public/${page}`),
 };
 
 // Invoices API

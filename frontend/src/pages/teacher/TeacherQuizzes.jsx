@@ -111,7 +111,7 @@ export default function TeacherQuizzes() {
         title="Quizzes"
         description={`${quizzes.length} quiz${quizzes.length !== 1 ? 'zes' : ''}`}
         actions={
-          <button onClick={openCreate} className="btn-primary flex items-center space-x-2">
+          <button onClick={openCreate} className="neon-btn flex items-center space-x-2">
             <Plus size={20} /><span>Create Quiz</span>
           </button>
         }
@@ -122,21 +122,21 @@ export default function TeacherQuizzes() {
       ) : (
         <div className="space-y-4">
           {quizzes.map((q) => (
-            <div key={q.id} className="card">
+            <div key={q.id} className="neon-card" style={{ background: 'var(--bg-card)' }}>
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start space-x-3 min-w-0">
-                  <ClipboardList className="text-indigo-600 mt-1 shrink-0" size={20} />
+                  <ClipboardList style={{ color: 'var(--neon)' }} size={20} className="mt-1 shrink-0" />
                   <div className="min-w-0">
-                    <h3 className="font-semibold text-gray-900">{q.title}</h3>
-                    <p className="text-sm text-gray-500">{q.course_title}</p>
-                    <p className="text-sm text-gray-600 mt-1 line-clamp-2">{q.description}</p>
-                    <div className="text-sm text-gray-500 mt-1">
+                    <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>{q.title}</h3>
+                    <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{q.course_title}</p>
+                    <p className="text-sm mt-1 line-clamp-2" style={{ color: 'var(--text-secondary)' }}>{q.description}</p>
+                    <div className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
                       Pass: {q.passing_score}% | Time: {q.time_limit_minutes}min | Max Attempts: {q.max_attempts}
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <button onClick={() => openEdit(q)} className="btn-outline p-2" title="Edit quiz">
+                  <button onClick={() => openEdit(q)} className="neon-btn-outline p-2" title="Edit quiz">
                     <Pencil size={16} />
                   </button>
                   <button
@@ -145,7 +145,8 @@ export default function TeacherQuizzes() {
                       title: 'Delete Quiz',
                       message: `Delete "${q.title}"? This action cannot be undone.`,
                     })}
-                    className="btn-danger p-2"
+                    className="neon-btn-ghost p-2"
+                    style={{ background: '#ff3232' }}
                     title="Delete quiz"
                   >
                     <Trash2 size={16} />
@@ -167,38 +168,38 @@ export default function TeacherQuizzes() {
 
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setModalOpen(false)}>
-          <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-            <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900">{editingQuiz ? 'Edit Quiz' : 'Create Quiz'}</h2>
-              <button onClick={() => setModalOpen(false)} className="text-gray-400 hover:text-gray-600">&times;</button>
+          <div className="rounded-xl shadow-2xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto" style={{ background: 'var(--bg-card)' }} onClick={e => e.stopPropagation()}>
+            <div className="px-6 py-4 flex items-center justify-between" style={{ borderColor: 'var(--border-neon)' }}>
+              <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{editingQuiz ? 'Edit Quiz' : 'Create Quiz'}</h2>
+              <button onClick={() => setModalOpen(false)} style={{ color: 'var(--text-muted)' }} onMouseEnter={e=>e.currentTarget.style.color='var(--text-secondary)'} onMouseLeave={e=>e.currentTarget.style.color='var(--text-muted)'}>&times;</button>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Title</label>
                 <input
                   type="text"
                   name="title"
                   value={form.title}
                   onChange={handleChange}
                   required
-                  className="input-field"
+                  className="neon-input"
                   placeholder="Quiz title"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Description</label>
                 <textarea
                   name="description"
                   value={form.description}
                   onChange={handleChange}
                   rows={3}
-                  className="input-field"
+                  className="neon-input"
                   placeholder="Optional description"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Passing Score (%)</label>
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Passing Score (%)</label>
                   <input
                     type="number"
                     name="passing_score"
@@ -207,11 +208,11 @@ export default function TeacherQuizzes() {
                     required
                     min={0}
                     max={100}
-                    className="input-field"
+                    className="neon-input"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Time Limit (min)</label>
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Time Limit (min)</label>
                   <input
                     type="number"
                     name="time_limit_minutes"
@@ -219,13 +220,13 @@ export default function TeacherQuizzes() {
                     onChange={handleChange}
                     required
                     min={1}
-                    className="input-field"
+                    className="neon-input"
                   />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Max Attempts</label>
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Max Attempts</label>
                   <input
                     type="number"
                     name="max_attempts"
@@ -233,17 +234,17 @@ export default function TeacherQuizzes() {
                     onChange={handleChange}
                     required
                     min={1}
-                    className="input-field"
+                    className="neon-input"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Course</label>
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Course</label>
                   <select
                     name="course_id"
                     value={form.course_id}
                     onChange={handleChange}
                     required
-                    className="input-field"
+                    className="neon-input"
                   >
                     <option value="">Select course</option>
                     {courses.map(c => (
@@ -252,9 +253,9 @@ export default function TeacherQuizzes() {
                   </select>
                 </div>
               </div>
-              <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
-                <button type="button" onClick={() => setModalOpen(false)} className="btn-secondary">Cancel</button>
-                <button type="submit" disabled={saving} className="btn-primary">
+              <div className="flex justify-end gap-3 pt-4" style={{ borderColor: 'var(--border-neon)' }}>
+                <button type="button" onClick={() => setModalOpen(false)} className="neon-btn-ghost">Cancel</button>
+                <button type="submit" disabled={saving} className="neon-btn">
                   {saving ? 'Saving...' : editingQuiz ? 'Update Quiz' : 'Create Quiz'}
                 </button>
               </div>

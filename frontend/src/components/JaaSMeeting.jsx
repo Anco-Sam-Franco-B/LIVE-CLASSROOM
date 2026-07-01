@@ -50,7 +50,6 @@ export default function JaaSMeeting({ meetingId, onLeave }) {
         const backendHost = import.meta.env.DEV ? 'localhost:5000' : window.location.host;
         const domain = `${protocol}//${backendHost}/jaas`;
 
-        // Intercept iframe creation to strip unrecognized "speaker-selection" from allow
         const origCreateElement = document.createElement;
         document.createElement = function (tagName, options) {
           const el = origCreateElement.call(document, tagName, options);
@@ -100,17 +99,9 @@ export default function JaaSMeeting({ meetingId, onLeave }) {
         apiRef.current = api;
         setStatus('ready');
 
-        api.addListener('readyToClose', () => {
-          handleLeave();
-        });
-
-        api.addListener('videoConferenceLeft', () => {
-          handleLeave();
-        });
-
-        api.addListener('videoConferenceJoined', () => {
-          setStatus('joined');
-        });
+        api.addListener('readyToClose', () => { handleLeave(); });
+        api.addListener('videoConferenceLeft', () => { handleLeave(); });
+        api.addListener('videoConferenceJoined', () => { setStatus('joined'); });
       } catch (err) {
         if (cancelled) return;
         const msg = err.message || '';
@@ -130,19 +121,13 @@ export default function JaaSMeeting({ meetingId, onLeave }) {
     init();
     return () => {
       cancelled = true;
-      if (apiRef.current) {
-        apiRef.current.dispose();
-        apiRef.current = null;
-      }
+      if (apiRef.current) { apiRef.current.dispose(); apiRef.current = null; }
     };
   }, [meetingId]);
 
   const handleLeave = useCallback(async () => {
     try {
-      if (apiRef.current) {
-        apiRef.current.dispose();
-        apiRef.current = null;
-      }
+      if (apiRef.current) { apiRef.current.dispose(); apiRef.current = null; }
       await meetingsAPI.leave(meetingId);
     } catch (e) {}
     onLeave?.();
@@ -153,26 +138,21 @@ export default function JaaSMeeting({ meetingId, onLeave }) {
       const cam = await navigator.permissions.query({ name: 'camera' });
       const mic = await navigator.permissions.query({ name: 'microphone' });
       return { camera: cam.state, microphone: mic.state };
-    } catch {
-      return null;
-    }
+    } catch { return null; }
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black flex flex-col">
-      <div className="bg-gray-900 px-4 py-2 flex items-center justify-between shrink-0">
-        <span className="text-white font-medium">Live Class</span>
+    <div className="fixed inset-0 z-50 flex flex-col" style={{ background: 'var(--bg-dark)' }}>
+      <div className="px-4 py-2 flex items-center justify-between shrink-0" style={{ background: 'var(--bg-dark-secondary)', borderBottom: '1px solid rgba(0,255,65,0.1)' }}>
+        <span className="font-medium" style={{ color: 'var(--text-primary)' }}>Live Class</span>
         <div className="flex items-center space-x-3">
           {status === 'ready' && (
-            <span className="text-xs text-yellow-400 flex items-center space-x-1">
+            <span className="text-xs flex items-center space-x-1" style={{ color: '#ffc800' }}>
               <Loader2 size={12} className="animate-spin" />
               <span>Connecting...</span>
             </span>
           )}
-          <button
-            onClick={handleLeave}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-lg text-sm flex items-center space-x-2 transition-colors"
-          >
+          <button onClick={handleLeave} className="neon-btn-danger flex items-center space-x-2 text-sm px-4 py-1.5">
             <LogOut size={16} />
             <span>Leave Meeting</span>
           </button>
@@ -180,36 +160,36 @@ export default function JaaSMeeting({ meetingId, onLeave }) {
       </div>
       <div ref={containerRef} className="flex-1 w-full relative">
         {status === 'joining' && (
-          <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-            <div className="bg-white rounded-xl p-8 text-center shadow-xl">
-              <Loader2 className="w-10 h-10 animate-spin text-indigo-600 mx-auto mb-4" />
-              <p className="text-lg font-medium text-gray-900">Joining meeting...</p>
-              <p className="text-sm text-gray-500 mt-2">Connecting to 8x8.vc</p>
+          <div className="absolute inset-0 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.6)' }}>
+            <div className="glass rounded-xl p-8 text-center" style={{ border: '1px solid rgba(0,255,65,0.1)' }}>
+              <Loader2 className="w-10 h-10 animate-spin mx-auto mb-4" style={{ color: 'var(--neon)' }} />
+              <p className="text-lg font-medium" style={{ color: 'var(--text-primary)' }}>Joining meeting...</p>
+              <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>Connecting to 8x8.vc</p>
             </div>
           </div>
         )}
         {status === 'warning' && (
-          <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-            <div className="bg-white rounded-xl p-8 max-w-md text-center shadow-xl">
-              <ShieldX className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-              <p className="text-amber-600 mb-2">{error}</p>
-              <p className="text-sm text-gray-500 mb-4">The meeting will still load but some features may be limited.</p>
-              <button onClick={handleLeave} className="btn-primary">Close</button>
+          <div className="absolute inset-0 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.6)' }}>
+            <div className="glass rounded-xl p-8 max-w-md text-center" style={{ border: '1px solid rgba(255,200,0,0.2)' }}>
+              <ShieldX className="w-12 h-12 mx-auto mb-4" style={{ color: '#ffc800' }} />
+              <p className="mb-2" style={{ color: '#ffc800' }}>{error}</p>
+              <p className="text-sm mb-4" style={{ color: 'var(--text-muted)' }}>The meeting will still load but some features may be limited.</p>
+              <button onClick={handleLeave} className="neon-btn">Close</button>
             </div>
           </div>
         )}
         {status === 'error' && (
-          <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-            <div className="bg-white rounded-xl p-8 max-w-md text-center shadow-xl">
+          <div className="absolute inset-0 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.6)' }}>
+            <div className="glass rounded-xl p-8 max-w-md text-center" style={{ border: '1px solid rgba(0,255,65,0.1)' }}>
               {errorType === 'network' ? (
-                <Wifi className="w-12 h-12 text-red-500 mx-auto mb-4" />
+                <Wifi className="w-12 h-12 mx-auto mb-4" style={{ color: '#ff3232' }} />
               ) : errorType === 'config' ? (
-                <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
+                <AlertTriangle className="w-12 h-12 mx-auto mb-4" style={{ color: '#ffc800' }} />
               ) : (
-                <Video className="w-12 h-12 text-red-500 mx-auto mb-4" />
+                <Video className="w-12 h-12 mx-auto mb-4" style={{ color: '#ff3232' }} />
               )}
-              <p className={`mb-4 ${errorType === 'config' ? 'text-amber-600' : 'text-red-600'}`}>{error}</p>
-              <button onClick={handleLeave} className="btn-primary">Close</button>
+              <p className={`mb-4 ${errorType === 'config' ? 'text-amber-400' : 'text-red-400'}`}>{error}</p>
+              <button onClick={handleLeave} className="neon-btn">Close</button>
             </div>
           </div>
         )}

@@ -24,9 +24,11 @@ export default function SearchInput({ value, onChange, placeholder = 'Search...'
 
   return (
     <div className={`relative ${className}`}>
-      <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-      <input type="text" value={local} onChange={e => setLocal(e.target.value)} className="input-field pl-10 pr-10" placeholder={placeholder} />
-      {local && <button onClick={() => setLocal('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"><X size={16} /></button>}
+      <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
+      <input type="text" value={local} onChange={e => setLocal(e.target.value)} className="neon-input pl-10 pr-10" placeholder={placeholder} />
+      {local && <button onClick={() => setLocal('')} className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors" style={{ color: 'var(--text-muted)' }}
+        onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+        onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}><X size={16} /></button>}
     </div>
   );
 }

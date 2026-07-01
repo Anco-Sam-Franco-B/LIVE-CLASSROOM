@@ -44,7 +44,7 @@ export default function CourseManagement() {
 
   return (
     <div>
-      <PageHeader title="Course Management" description={`${total} courses found`} actions={<button onClick={() => navigate('/admin/courses/create')} className="btn-primary flex items-center space-x-2"><Plus size={20} /><span>Add Course</span></button>} />
+      <PageHeader title="Course Management" description={`${total} courses found`} actions={<button onClick={() => navigate('/admin/courses/create')} className="neon-btn flex items-center space-x-2"><Plus size={20} /><span>Add Course</span></button>} />
       <div className="flex gap-4 mb-6">
         <SearchInput value={search} onChange={v => { setSearch(v); setPage(1); }} placeholder="Search courses..." className="flex-1" />
       </div>
@@ -52,32 +52,32 @@ export default function CourseManagement() {
         <EmptyState icon={BookOpen} title="No courses found" description="Try adjusting your search." />
       ) : (
         <>
-          <div className="card overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="neon-card overflow-hidden">
+            <table className="w-full text-sm neon-table">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 font-medium text-gray-500">Course</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-500">Teacher</th>
-                  <th className="text-center py-3 px-4 font-medium text-gray-500">Price</th>
-                  <th className="text-center py-3 px-4 font-medium text-gray-500">Students</th>
-                  <th className="text-center py-3 px-4 font-medium text-gray-500">Status</th>
-                  <th className="text-right py-3 px-4 font-medium text-gray-500">Actions</th>
+                <tr className="border-b" style={{ borderColor: 'var(--border-neon)' }}>
+                  <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Course</th>
+                  <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Teacher</th>
+                  <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Price</th>
+                  <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Students</th>
+                  <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Status</th>
+                  <th className="text-right py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {courses.map((c) => (
-                  <tr key={c.id} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="py-3 px-4 font-medium text-gray-900 max-w-xs truncate">{c.title}</td>
-                    <td className="py-3 px-4 text-gray-600">{c.teacher_name}</td>
-                    <td className="py-3 px-4 text-center text-gray-600">{c.is_free ? 'Free' : `UGX ${parseFloat(c.price).toLocaleString()}`}</td>
-                    <td className="py-3 px-4 text-center text-gray-600">{c.enrollment_count}</td>
+                  <tr key={c.id} className="border-b" style={{ borderColor: 'var(--border-neon)' }} onMouseEnter={e=>e.currentTarget.style.background='rgba(0,255,65,0.05)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
+                    <td className="py-3 px-4 font-medium max-w-xs truncate" style={{ color: 'var(--text-primary)' }}>{c.title}</td>
+                    <td className="py-3 px-4" style={{ color: 'var(--text-secondary)' }}>{c.teacher_name}</td>
+                    <td className="py-3 px-4 text-center" style={{ color: 'var(--text-secondary)' }}>{c.is_free ? 'Free' : `UGX ${parseFloat(c.price).toLocaleString()}`}</td>
+                    <td className="py-3 px-4 text-center" style={{ color: 'var(--text-secondary)' }}>{c.enrollment_count}</td>
                     <td className="py-3 px-4 text-center">
-                      <span className={`badge ${c.status === 'published' ? 'badge-success' : 'badge-warning'}`}>{c.status}</span>
+                      <span className={`neon-badge ${c.status === 'published' ? 'neon-badge-success' : 'neon-badge-warning'}`}>{c.status}</span>
                     </td>
                     <td className="py-3 px-4 text-right">
                       <div className="flex justify-end space-x-2">
-                        <button onClick={() => navigate(`/admin/courses/${c.id}/edit`)} className="btn-outline p-2"><Eye size={16} /></button>
-                        <button onClick={() => setConfirm({ action: () => deleteCourse(c.id), title: 'Delete Course', message: `Delete "${c.title}"? This cannot be undone.` })} className="btn-danger p-2"><Trash2 size={16} /></button>
+                        <button onClick={() => navigate(`/admin/courses/${c.id}/edit`)} className="neon-btn-outline p-2"><Eye size={16} /></button>
+                        <button onClick={() => setConfirm({ action: () => deleteCourse(c.id), title: 'Delete Course', message: `Delete "${c.title}"? This cannot be undone.` })} className="neon-btn-danger p-2"><Trash2 size={16} /></button>
                       </div>
                     </td>
                   </tr>

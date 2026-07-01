@@ -15,16 +15,23 @@ function SidebarTile({ trackRef, isSelected, onSelect }) {
   return (
     <button
       onClick={() => onSelect(participant?.identity)}
-      className={`relative w-full aspect-video rounded-xl overflow-hidden bg-gray-800 transition-all cursor-pointer group text-left ${
+      className={`relative w-full aspect-video rounded-xl overflow-hidden transition-all cursor-pointer group text-left ${
         isSelected
-          ? 'ring-2 ring-indigo-500 shadow-lg shadow-indigo-500/20'
+          ? 'ring-2 shadow-lg'
           : isSpeaking
-            ? 'ring-2 ring-green-500 shadow-lg shadow-green-500/15'
-            : 'ring-1 ring-white/5 hover:ring-white/20'
+            ? 'ring-2 shadow-lg'
+            : 'ring-1 hover:ring-white/20'
       }`}
+      style={{
+        background: 'var(--bg-dark-secondary)',
+        ...(isSelected ? { boxShadow: '0 0 20px rgba(0,255,65,0.2)', borderColor: 'var(--neon)' } : {}),
+        ...(isSpeaking && !isSelected ? { boxShadow: '0 0 20px rgba(0,255,65,0.15)', borderColor: 'var(--neon)' } : {}),
+        ...(!isSelected && !isSpeaking ? { borderColor: 'rgba(255,255,255,0.05)' } : {}),
+      }}
     >
-      <div className="absolute inset-0 flex items-center justify-center bg-gray-800 z-0">
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-medium">
+      <div className="absolute inset-0 flex items-center justify-center z-0" style={{ background: 'var(--bg-dark-secondary)' }}>
+        <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-medium"
+          style={{ background: 'linear-gradient(135deg, var(--neon), var(--neon-dark))' }}>
           {initial}
         </div>
       </div>
@@ -42,7 +49,7 @@ function SidebarTile({ trackRef, isSelected, onSelect }) {
           )}
           <span className="text-white text-[10px] font-medium truncate">{name}</span>
           {isLocal && <span className="text-gray-400 text-[9px]">(you)</span>}
-          {isScreenShare && <Monitor size={10} className="text-indigo-400 shrink-0" />}
+          {isScreenShare && <Monitor size={10} style={{ color: 'var(--neon)' }} className="shrink-0" />}
         </div>
       </div>
     </button>
@@ -60,12 +67,16 @@ function MainView({ trackRef }) {
 
   return (
     <div
-      className={`relative w-full h-full rounded-2xl overflow-hidden bg-gray-800 ${
-        isSpeaking ? 'ring-2 ring-green-500 shadow-lg shadow-green-500/20' : 'ring-1 ring-white/5'
-      }`}
+      className="relative w-full h-full rounded-2xl overflow-hidden"
+      style={{
+        background: 'var(--bg-dark-secondary)',
+        ...(isSpeaking ? { boxShadow: '0 0 25px rgba(0,255,65,0.2)', borderColor: 'var(--neon)' } : {}),
+        border: isSpeaking ? '2px solid var(--neon)' : '1px solid rgba(255,255,255,0.05)',
+      }}
     >
-      <div className="absolute inset-0 flex items-center justify-center bg-gray-800 z-0">
-        <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-4xl sm:text-5xl font-medium shadow-lg shadow-indigo-500/20">
+      <div className="absolute inset-0 flex items-center justify-center z-0" style={{ background: 'var(--bg-dark-secondary)' }}>
+        <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full flex items-center justify-center text-white text-4xl sm:text-5xl font-medium"
+          style={{ background: 'linear-gradient(135deg, var(--neon), var(--neon-dark))' }}>
           {initial}
         </div>
       </div>
@@ -75,7 +86,8 @@ function MainView({ trackRef }) {
       </div>
 
       {isScreenShare && (
-        <div className="absolute top-3 left-3 z-20 flex items-center gap-1 px-2.5 py-1.5 bg-indigo-600/90 backdrop-blur-sm rounded-lg text-white text-xs font-medium">
+        <div className="absolute top-3 left-3 z-20 flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-white text-xs font-medium"
+          style={{ background: 'rgba(0,255,65,0.2)', backdropFilter: 'blur(4px)' }}>
           <Monitor size={14} />
           <span>Screen Share</span>
         </div>
@@ -100,12 +112,12 @@ function WaitingRoom() {
   return (
     <div className="flex items-center justify-center h-full p-8">
       <div className="text-center space-y-3">
-        <div className="w-12 h-12 rounded-2xl bg-gray-800/80 flex items-center justify-center mx-auto">
-          <div className="w-5 h-5 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
+        <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto" style={{ background: 'rgba(26,26,37,0.8)' }}>
+          <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: 'var(--neon)', borderTopColor: 'transparent' }} />
         </div>
         <div>
-          <p className="text-gray-100 font-medium">Waiting for participants...</p>
-          <p className="text-gray-500 text-sm mt-1">You are the first one here</p>
+          <p className="font-medium" style={{ color: 'var(--text-primary)' }}>Waiting for participants...</p>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>You are the first one here</p>
         </div>
       </div>
     </div>
@@ -150,21 +162,22 @@ export default function MeetingLayout() {
         />
       ))}
       {sidebarTracks.length === 0 && (
-        <p className="text-gray-500 text-[10px] text-center py-4">No other participants</p>
+        <p className="text-center py-4" style={{ color: 'var(--text-muted)' }}>No other participants</p>
       )}
     </div>
   );
 
   return (
     <div className="relative flex h-full">
-      {/* Mobile overlay sidebar */}
       {sidebarOpen && (
         <div className="lg:hidden fixed inset-0 z-30 flex">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
-          <aside className="relative w-56 bg-gray-900/95 backdrop-blur-xl border-r border-gray-800/60 flex flex-col p-2 overflow-y-auto">
+          <aside className="relative w-56 flex flex-col p-2 overflow-y-auto" style={{ background: 'rgba(18,18,26,0.95)', backdropFilter: 'blur(24px)', borderRight: '1px solid rgba(0,255,65,0.1)' }}>
             <div className="flex items-center justify-between mb-2 px-1">
-              <span className="text-white text-xs font-medium">Participants</span>
-              <button onClick={() => setSidebarOpen(false)} className="text-gray-400 hover:text-white p-1 rounded-lg hover:bg-gray-800 transition-colors">
+              <span className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>Participants</span>
+              <button onClick={() => setSidebarOpen(false)} className="p-1 rounded-lg transition-colors" style={{ color: 'var(--text-muted)' }}
+                onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>
                 <X size={14} />
               </button>
             </div>
@@ -173,34 +186,36 @@ export default function MeetingLayout() {
         </div>
       )}
 
-      {/* Desktop sidebar */}
       <aside
         className={`hidden lg:flex flex-col shrink-0 transition-all duration-300 ease-in-out overflow-hidden ${
           sidebarOpen ? 'w-44 xl:w-52 p-2' : 'w-0 p-0'
         }`}
       >
         <div className="flex items-center justify-between mb-2 px-1 shrink-0">
-          <span className="text-gray-400 text-xs font-medium">Participants</span>
-          <button onClick={() => setSidebarOpen(false)} className="text-gray-500 hover:text-white p-1 rounded-lg hover:bg-gray-800/60 transition-colors">
+          <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>Participants</span>
+          <button onClick={() => setSidebarOpen(false)} className="p-1 rounded-lg transition-colors" style={{ color: 'var(--text-muted)' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)'; }}>
             <X size={12} />
           </button>
         </div>
         {sidebarOpen && sidebarContent}
       </aside>
 
-      {/* Main view */}
       <main className="relative flex-1 min-w-0 min-h-0">
         {mainTrack ? <MainView trackRef={mainTrack} /> : (
-          <div className="flex items-center justify-center h-full bg-gray-900 rounded-2xl">
-            <p className="text-gray-500 text-sm">No participants yet</p>
+          <div className="flex items-center justify-center h-full rounded-2xl" style={{ background: 'var(--bg-dark)' }}>
+            <p style={{ color: 'var(--text-muted)' }}>No participants yet</p>
           </div>
         )}
 
-        {/* Hamburger overlay - visible when sidebar is closed on any screen */}
         {!sidebarOpen && (
           <button
             onClick={() => setSidebarOpen(true)}
-            className="absolute top-2 left-2 z-20 p-2 rounded-xl bg-gray-800/90 hover:bg-gray-700/90 text-white transition-colors shadow-lg backdrop-blur-sm"
+            className="absolute top-2 left-2 z-20 p-2 rounded-xl text-white transition-colors shadow-lg backdrop-blur-sm"
+            style={{ background: 'rgba(26,26,37,0.9)' }}
+            onMouseEnter={e => e.currentTarget.style.background = 'rgba(34,34,51,0.9)'}
+            onMouseLeave={e => e.currentTarget.style.background = 'rgba(26,26,37,0.9)'}
             title="Show participants"
           >
             <Menu size={16} />

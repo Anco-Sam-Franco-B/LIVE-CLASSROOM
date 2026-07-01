@@ -118,26 +118,25 @@ export default function UserManagement() {
       {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
 
       <PageHeader title="User Management" description={`${total} users found`} actions={
-        <button onClick={openAdd} className="btn-primary flex items-center gap-2"><UserPlus size={18} /><span>Add User</span></button>
+        <button onClick={openAdd} className="neon-btn flex items-center gap-2"><UserPlus size={18} /><span>Add User</span></button>
       } />
 
       <div className="flex flex-wrap gap-4 mb-6">
-        <DebouncedInput value={search} onChange={v => { setSearch(v); setPage(1); }} placeholder="Search users..." className="flex-1 min-w-[200px] input-field" />
-        <select value={roleFilter} onChange={e => { setRoleFilter(e.target.value); setPage(1); }} className="input-field w-auto">
+        <DebouncedInput value={search} onChange={v => { setSearch(v); setPage(1); }} placeholder="Search users..." className="flex-1 min-w-[200px] neon-input" />
+        <select value={roleFilter} onChange={e => { setRoleFilter(e.target.value); setPage(1); }} className="neon-input w-auto">
           <option value="">All Roles</option>
           {roles.map(r => <option key={r.id} value={r.slug}>{r.name}</option>)}
         </select>
       </div>
 
-      {/* Add/Edit Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => { if (!saving) setShowModal(null); }}>
-          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                {editTarget ? <><Edit3 size={20} className="text-indigo-500" /> Edit User</> : <><UserPlus size={20} className="text-indigo-500" /> Add User</>}
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.6)' }} onClick={() => { if (!saving) setShowModal(null); }}>
+          <div className="max-w-lg w-full max-h-[90vh] overflow-y-auto" style={{ background: 'var(--bg-card)', borderRadius: '16px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }} onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: 'var(--border-neon)' }}>
+              <h2 className="text-lg font-semibold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                {editTarget ? <><Edit3 size={20} style={{ color: 'var(--neon)' }} /> Edit User</> : <><UserPlus size={20} style={{ color: 'var(--neon)' }} /> Add User</>}
               </h2>
-              <button onClick={() => setShowModal(null)} disabled={saving} className="p-2 hover:bg-gray-100 rounded-lg text-gray-500"><X size={20} /></button>
+              <button onClick={() => setShowModal(null)} disabled={saving} className="p-2 rounded-lg" style={{ color: 'var(--text-muted)' }} onMouseEnter={e=>{e.currentTarget.style.background='rgba(0,255,65,0.05)';e.currentTarget.style.color='var(--text-primary)'}} onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}}><X size={20} /></button>
             </div>
             <form onSubmit={handleSubmit} className="p-4 space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -154,15 +153,15 @@ export default function UserManagement() {
               </div>
               {editTarget && (
                 <label className="flex items-center gap-2.5 text-sm cursor-pointer">
-                  <input type="checkbox" checked={form.isActive} onChange={e => setForm({ ...form, isActive: e.target.checked })} className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
-                  <span className="text-gray-700 font-medium">Account Active</span>
+                  <input type="checkbox" checked={form.isActive} onChange={e => setForm({ ...form, isActive: e.target.checked })} className="w-4 h-4 rounded" style={{ borderColor: 'var(--border-neon)' }} />
+                  <span className="font-medium" style={{ color: 'var(--text-secondary)' }}>Account Active</span>
                 </label>
               )}
-              <div className="flex gap-3 pt-2 border-t border-gray-200">
-                <button type="submit" disabled={saving} className="btn-primary flex items-center gap-2">
+              <div className="flex gap-3 pt-2 border-t" style={{ borderColor: 'var(--border-neon)' }}>
+                <button type="submit" disabled={saving} className="neon-btn flex items-center gap-2">
                   <Save size={16} />{saving ? 'Saving...' : editTarget ? 'Update User' : 'Create User'}
                 </button>
-                <button type="button" onClick={() => setShowModal(null)} disabled={saving} className="btn-secondary">Cancel</button>
+                <button type="button" onClick={() => setShowModal(null)} disabled={saving} className="neon-btn-ghost">Cancel</button>
               </div>
             </form>
           </div>
@@ -173,64 +172,64 @@ export default function UserManagement() {
         <EmptyState icon={UserCog} title="No users found" description="Try adjusting your search or filter." />
       ) : (
         <>
-          <div className="card overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="neon-card overflow-hidden">
+            <table className="w-full text-sm neon-table">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 font-medium text-gray-500">User</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-500">Email</th>
-                  <th className="text-center py-3 px-4 font-medium text-gray-500">Role</th>
-                  <th className="text-center py-3 px-4 font-medium text-gray-500">Status</th>
-                  <th className="text-center py-3 px-4 font-medium text-gray-500">Verified</th>
-                  <th className="text-right py-3 px-4 font-medium text-gray-500">Actions</th>
+                <tr className="border-b" style={{ borderColor: 'var(--border-neon)' }}>
+                  <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>User</th>
+                  <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Email</th>
+                  <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Role</th>
+                  <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Status</th>
+                  <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Verified</th>
+                  <th className="text-right py-3 px-4 font-medium" style={{ color: 'var(--text-muted)' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((u) => (
-                  <tr key={u.id} className="border-b border-gray-100 hover:bg-gray-50">
+                  <tr key={u.id} className="border-b" style={{ borderColor: 'var(--border-neon)' }} onMouseEnter={e=>e.currentTarget.style.background='rgba(0,255,65,0.05)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
                     <td className="py-3 px-4">
                       <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
-                          <span className="text-xs font-medium text-indigo-600">{u.first_name?.[0]}{u.last_name?.[0]}</span>
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(0,255,65,0.1)' }}>
+                          <span className="text-xs font-medium" style={{ color: 'var(--neon)' }}>{u.first_name?.[0]}{u.last_name?.[0]}</span>
                         </div>
-                        <span className="font-medium text-gray-900">{u.first_name} {u.last_name}</span>
+                        <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{u.first_name} {u.last_name}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-gray-600">{u.email}</td>
+                    <td className="py-3 px-4" style={{ color: 'var(--text-secondary)' }}>{u.email}</td>
                     <td className="py-3 px-4 text-center">
                       {editingRole === u.id ? (
                         <div className="flex items-center justify-center space-x-1">
-                          <select value={selectedRoleId} onChange={e => setSelectedRoleId(Number(e.target.value))} className="text-xs border border-gray-300 rounded px-2 py-1" autoFocus>
+                          <select value={selectedRoleId} onChange={e => setSelectedRoleId(Number(e.target.value))} className="text-xs px-2 py-1 rounded neon-input" style={{ border: '1px solid var(--border-neon)' }} autoFocus>
                             {roles.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
                           </select>
-                          <button onClick={() => saveRole(u.id)} className="p-1 text-green-600 hover:bg-green-50 rounded"><Check size={14} /></button>
-                          <button onClick={cancelEdit} className="p-1 text-red-600 hover:bg-red-50 rounded"><X size={14} /></button>
+                          <button onClick={() => saveRole(u.id)} className="p-1 rounded" style={{ color: 'var(--neon)' }} onMouseEnter={e=>e.currentTarget.style.background='rgba(0,255,65,0.1)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}><Check size={14} /></button>
+                          <button onClick={cancelEdit} className="p-1 rounded" style={{ color: '#ff3232' }} onMouseEnter={e=>e.currentTarget.style.background='rgba(255,50,50,0.1)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}><X size={14} /></button>
                         </div>
                       ) : (
-                        <span className="badge badge-info">{u.role_name}</span>
+                        <span className="neon-badge neon-badge-info">{u.role_name}</span>
                       )}
                     </td>
                     <td className="py-3 px-4 text-center">
-                      <span className={`badge ${u.is_active ? 'badge-success' : 'badge-danger'}`}>{u.is_active ? 'Active' : 'Inactive'}</span>
-                      {u.is_locked && <span className="badge badge-danger ml-1">Locked</span>}
+                      <span className={`neon-badge ${u.is_active ? 'neon-badge-success' : 'neon-badge-danger'}`}>{u.is_active ? 'Active' : 'Inactive'}</span>
+                      {u.is_locked && <span className="neon-badge neon-badge-danger ml-1">Locked</span>}
                     </td>
                     <td className="py-3 px-4 text-center">
-                      <span className={`badge ${u.is_verified ? 'badge-success' : 'badge-warning'}`}>{u.is_verified ? 'Yes' : 'No'}</span>
+                      <span className={`neon-badge ${u.is_verified ? 'neon-badge-success' : 'neon-badge-warning'}`}>{u.is_verified ? 'Yes' : 'No'}</span>
                     </td>
                     <td className="py-3 px-4 text-right">
                       <div className="flex justify-end space-x-1">
                         {editingRole !== u.id && (
-                          <button onClick={() => startEditRole(u)} className="p-2 rounded-lg text-indigo-600 hover:bg-indigo-50" title="Change role">
+                          <button onClick={() => startEditRole(u)} className="p-2 rounded-lg" style={{ color: 'var(--neon)' }} onMouseEnter={e=>e.currentTarget.style.background='rgba(0,255,65,0.1)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'} title="Change role">
                             <Edit3 size={15} />
                           </button>
                         )}
-                        <button onClick={() => openEdit(u)} className="p-2 rounded-lg text-blue-600 hover:bg-blue-50" title="Edit user">
+                        <button onClick={() => openEdit(u)} className="p-2 rounded-lg" style={{ color: '#0096ff' }} onMouseEnter={e=>e.currentTarget.style.background='rgba(0,150,255,0.1)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'} title="Edit user">
                           <UserCog size={15} />
                         </button>
-                        <button onClick={() => toggleLock(u.id, u.is_locked)} className={`p-2 rounded-lg ${u.is_locked ? 'text-green-600 hover:bg-green-50' : 'text-orange-600 hover:bg-orange-50'}`} title={u.is_locked ? 'Unlock' : 'Lock'}>
+                        <button onClick={() => toggleLock(u.id, u.is_locked)} className="p-2 rounded-lg" style={{ color: u.is_locked ? 'var(--neon)' : '#ffc800' }} onMouseEnter={e=>e.currentTarget.style.background = u.is_locked ? 'rgba(0,255,65,0.1)' : 'rgba(255,200,0,0.1)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'} title={u.is_locked ? 'Unlock' : 'Lock'}>
                           {u.is_locked ? <Unlock size={15} /> : <Lock size={15} />}
                         </button>
-                        <button onClick={() => setConfirm({ action: () => deleteUser(u.id), title: 'Delete User', message: `Are you sure you want to delete ${u.first_name} ${u.last_name}? This cannot be undone.` })} className="p-2 rounded-lg text-red-600 hover:bg-red-50" title="Delete">
+                        <button onClick={() => setConfirm({ action: () => deleteUser(u.id), title: 'Delete User', message: `Are you sure you want to delete ${u.first_name} ${u.last_name}? This cannot be undone.` })} className="p-2 rounded-lg" style={{ color: '#ff3232' }} onMouseEnter={e=>e.currentTarget.style.background='rgba(255,50,50,0.1)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'} title="Delete">
                           <Trash2 size={15} />
                         </button>
                       </div>

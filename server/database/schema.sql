@@ -836,3 +836,21 @@ CREATE TABLE IF NOT EXISTS system_settings (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- ============================================
+-- CMS PAGES (Public Page Content)
+-- ============================================
+
+CREATE TABLE IF NOT EXISTS cms_pages (
+  id SERIAL PRIMARY KEY,
+  page VARCHAR(50) NOT NULL,
+  section VARCHAR(50) NOT NULL,
+  content JSONB NOT NULL DEFAULT '{}',
+  is_active BOOLEAN DEFAULT true,
+  updated_by UUID REFERENCES users(id) ON DELETE SET NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(page, section)
+);
+
+CREATE INDEX IF NOT EXISTS idx_cms_pages_page ON cms_pages(page);

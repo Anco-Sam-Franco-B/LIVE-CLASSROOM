@@ -4,8 +4,12 @@ import { CheckCircle, XCircle, AlertTriangle, Info, X } from 'lucide-react';
 const ToastContext = createContext();
 
 const icons = { success: CheckCircle, error: XCircle, warning: AlertTriangle, info: Info };
-const colors = { success: 'bg-green-50 border-green-200 text-green-800', error: 'bg-red-50 border-red-200 text-red-800', warning: 'bg-orange-50 border-orange-200 text-orange-800', info: 'bg-blue-50 border-blue-200 text-blue-800' };
-const iconColors = { success: 'text-green-500', error: 'text-red-500', warning: 'text-orange-500', info: 'text-blue-500' };
+const colors = {
+  success: { bg: 'rgba(0,255,65,0.1)', border: 'rgba(0,255,65,0.3)', text: 'var(--neon)' },
+  error: { bg: 'rgba(255,50,50,0.1)', border: 'rgba(255,50,50,0.3)', text: '#ff3232' },
+  warning: { bg: 'rgba(255,200,0,0.1)', border: 'rgba(255,200,0,0.3)', text: '#ffc800' },
+  info: { bg: 'rgba(0,150,255,0.1)', border: 'rgba(0,150,255,0.3)', text: '#0096ff' },
+};
 
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
@@ -26,11 +30,13 @@ export function ToastProvider({ children }) {
       <div className="fixed top-4 right-4 z-50 space-y-2 max-w-sm">
         {toasts.map(t => {
           const Icon = icons[t.type];
+          const c = colors[t.type];
           return (
-            <div key={t.id} className={`flex items-start gap-3 px-4 py-3 rounded-lg border shadow-lg animate-slide-in ${colors[t.type]}`}>
-              <Icon size={20} className={`shrink-0 mt-0.5 ${iconColors[t.type]}`} />
-              <p className="text-sm flex-1">{t.message}</p>
-              <button onClick={() => removeToast(t.id)} className="shrink-0 hover:opacity-70"><X size={16} /></button>
+            <div key={t.id} className="flex items-start gap-3 px-4 py-3 rounded-lg shadow-lg animate-slide-in backdrop-blur-xl"
+              style={{ background: c.bg, border: `1px solid ${c.border}`, color: c.text }}>
+              <Icon size={20} className="shrink-0 mt-0.5" />
+              <p className="text-sm flex-1" style={{ color: 'var(--text-primary)' }}>{t.message}</p>
+              <button onClick={() => removeToast(t.id)} className="shrink-0 hover:opacity-70" style={{ color: c.text }}><X size={16} /></button>
             </div>
           );
         })}
@@ -47,10 +53,12 @@ export function useToast() {
 
 export default function Toast({ type = 'info', message, onClose }) {
   const Icon = icons[type] || Info;
+  const c = colors[type];
   return (
-    <div className={`fixed top-4 right-4 z-50 flex items-start gap-3 px-4 py-3 rounded-lg border shadow-lg animate-slide-in ${colors[type]}`}>
-      <Icon size={20} className={`shrink-0 mt-0.5 ${iconColors[type]}`} />
-      <p className="text-sm flex-1">{message}</p>
+    <div className="fixed top-4 right-4 z-50 flex items-start gap-3 px-4 py-3 rounded-lg border shadow-lg animate-slide-in backdrop-blur-xl"
+      style={{ background: c.bg, borderColor: c.border, color: c.text }}>
+      <Icon size={20} className="shrink-0 mt-0.5" />
+      <p className="text-sm flex-1" style={{ color: 'var(--text-primary)' }}>{message}</p>
       {onClose && <button onClick={onClose} className="shrink-0 hover:opacity-70"><X size={16} /></button>}
     </div>
   );

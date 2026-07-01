@@ -414,11 +414,14 @@ const [draggingLesson, setDraggingLesson] = useState(null);
   useEffect(() => { if (activeTab === 'certificates') loadCertificateTemplates(); }, [activeTab]);
 
   if (loading) return <><PageHeader title="Course Builder" /><CardSkeleton count={5} /></>;
-  if (!course) return <div className="text-center py-12 text-gray-500">Course not found</div>;
+  if (!course) return <div className="text-center py-12" style={{ color: 'var(--text-secondary)' }}>Course not found</div>;
 
   const TabButton = ({ tab, icon: Icon }) => (
     <button onClick={() => setActiveTab(tab.id)}
-      className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${activeTab === tab.id ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : 'text-gray-600 hover:bg-gray-100'}`}>
+      className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${activeTab === tab.id ? 'text-white' : ''}`}
+      style={activeTab === tab.id ? { background: 'var(--neon)' } : { color: 'var(--text-secondary)' }}
+      onMouseEnter={e => { if (activeTab !== tab.id) { e.currentTarget.style.background = 'var(--bg-card)'; } }}
+      onMouseLeave={e => { if (activeTab !== tab.id) { e.currentTarget.style.background = 'transparent'; } }}>
       <Icon size={16} /><span>{tab.label}</span>
     </button>
   );
@@ -428,8 +431,8 @@ const [draggingLesson, setDraggingLesson] = useState(null);
       <PageHeader title={course.title || 'Course Builder'} description="Manage your course content, structure, and assessments"
         actions={
           <div className="flex items-center space-x-2">
-            <span className={`badge ${course.is_published ? 'badge-success' : 'badge-warning'}`}>{course.is_published ? 'Published' : 'Draft'}</span>
-            <button onClick={async () => { try { await coursesAPI.publish(courseId); loadCourse(); toast('Status updated', 'success'); } catch { toast('Failed', 'error'); } }} className="btn-outline text-sm">
+            <span className={`neon-badge ${course.is_published ? 'neon-badge-success' : 'neon-badge-warning'}`}>{course.is_published ? 'Published' : 'Draft'}</span>
+            <button onClick={async () => { try { await coursesAPI.publish(courseId); loadCourse(); toast('Status updated', 'success'); } catch { toast('Failed', 'error'); } }} className="neon-btn-outline text-sm">
               {course.is_published ? 'Unpublish' : 'Publish'}
             </button>
           </div>
@@ -445,24 +448,24 @@ const [draggingLesson, setDraggingLesson] = useState(null);
       {activeTab === 'details' && (
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
-            <div className="card">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Course Information</h2>
+            <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
+              <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Course Information</h2>
               <form onSubmit={updateCourse} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                    <input type="text" required value={editForm.title} onChange={e => setEditForm({ ...editForm, title: e.target.value })} className="input-field text-lg" />
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Title</label>
+                    <input type="text" required value={editForm.title} onChange={e => setEditForm({ ...editForm, title: e.target.value })} className="neon-input text-lg" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                    <select value={editForm.categoryId} onChange={e => setEditForm({ ...editForm, categoryId: e.target.value })} className="input-field">
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Category</label>
+                    <select value={editForm.categoryId} onChange={e => setEditForm({ ...editForm, categoryId: e.target.value })} className="neon-input">
                       <option value="">Select</option>
                       {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Level</label>
-                    <select value={editForm.level} onChange={e => setEditForm({ ...editForm, level: e.target.value })} className="input-field">
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Level</label>
+                    <select value={editForm.level} onChange={e => setEditForm({ ...editForm, level: e.target.value })} className="neon-input">
                       <option value="beginner">Beginner</option>
                       <option value="intermediate">Intermediate</option>
                       <option value="advanced">Advanced</option>
@@ -470,31 +473,31 @@ const [draggingLesson, setDraggingLesson] = useState(null);
                     </select>
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Short Description</label>
-                    <textarea rows={2} value={editForm.shortDescription} onChange={e => setEditForm({ ...editForm, shortDescription: e.target.value })} className="input-field" />
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Short Description</label>
+                    <textarea rows={2} value={editForm.shortDescription} onChange={e => setEditForm({ ...editForm, shortDescription: e.target.value })} className="neon-input" />
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Full Description</label>
-                    <textarea rows={5} value={editForm.description} onChange={e => setEditForm({ ...editForm, description: e.target.value })} className="input-field" />
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Full Description</label>
+                    <textarea rows={5} value={editForm.description} onChange={e => setEditForm({ ...editForm, description: e.target.value })} className="neon-input" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Price (UGX)</label>
-                    <input type="number" value={editForm.price} onChange={e => setEditForm({ ...editForm, price: e.target.value })} className="input-field" />
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Price (UGX)</label>
+                    <input type="number" value={editForm.price} onChange={e => setEditForm({ ...editForm, price: e.target.value })} className="neon-input" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Language</label>
-                    <input type="text" value={editForm.language} onChange={e => setEditForm({ ...editForm, language: e.target.value })} className="input-field" />
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Language</label>
+                    <input type="text" value={editForm.language} onChange={e => setEditForm({ ...editForm, language: e.target.value })} className="neon-input" />
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Requirements (one per line)</label>
-                    <textarea rows={3} value={editForm.requirements} onChange={e => setEditForm({ ...editForm, requirements: e.target.value })} className="input-field" />
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Requirements (one per line)</label>
+                    <textarea rows={3} value={editForm.requirements} onChange={e => setEditForm({ ...editForm, requirements: e.target.value })} className="neon-input" />
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Learning Objectives (one per line)</label>
-                    <textarea rows={3} value={editForm.learningObjectives} onChange={e => setEditForm({ ...editForm, learningObjectives: e.target.value })} className="input-field" />
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Learning Objectives (one per line)</label>
+                    <textarea rows={3} value={editForm.learningObjectives} onChange={e => setEditForm({ ...editForm, learningObjectives: e.target.value })} className="neon-input" />
                   </div>
                 </div>
-                <button type="submit" disabled={saving} className={`btn-primary flex items-center space-x-2 ${saving ? 'btn-loading' : ''}`}>
+                <button type="submit" disabled={saving} className="neon-btn flex items-center space-x-2">
                   <Save size={18} /><span>{saving ? 'Saving...' : 'Save Changes'}</span>
                 </button>
               </form>
@@ -502,28 +505,29 @@ const [draggingLesson, setDraggingLesson] = useState(null);
           </div>
 
           <div className="space-y-6">
-            <div className="card">
-              <h2 className="text-sm font-semibold text-gray-900 mb-3">Cover Image</h2>
-              <div onClick={() => fileRef.current?.click()} className="border-2 border-dashed border-gray-300 rounded-lg overflow-hidden cursor-pointer hover:border-indigo-400 transition-colors">
+            <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
+              <h2 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Cover Image</h2>
+              <div onClick={() => fileRef.current?.click()} className="border-2 border-dashed rounded-lg overflow-hidden cursor-pointer transition-colors" style={{ borderColor: 'var(--border-neon)' }}
+                onMouseEnter={e=>e.currentTarget.style.borderColor='var(--neon)'} onMouseLeave={e=>e.currentTarget.style.borderColor='var(--border-neon)'}>
                 {coverPreview ? (
                   <img src={coverPreview} alt="Cover" className="w-full h-36 object-cover" />
                 ) : (
                   <div className="py-8 text-center">
-                    <ImagePlus className="mx-auto text-gray-400" size={36} />
-                    <p className="text-sm text-gray-500 mt-2">Upload cover</p>
+                    <ImagePlus className="mx-auto" size={36} style={{ color: 'var(--text-muted)' }} />
+                    <p className="text-sm mt-2" style={{ color: 'var(--text-secondary)' }}>Upload cover</p>
                   </div>
                 )}
               </div>
               <input ref={fileRef} type="file" accept="image/*" onChange={handleCoverUpload} className="hidden" />
             </div>
-            <div className="card">
-              <h2 className="text-sm font-semibold text-gray-900 mb-3">Course Stats</h2>
+            <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
+              <h2 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Course Stats</h2>
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between"><span className="text-gray-500">Modules</span><span>{course.modules?.length || 0}</span></div>
-                <div className="flex justify-between"><span className="text-gray-500">Lessons</span><span>{course.modules?.reduce((s, m) => s + (m.lessons?.length || 0), 0)}</span></div>
-                <div className="flex justify-between"><span className="text-gray-500">Quizzes</span><span>{quizzes.length}</span></div>
-                <div className="flex justify-between"><span className="text-gray-500">Meetings</span><span>{meetings.length}</span></div>
-                <div className="flex justify-between"><span className="text-gray-500">Students</span><span>{course.enrollment_count || 0}</span></div>
+                <div className="flex justify-between"><span style={{ color: 'var(--text-secondary)' }}>Modules</span><span>{course.modules?.length || 0}</span></div>
+                <div className="flex justify-between"><span style={{ color: 'var(--text-secondary)' }}>Lessons</span><span>{course.modules?.reduce((s, m) => s + (m.lessons?.length || 0), 0)}</span></div>
+                <div className="flex justify-between"><span style={{ color: 'var(--text-secondary)' }}>Quizzes</span><span>{quizzes.length}</span></div>
+                <div className="flex justify-between"><span style={{ color: 'var(--text-secondary)' }}>Meetings</span><span>{meetings.length}</span></div>
+                <div className="flex justify-between"><span style={{ color: 'var(--text-secondary)' }}>Students</span><span>{course.enrollment_count || 0}</span></div>
               </div>
             </div>
           </div>
@@ -534,12 +538,12 @@ const [draggingLesson, setDraggingLesson] = useState(null);
       {activeTab === 'modules' && (
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-4">
-            <div className="card">
+            <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">Course Modules ({course.modules?.length || 0})</h2>
+                <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Course Modules ({course.modules?.length || 0})</h2>
               </div>
               {(!course.modules || course.modules.length === 0) ? (
-                <div className="text-center py-8 text-gray-400">
+                <div className="text-center py-8" style={{ color: 'var(--text-muted)' }}>
                   <BookOpen size={40} className="mx-auto mb-2" />
                   <p>No modules yet. Add your first module to start building your course.</p>
                 </div>
@@ -551,52 +555,60 @@ const [draggingLesson, setDraggingLesson] = useState(null);
                       onDragStart={() => setDraggingModule(modIdx)}
                       onDragOver={e => { e.preventDefault(); }}
                       onDrop={() => { if (draggingModule !== null && draggingModule !== modIdx) { reorderModules(draggingModule, modIdx); setDraggingModule(null); } }}
-                      className={`border border-gray-200 rounded-lg overflow-hidden transition-shadow ${draggingModule === modIdx ? 'shadow-lg ring-2 ring-indigo-300' : ''}`}>
-                      <div className="flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors">
+                      className="rounded-lg overflow-hidden transition-shadow"
+                      style={{ borderColor: 'var(--border-neon)', borderWidth: '1px', borderStyle: 'solid', boxShadow: draggingModule === modIdx ? '0 0 15px rgba(0,255,65,0.3)' : 'none' }}>
+                      <div className="flex items-center justify-between px-4 py-3 transition-colors" style={{ background: 'var(--bg-dark)' }}
+                        onMouseEnter={e=>e.currentTarget.style.background='var(--bg-card)'} onMouseLeave={e=>e.currentTarget.style.background='var(--bg-dark)'}>
                         <div className="flex items-center space-x-3 flex-1" onClick={() => setExpandedModules(prev => ({ ...prev, [mod.id]: !prev[mod.id] }))}>
-                          <GripVertical className="text-gray-400 shrink-0 cursor-grab" size={16} />
+                          <GripVertical className="shrink-0 cursor-grab" size={16} style={{ color: 'var(--text-muted)' }} />
                           <div className="min-w-0 flex-1">
                             {editingModule?.id === mod.id ? (
                               <div className="flex items-center space-x-2" onClick={e => e.stopPropagation()}>
-                                <input type="text" value={editingModule.title} onChange={e => setEditingModule({ ...editingModule, title: e.target.value })} className="input-field text-sm py-1" autoFocus />
-                                <button type="button" onClick={updateModule} className="text-green-600 hover:text-green-700"><Check size={16} /></button>
-                                <button type="button" onClick={() => setEditingModule(null)} className="text-gray-400 hover:text-gray-600"><X size={16} /></button>
+                                <input type="text" value={editingModule.title} onChange={e => setEditingModule({ ...editingModule, title: e.target.value })} className="neon-input text-sm py-1" autoFocus />
+                                <button type="button" onClick={updateModule} style={{ color: 'var(--neon)' }}><Check size={16} /></button>
+                                <button type="button" onClick={() => setEditingModule(null)} style={{ color: 'var(--text-muted)' }} onMouseEnter={e=>e.currentTarget.style.color='var(--text-secondary)'} onMouseLeave={e=>e.currentTarget.style.color='var(--text-muted)'}><X size={16} /></button>
                               </div>
                             ) : (
-                              <span className="font-medium text-gray-900">{mod.title}</span>
+                              <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{mod.title}</span>
                             )}
-                            <span className="text-xs text-gray-500 ml-2">{mod.lessons?.length || 0} lessons</span>
+                            <span className="text-xs ml-2" style={{ color: 'var(--text-muted)' }}>{mod.lessons?.length || 0} lessons</span>
                           </div>
                         </div>
                         <div className="flex items-center space-x-1 shrink-0">
-                          <button onClick={(e) => { e.stopPropagation(); setEditingModule({ ...mod }); }} className="p-1.5 rounded-lg hover:bg-white text-gray-400 hover:text-indigo-600"><Pencil size={14} /></button>
-                          <button onClick={(e) => { e.stopPropagation(); if (window.confirm('Delete this module and all its lessons?')) deleteModule(mod.id); }} className="p-1.5 rounded-lg hover:bg-white text-gray-400 hover:text-red-600"><Trash2 size={14} /></button>
-                          {expandedModules[mod.id] ? <ChevronDown size={16} className="text-gray-400" /> : <ChevronRight size={16} className="text-gray-400" />}
+                          <button onClick={(e) => { e.stopPropagation(); setEditingModule({ ...mod }); }} className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }}
+                            onMouseEnter={e=>{e.currentTarget.style.background='var(--bg-card)';e.currentTarget.style.color='var(--neon)'}}
+                            onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}}><Pencil size={14} /></button>
+                          <button onClick={(e) => { e.stopPropagation(); if (window.confirm('Delete this module and all its lessons?')) deleteModule(mod.id); }} className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }}
+                            onMouseEnter={e=>{e.currentTarget.style.background='var(--bg-card)';e.currentTarget.style.color='#ff3232'}}
+                            onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}}><Trash2 size={14} /></button>
+                          {expandedModules[mod.id] ? <ChevronDown size={16} style={{ color: 'var(--text-muted)' }} /> : <ChevronRight size={16} style={{ color: 'var(--text-muted)' }} />}
                         </div>
                       </div>
                       {expandedModules[mod.id] && (
-                        <div className="px-4 py-2 space-y-1 bg-white">
+                        <div className="px-4 py-2 space-y-1" style={{ background: 'var(--bg-dark)' }}>
                           {mod.lessons?.length > 0 ? mod.lessons.map((lesson, lIdx) => (
                             <div key={lesson.id}
                               draggable
                               onDragStart={() => setDraggingLesson({ moduleId: mod.id, idx: lIdx })}
                               onDragOver={e => { e.preventDefault(); }}
                               onDrop={() => { if (draggingLesson && draggingLesson.moduleId === mod.id && draggingLesson.idx !== lIdx) { reorderLessons(mod.id, draggingLesson.idx, lIdx); setDraggingLesson(null); } }}
-                              className={`flex items-center justify-between px-3 py-2 rounded-lg hover:bg-gray-50 cursor-pointer group ${draggingLesson?.moduleId === mod.id && draggingLesson?.idx === lIdx ? 'shadow-md ring-1 ring-indigo-300' : ''}`}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer group"
+                              style={{ boxShadow: draggingLesson?.moduleId === mod.id && draggingLesson?.idx === lIdx ? '0 0 10px rgba(0,255,65,0.2)' : 'none' }}
+                              onMouseEnter={e=>e.currentTarget.style.background='rgba(0,255,65,0.05)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}
                               onClick={() => { setActiveTab('lessons'); openLessonEditor(lesson); }}>
                               <div className="flex items-center space-x-2 min-w-0">
-                                <GripVertical size={12} className="text-gray-300 shrink-0 cursor-grab" />
-                                {lesson.content_type === 'video' ? <Video size={14} className="text-indigo-400 shrink-0" /> :
-                                  lesson.content_type === 'article' ? <FileText size={14} className="text-green-400 shrink-0" /> :
-                                    <HelpCircle size={14} className="text-orange-400 shrink-0" />}
-                                <span className="text-sm text-gray-700 truncate">{lesson.title}</span>
+                                <GripVertical size={12} className="shrink-0 cursor-grab" style={{ color: 'var(--text-muted)' }} />
+                                {lesson.content_type === 'video' ? <Video size={14} style={{ color: 'var(--neon)' }} className="shrink-0" /> :
+                                  lesson.content_type === 'article' ? <FileText size={14} style={{ color: 'var(--neon)' }} className="shrink-0" /> :
+                                    <HelpCircle size={14} style={{ color: '#ffc800' }} className="shrink-0" />}
+                                <span className="text-sm truncate" style={{ color: 'var(--text-secondary)' }}>{lesson.title}</span>
                               </div>
                               <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100">
-                                <span className="text-xs text-gray-400">{lesson.duration_minutes || '?'}min</span>
+                                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{lesson.duration_minutes || '?'}min</span>
                               </div>
                             </div>
                           )) : (
-                            <p className="text-sm text-gray-400 py-2 text-center">No lessons in this module</p>
+                            <p className="text-sm py-2 text-center" style={{ color: 'var(--text-muted)' }}>No lessons in this module</p>
                           )}
                         </div>
                       )}
@@ -608,30 +620,30 @@ const [draggingLesson, setDraggingLesson] = useState(null);
           </div>
 
           <div className="space-y-6">
-            <div className="card">
-              <h2 className="text-sm font-semibold text-gray-900 mb-3">Add Module</h2>
+            <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
+              <h2 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Add Module</h2>
               <div className="space-y-3">
-                <input type="text" value={newModule.title} onChange={e => setNewModule({ ...newModule, title: e.target.value })} className="input-field" placeholder="Module title" />
-                <textarea rows={2} value={newModule.description} onChange={e => setNewModule({ ...newModule, description: e.target.value })} className="input-field" placeholder="Module description (optional)" />
-                <button onClick={addModule} className="btn-primary w-full flex items-center justify-center space-x-2">
+                <input type="text" value={newModule.title} onChange={e => setNewModule({ ...newModule, title: e.target.value })} className="neon-input" placeholder="Module title" />
+                <textarea rows={2} value={newModule.description} onChange={e => setNewModule({ ...newModule, description: e.target.value })} className="neon-input" placeholder="Module description (optional)" />
+                <button onClick={addModule} className="neon-btn w-full flex items-center justify-center space-x-2">
                   <Plus size={18} /><span>Add Module</span>
                 </button>
               </div>
             </div>
-            <div className="card">
-              <h2 className="text-sm font-semibold text-gray-900 mb-3">Quick Add Lesson</h2>
+            <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
+              <h2 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Quick Add Lesson</h2>
               <div className="space-y-3">
-                <select value={newLesson.moduleId} onChange={e => setNewLesson({ ...newLesson, moduleId: e.target.value })} className="input-field">
+                <select value={newLesson.moduleId} onChange={e => setNewLesson({ ...newLesson, moduleId: e.target.value })} className="neon-input">
                   <option value="">Select module</option>
                   {course.modules?.map(m => <option key={m.id} value={m.id}>{m.title}</option>)}
                 </select>
-                <input type="text" value={newLesson.title} onChange={e => setNewLesson({ ...newLesson, title: e.target.value })} className="input-field" placeholder="Lesson title" />
-                <select value={newLesson.contentType} onChange={e => setNewLesson({ ...newLesson, contentType: e.target.value })} className="input-field">
+                <input type="text" value={newLesson.title} onChange={e => setNewLesson({ ...newLesson, title: e.target.value })} className="neon-input" placeholder="Lesson title" />
+                <select value={newLesson.contentType} onChange={e => setNewLesson({ ...newLesson, contentType: e.target.value })} className="neon-input">
                   <option value="video">Video</option>
                   <option value="article">Article</option>
                   <option value="quiz">Quiz</option>
                 </select>
-                <button onClick={addLesson} className="btn-primary w-full flex items-center justify-center space-x-2">
+                <button onClick={addLesson} className="neon-btn w-full flex items-center justify-center space-x-2">
                   <Plus size={18} /><span>Add Lesson</span>
                 </button>
               </div>
@@ -647,8 +659,8 @@ const [draggingLesson, setDraggingLesson] = useState(null);
             {course.modules?.map(mod => {
               const moduleLessons = mod.lessons || [];
               return (
-                <div key={mod.id} className="card">
-                  <h3 className="font-semibold text-gray-900 text-sm mb-2">{mod.title}</h3>
+                <div key={mod.id} className="neon-card" style={{ background: 'var(--bg-card)' }}>
+                  <h3 className="font-semibold text-sm mb-2" style={{ color: 'var(--text-primary)' }}>{mod.title}</h3>
                   <div className="space-y-1">
                     {moduleLessons.map((lesson, lIdx) => (
                       <div key={lesson.id}
@@ -656,18 +668,26 @@ const [draggingLesson, setDraggingLesson] = useState(null);
                         onDragStart={(e) => { e.stopPropagation(); setDraggingLesson({ moduleId: mod.id, idx: lIdx }); }}
                         onDragOver={e => { e.preventDefault(); }}
                         onDrop={() => { if (draggingLesson && draggingLesson.moduleId === mod.id && draggingLesson.idx !== lIdx) { reorderLessons(mod.id, draggingLesson.idx, lIdx); setDraggingLesson(null); } }}
-                        className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${activeLesson?.id === lesson.id ? 'bg-indigo-50 text-indigo-700 font-medium' : 'hover:bg-gray-50 text-gray-700'} ${draggingLesson?.moduleId === mod.id && draggingLesson?.idx === lIdx ? 'shadow-md ring-1 ring-indigo-300' : ''}`}
+                        className="w-full text-left px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer"
+                        style={{
+                          color: activeLesson?.id === lesson.id ? 'var(--neon)' : 'var(--text-secondary)',
+                          background: activeLesson?.id === lesson.id ? 'rgba(0,255,65,0.1)' : 'transparent',
+                          fontWeight: activeLesson?.id === lesson.id ? '500' : '400',
+                          boxShadow: draggingLesson?.moduleId === mod.id && draggingLesson?.idx === lIdx ? '0 0 10px rgba(0,255,65,0.2)' : 'none'
+                        }}
+                        onMouseEnter={e => { if (activeLesson?.id !== lesson.id) e.currentTarget.style.background = 'rgba(0,255,65,0.05)'; }}
+                        onMouseLeave={e => { if (activeLesson?.id !== lesson.id) e.currentTarget.style.background = 'transparent'; }}
                         onClick={() => openLessonEditor(lesson)}>
                         <div className="flex items-center space-x-2">
-                          <GripVertical size={12} className="text-gray-300 shrink-0 cursor-grab" />
-                          {lesson.content_type === 'video' ? <Video size={14} className="shrink-0 text-indigo-400" /> :
-                            lesson.content_type === 'article' ? <FileText size={14} className="shrink-0 text-green-400" /> : <HelpCircle size={14} className="shrink-0 text-orange-400" />}
+                          <GripVertical size={12} className="shrink-0 cursor-grab" style={{ color: 'var(--text-muted)' }} />
+                          {lesson.content_type === 'video' ? <Video size={14} className="shrink-0" style={{ color: 'var(--neon)' }} /> :
+                            lesson.content_type === 'article' ? <FileText size={14} className="shrink-0" style={{ color: 'var(--neon)' }} /> : <HelpCircle size={14} className="shrink-0" style={{ color: '#ffc800' }} />}
                           <span className="truncate">{lesson.title}</span>
                         </div>
                       </div>
                     ))}
                     {moduleLessons.length === 0 && (
-                      <p className="text-xs text-gray-400 text-center py-2">No lessons</p>
+                      <p className="text-xs text-center py-2" style={{ color: 'var(--text-muted)' }}>No lessons</p>
                     )}
                   </div>
                 </div>
@@ -677,62 +697,62 @@ const [draggingLesson, setDraggingLesson] = useState(null);
 
           <div className="lg:col-span-2">
             {activeLesson && editingLesson ? (
-              <div className="card">
+              <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-gray-900">Edit Lesson</h2>
-                  <button onClick={() => { setActiveLesson(null); setEditingLesson(null); }} className="text-gray-400 hover:text-gray-600"><X size={20} /></button>
+                  <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Edit Lesson</h2>
+                  <button onClick={() => { setActiveLesson(null); setEditingLesson(null); }} style={{ color: 'var(--text-muted)' }} onMouseEnter={e=>e.currentTarget.style.color='var(--text-secondary)'} onMouseLeave={e=>e.currentTarget.style.color='var(--text-muted)'}><X size={20} /></button>
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Lesson Title</label>
-                    <input type="text" value={editingLesson.title} onChange={e => setEditingLesson({ ...editingLesson, title: e.target.value })} className="input-field" />
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Lesson Title</label>
+                    <input type="text" value={editingLesson.title} onChange={e => setEditingLesson({ ...editingLesson, title: e.target.value })} className="neon-input" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Content Type</label>
-                      <select value={editingLesson.content_type} onChange={e => setEditingLesson({ ...editingLesson, content_type: e.target.value })} className="input-field">
+                      <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Content Type</label>
+                      <select value={editingLesson.content_type} onChange={e => setEditingLesson({ ...editingLesson, content_type: e.target.value })} className="neon-input">
                         <option value="video">Video</option>
                         <option value="article">Article / Text</option>
                         <option value="quiz">Quiz</option>
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Duration (minutes)</label>
-                      <input type="number" value={editingLesson.duration_minutes || ''} onChange={e => setEditingLesson({ ...editingLesson, duration_minutes: parseInt(e.target.value) || 0 })} className="input-field" />
+                      <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Duration (minutes)</label>
+                      <input type="number" value={editingLesson.duration_minutes || ''} onChange={e => setEditingLesson({ ...editingLesson, duration_minutes: parseInt(e.target.value) || 0 })} className="neon-input" />
                     </div>
                   </div>
                   {editingLesson.content_type === 'video' && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Video URL</label>
-                      <input type="url" value={editingLesson.video_url || ''} onChange={e => setEditingLesson({ ...editingLesson, video_url: e.target.value })} className="input-field" placeholder="https://..." />
+                      <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Video URL</label>
+                      <input type="url" value={editingLesson.video_url || ''} onChange={e => setEditingLesson({ ...editingLesson, video_url: e.target.value })} className="neon-input" placeholder="https://..." />
                       {editingLesson.video_url && (
-                        <div className="mt-2 aspect-video bg-gray-900 rounded-lg overflow-hidden">
+                        <div className="mt-2 aspect-video rounded-lg overflow-hidden" style={{ background: '#0a0a0a' }}>
                           <video src={editingLesson.video_url} controls className="w-full h-full" />
                         </div>
                       )}
                     </div>
                   )}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                    <textarea rows={3} value={editingLesson.description || ''} onChange={e => setEditingLesson({ ...editingLesson, description: e.target.value })} className="input-field" />
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Description</label>
+                    <textarea rows={3} value={editingLesson.description || ''} onChange={e => setEditingLesson({ ...editingLesson, description: e.target.value })} className="neon-input" />
                   </div>
                   {editingLesson.content_type === 'article' && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Article Content</label>
-                      <textarea rows={10} value={editingLesson.article_content || ''} onChange={e => setEditingLesson({ ...editingLesson, article_content: e.target.value })} className="input-field font-mono text-sm" placeholder="Write your lesson content here..." />
+                      <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Article Content</label>
+                      <textarea rows={10} value={editingLesson.article_content || ''} onChange={e => setEditingLesson({ ...editingLesson, article_content: e.target.value })} className="neon-input font-mono text-sm" placeholder="Write your lesson content here..." />
                     </div>
                   )}
                   <div className="flex space-x-3 pt-2">
-                    <button onClick={saveLesson} className="btn-primary flex items-center space-x-2"><Save size={16} /><span>Save Lesson</span></button>
-                    <button onClick={() => { if (window.confirm('Delete this lesson?')) deleteLesson(editingLesson.id); }} className="btn-danger flex items-center space-x-2"><Trash2 size={16} /><span>Delete</span></button>
+                    <button onClick={saveLesson} className="neon-btn flex items-center space-x-2"><Save size={16} /><span>Save Lesson</span></button>
+                    <button onClick={() => { if (window.confirm('Delete this lesson?')) deleteLesson(editingLesson.id); }} className="neon-btn-ghost flex items-center space-x-2" style={{ background: '#ff3232' }}><Trash2 size={16} /><span>Delete</span></button>
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="card">
-                <div className="text-center py-12 text-gray-400">
+              <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
+                <div className="text-center py-12" style={{ color: 'var(--text-muted)' }}>
                   <Video size={48} className="mx-auto mb-3" />
-                  <p className="text-lg font-medium text-gray-500">Select a lesson to edit</p>
+                  <p className="text-lg font-medium" style={{ color: 'var(--text-secondary)' }}>Select a lesson to edit</p>
                   <p className="text-sm mt-1">Choose a lesson from the sidebar or go to the Modules tab to add new ones</p>
                 </div>
               </div>
@@ -745,57 +765,61 @@ const [draggingLesson, setDraggingLesson] = useState(null);
       {activeTab === 'quizzes' && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900">Course Quizzes ({quizzes.length})</h2>
+            <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Course Quizzes ({quizzes.length})</h2>
             <button onClick={() => { setEditingQuiz(null); setQuizForm({ title: '', description: '', passingScore: 60, timeLimitMinutes: 30, maxAttempts: 1, lessonId: '' }); setShowQuizModal(true); }}
-              className="btn-primary flex items-center space-x-2"><Plus size={18} /><span>Add Quiz</span></button>
+              className="neon-btn flex items-center space-x-2"><Plus size={18} /><span>Add Quiz</span></button>
           </div>
 
           {quizzes.length === 0 ? (
-            <div className="card text-center py-8 text-gray-400">
+            <div className="neon-card text-center py-8" style={{ background: 'var(--bg-card)', color: 'var(--text-muted)' }}>
               <HelpCircle size={40} className="mx-auto mb-2" />
               <p>No quizzes yet. Create quizzes to assess your students.</p>
             </div>
           ) : quizzes.map((quiz) => (
-            <div key={quiz.id} className="card">
+            <div key={quiz.id} className="neon-card" style={{ background: 'var(--bg-card)' }}>
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
                   <div className="flex items-center space-x-2">
-                    <h3 className="font-semibold text-gray-900">{quiz.title}</h3>
-                    <span className="text-xs text-gray-400">Pass: {quiz.passing_score}% | Time: {quiz.time_limit_minutes}min | Max: {quiz.max_attempts}</span>
+                    <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>{quiz.title}</h3>
+                    <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Pass: {quiz.passing_score}% | Time: {quiz.time_limit_minutes}min | Max: {quiz.max_attempts}</span>
                   </div>
-                  <p className="text-sm text-gray-600 mt-1">{quiz.description}</p>
+                  <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>{quiz.description}</p>
                 </div>
                 <div className="flex items-center space-x-1 shrink-0">
                   <button onClick={() => { setEditingQuiz(quiz); setQuizForm({ title: quiz.title, description: quiz.description || '', passingScore: quiz.passing_score, timeLimitMinutes: quiz.time_limit_minutes, maxAttempts: quiz.max_attempts, lessonId: quiz.lesson_id || '' }); setShowQuizModal(true); }}
-                    className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-indigo-600"><Pencil size={15} /></button>
+                    className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }}
+                    onMouseEnter={e=>{e.currentTarget.style.background='rgba(0,255,65,0.1)';e.currentTarget.style.color='var(--neon)'}}
+                    onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}}><Pencil size={15} /></button>
                   <button onClick={() => { if (window.confirm('Delete this quiz?')) deleteQuiz(quiz.id); }}
-                    className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-600"><Trash2 size={15} /></button>
+                    className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }}
+                    onMouseEnter={e=>{e.currentTarget.style.background='rgba(0,255,65,0.1)';e.currentTarget.style.color='#ff3232'}}
+                    onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}}><Trash2 size={15} /></button>
                 </div>
               </div>
 
               {/* Questions */}
-              <div className="border-t border-gray-100 pt-3">
+              <div className="pt-3" style={{ borderColor: 'var(--border-neon)', borderTopWidth: '1px' }}>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-700">Questions ({(questions[quiz.id] || []).length})</span>
+                  <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Questions ({(questions[quiz.id] || []).length})</span>
                   <button onClick={() => { setActiveQuizId(quiz.id); setShowQuestionModal(true); }}
-                    className="text-xs text-indigo-600 hover:text-indigo-700 font-medium flex items-center space-x-1">
+                    className="text-xs font-medium flex items-center space-x-1" style={{ color: 'var(--neon)' }}>
                     <Plus size={14} /><span>Add Question</span>
                   </button>
                 </div>
                 {(questions[quiz.id] || []).length > 0 ? (
                   <div className="space-y-2">
                     {(questions[quiz.id] || []).map((q, idx) => (
-                      <div key={q.id} className="flex items-start justify-between p-2 rounded-lg bg-gray-50">
+                      <div key={q.id} className="flex items-start justify-between p-2 rounded-lg" style={{ background: 'var(--bg-dark)' }}>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm text-gray-700"><span className="font-medium text-gray-500">{idx + 1}.</span> {q.question_text}</p>
-                          <p className="text-xs text-gray-400 mt-0.5">Type: {q.question_type} | Points: {q.points}</p>
+                          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}><span className="font-medium" style={{ color: 'var(--text-muted)' }}>{idx + 1}.</span> {q.question_text}</p>
+                          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>Type: {q.question_type} | Points: {q.points}</p>
                         </div>
-                        <button onClick={() => deleteQuestion(quiz.id, q.id)} className="p-1 text-gray-400 hover:text-red-600 shrink-0"><Trash2 size={14} /></button>
+                        <button onClick={() => deleteQuestion(quiz.id, q.id)} className="p-1 shrink-0" style={{ color: 'var(--text-muted)' }} onMouseEnter={e=>e.currentTarget.style.color='#ff3232'} onMouseLeave={e=>e.currentTarget.style.color='var(--text-muted)'}><Trash2 size={14} /></button>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-gray-400 text-center py-2">No questions yet</p>
+                  <p className="text-sm text-center py-2" style={{ color: 'var(--text-muted)' }}>No questions yet</p>
                 )}
               </div>
             </div>
@@ -804,28 +828,28 @@ const [draggingLesson, setDraggingLesson] = useState(null);
           {/* Quiz Modal */}
           {showQuizModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setShowQuizModal(false)}>
-              <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full mx-4 p-6" onClick={e => e.stopPropagation()}>
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">{editingQuiz ? 'Edit Quiz' : 'Create Quiz'}</h2>
+              <div className="rounded-xl shadow-2xl max-w-lg w-full mx-4 p-6" style={{ background: 'var(--bg-card)' }} onClick={e => e.stopPropagation()}>
+                <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{editingQuiz ? 'Edit Quiz' : 'Create Quiz'}</h2>
                 <form onSubmit={saveQuiz} className="space-y-4">
-                  <input type="text" required value={quizForm.title} onChange={e => setQuizForm({ ...quizForm, title: e.target.value })} className="input-field" placeholder="Quiz title" />
-                  <textarea rows={2} value={quizForm.description} onChange={e => setQuizForm({ ...quizForm, description: e.target.value })} className="input-field" placeholder="Description" />
+                  <input type="text" required value={quizForm.title} onChange={e => setQuizForm({ ...quizForm, title: e.target.value })} className="neon-input" placeholder="Quiz title" />
+                  <textarea rows={2} value={quizForm.description} onChange={e => setQuizForm({ ...quizForm, description: e.target.value })} className="neon-input" placeholder="Description" />
                   <div className="grid grid-cols-3 gap-3">
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Passing Score (%)</label>
-                      <input type="number" value={quizForm.passingScore} onChange={e => setQuizForm({ ...quizForm, passingScore: e.target.value })} className="input-field" min={0} max={100} />
+                      <label className="block text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Passing Score (%)</label>
+                      <input type="number" value={quizForm.passingScore} onChange={e => setQuizForm({ ...quizForm, passingScore: e.target.value })} className="neon-input" min={0} max={100} />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Time Limit (min)</label>
-                      <input type="number" value={quizForm.timeLimitMinutes} onChange={e => setQuizForm({ ...quizForm, timeLimitMinutes: e.target.value })} className="input-field" min={1} />
+                      <label className="block text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Time Limit (min)</label>
+                      <input type="number" value={quizForm.timeLimitMinutes} onChange={e => setQuizForm({ ...quizForm, timeLimitMinutes: e.target.value })} className="neon-input" min={1} />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Max Attempts</label>
-                      <input type="number" value={quizForm.maxAttempts} onChange={e => setQuizForm({ ...quizForm, maxAttempts: e.target.value })} className="input-field" min={1} />
+                      <label className="block text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Max Attempts</label>
+                      <input type="number" value={quizForm.maxAttempts} onChange={e => setQuizForm({ ...quizForm, maxAttempts: e.target.value })} className="neon-input" min={1} />
                     </div>
                   </div>
                   <div className="flex justify-end space-x-3 pt-2">
-                    <button type="button" onClick={() => setShowQuizModal(false)} className="btn-secondary">Cancel</button>
-                    <button type="submit" disabled={saving} className="btn-primary">{saving ? 'Saving...' : editingQuiz ? 'Update' : 'Create'}</button>
+                    <button type="button" onClick={() => setShowQuizModal(false)} className="neon-btn-ghost">Cancel</button>
+                    <button type="submit" disabled={saving} className="neon-btn">{saving ? 'Saving...' : editingQuiz ? 'Update' : 'Create'}</button>
                   </div>
                 </form>
               </div>
@@ -835,32 +859,32 @@ const [draggingLesson, setDraggingLesson] = useState(null);
           {/* Question Modal */}
           {showQuestionModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setShowQuestionModal(false)}>
-              <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full mx-4 p-6 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">Add Question</h2>
+              <div className="rounded-xl shadow-2xl max-w-lg w-full mx-4 p-6 max-h-[90vh] overflow-y-auto" style={{ background: 'var(--bg-card)' }} onClick={e => e.stopPropagation()}>
+                <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Add Question</h2>
                 <form onSubmit={saveQuestion} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Question</label>
-                    <textarea rows={3} required value={questionForm.questionText} onChange={e => setQuestionForm({ ...questionForm, questionText: e.target.value })} className="input-field" placeholder="Enter your question" />
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Question</label>
+                    <textarea rows={3} required value={questionForm.questionText} onChange={e => setQuestionForm({ ...questionForm, questionText: e.target.value })} className="neon-input" placeholder="Enter your question" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Type</label>
-                      <select value={questionForm.questionType} onChange={e => setQuestionForm({ ...questionForm, questionType: e.target.value, correctAnswer: '' })} className="input-field">
+                      <label className="block text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Type</label>
+                      <select value={questionForm.questionType} onChange={e => setQuestionForm({ ...questionForm, questionType: e.target.value, correctAnswer: '' })} className="neon-input">
                         <option value="multiple_choice">Multiple Choice</option>
                         <option value="true_false">True/False</option>
                         <option value="single_choice">Single Choice</option>
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Points</label>
-                      <input type="number" value={questionForm.points} onChange={e => setQuestionForm({ ...questionForm, points: parseInt(e.target.value) || 1 })} className="input-field" min={1} />
+                      <label className="block text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Points</label>
+                      <input type="number" value={questionForm.points} onChange={e => setQuestionForm({ ...questionForm, points: parseInt(e.target.value) || 1 })} className="neon-input" min={1} />
                     </div>
                   </div>
 
                   {questionForm.questionType === 'true_false' ? (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Correct Answer</label>
-                      <select value={questionForm.correctAnswer} onChange={e => setQuestionForm({ ...questionForm, correctAnswer: e.target.value })} required className="input-field">
+                      <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Correct Answer</label>
+                      <select value={questionForm.correctAnswer} onChange={e => setQuestionForm({ ...questionForm, correctAnswer: e.target.value })} required className="neon-input">
                         <option value="">Select</option>
                         <option value="true">True</option>
                         <option value="false">False</option>
@@ -870,21 +894,21 @@ const [draggingLesson, setDraggingLesson] = useState(null);
                     <>
                       <div>
                         <div className="flex items-center justify-between mb-1">
-                          <label className="block text-sm font-medium text-gray-700">Options</label>
-                          <button type="button" onClick={addOption} className="text-xs text-indigo-600 hover:text-indigo-700">+ Add option</button>
+                          <label className="block text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Options</label>
+                          <button type="button" onClick={addOption} className="text-xs" style={{ color: 'var(--neon)' }}>+ Add option</button>
                         </div>
                         <div className="space-y-2">
                           {questionForm.options.map((opt, i) => (
                             <div key={i} className="flex items-center space-x-2">
-                              <input type="text" value={opt} onChange={e => updateOption(i, e.target.value)} className="input-field flex-1 text-sm" placeholder={`Option ${i + 1}`} />
-                              <button type="button" onClick={() => removeOption(i)} className="text-gray-400 hover:text-red-600"><X size={16} /></button>
+                              <input type="text" value={opt} onChange={e => updateOption(i, e.target.value)} className="neon-input flex-1 text-sm" placeholder={`Option ${i + 1}`} />
+                              <button type="button" onClick={() => removeOption(i)} style={{ color: 'var(--text-muted)' }} onMouseEnter={e=>e.currentTarget.style.color='#ff3232'} onMouseLeave={e=>e.currentTarget.style.color='var(--text-muted)'}><X size={16} /></button>
                             </div>
                           ))}
                         </div>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Correct Answer</label>
-                        <select value={questionForm.correctAnswer} onChange={e => setQuestionForm({ ...questionForm, correctAnswer: e.target.value })} required className="input-field">
+                        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Correct Answer</label>
+                        <select value={questionForm.correctAnswer} onChange={e => setQuestionForm({ ...questionForm, correctAnswer: e.target.value })} required className="neon-input">
                           <option value="">Select correct answer</option>
                           {questionForm.options.filter(o => o).map((opt, i) => (
                             <option key={i} value={opt}>{opt}</option>
@@ -894,8 +918,8 @@ const [draggingLesson, setDraggingLesson] = useState(null);
                     </>
                   )}
                   <div className="flex justify-end space-x-3 pt-2">
-                    <button type="button" onClick={() => setShowQuestionModal(false)} className="btn-secondary">Cancel</button>
-                    <button type="submit" disabled={saving} className="btn-primary">{saving ? 'Adding...' : 'Add Question'}</button>
+                    <button type="button" onClick={() => setShowQuestionModal(false)} className="neon-btn-ghost">Cancel</button>
+                    <button type="submit" disabled={saving} className="neon-btn">{saving ? 'Adding...' : 'Add Question'}</button>
                   </div>
                 </form>
               </div>
@@ -908,35 +932,39 @@ const [draggingLesson, setDraggingLesson] = useState(null);
       {activeTab === 'meetings' && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900">Live Classes & Meetings ({meetings.length})</h2>
+            <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Live Classes & Meetings ({meetings.length})</h2>
             <button onClick={() => { setEditingMeeting(null); setMeetingForm({ title: '', description: '', scheduledAt: '', durationMinutes: 60, recordingUrl: '' }); setShowMeetingModal(true); }}
-              className="btn-primary flex items-center space-x-2"><Plus size={18} /><span>Schedule Meeting</span></button>
+              className="neon-btn flex items-center space-x-2"><Plus size={18} /><span>Schedule Meeting</span></button>
           </div>
 
           {meetings.length === 0 ? (
-            <div className="card text-center py-8 text-gray-400">
+            <div className="neon-card text-center py-8" style={{ background: 'var(--bg-card)', color: 'var(--text-muted)' }}>
               <Calendar size={40} className="mx-auto mb-2" />
               <p>No meetings scheduled. Schedule a live class for your students.</p>
             </div>
           ) : (
             <div className="grid gap-4">
               {meetings.map((meeting) => (
-                <div key={meeting.id} className="card">
+                <div key={meeting.id} className="neon-card" style={{ background: 'var(--bg-card)' }}>
                   <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-3">
-                      <div className={`p-2 rounded-lg ${meeting.status === 'live' ? 'bg-green-100' : meeting.status === 'ended' ? 'bg-gray-100' : 'bg-indigo-100'}`}>
-                        <Calendar size={20} className={meeting.status === 'live' ? 'text-green-600' : meeting.status === 'ended' ? 'text-gray-500' : 'text-indigo-600'} />
+                      <div className="p-2 rounded-lg" style={{
+                        background: meeting.status === 'live' ? 'rgba(0,255,65,0.1)' : meeting.status === 'ended' ? 'var(--bg-dark)' : 'rgba(0,255,65,0.1)'
+                      }}>
+                        <Calendar size={20} style={{
+                          color: meeting.status === 'live' ? 'var(--neon)' : meeting.status === 'ended' ? 'var(--text-muted)' : 'var(--neon)'
+                        }} />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-900">{meeting.title}</h3>
-                        <p className="text-sm text-gray-500">{meeting.description}</p>
-                        <div className="flex items-center space-x-3 mt-1 text-xs text-gray-400">
+                        <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>{meeting.title}</h3>
+                        <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{meeting.description}</p>
+                        <div className="flex items-center space-x-3 mt-1 text-xs" style={{ color: 'var(--text-muted)' }}>
                           <span className="flex items-center"><Clock size={12} className="mr-1" />{new Date(meeting.scheduled_at).toLocaleString()}</span>
                           <span>{meeting.duration_minutes}min</span>
-                          <span className={`badge ${meeting.status === 'live' ? 'badge-success' : meeting.status === 'ended' ? 'badge-danger' : 'badge-info'}`}>{meeting.status}</span>
+                          <span className={`neon-badge ${meeting.status === 'live' ? 'neon-badge-success' : meeting.status === 'ended' ? 'neon-badge-danger' : 'neon-badge-info'}`}>{meeting.status}</span>
                         </div>
                         {meeting.recording_url && (
-                          <a href={meeting.recording_url} target="_blank" rel="noopener noreferrer" className="text-xs text-indigo-600 hover:text-indigo-700 flex items-center space-x-1 mt-1">
+                          <a href={meeting.recording_url} target="_blank" rel="noopener noreferrer" className="text-xs flex items-center space-x-1 mt-1" style={{ color: 'var(--neon)' }}>
                             <Play size={12} /><span>View Recording</span>
                           </a>
                         )}
@@ -944,7 +972,9 @@ const [draggingLesson, setDraggingLesson] = useState(null);
                     </div>
                     <div className="flex items-center space-x-1 shrink-0">
                       <button onClick={() => { setEditingMeeting(meeting); setMeetingForm({ title: meeting.title, description: meeting.description || '', scheduledAt: meeting.scheduled_at ? new Date(meeting.scheduled_at).toISOString().slice(0, 16) : '', durationMinutes: meeting.duration_minutes || 60, recordingUrl: meeting.recording_url || '' }); setShowMeetingModal(true); }}
-                        className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-indigo-600"><Pencil size={15} /></button>
+                        className="p-1.5 rounded-lg" style={{ color: 'var(--text-muted)' }}
+                        onMouseEnter={e=>{e.currentTarget.style.background='rgba(0,255,65,0.1)';e.currentTarget.style.color='var(--neon)'}}
+                        onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--text-muted)'}}><Pencil size={15} /></button>
                     </div>
                   </div>
                 </div>
@@ -954,28 +984,28 @@ const [draggingLesson, setDraggingLesson] = useState(null);
 
           {showMeetingModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setShowMeetingModal(false)}>
-              <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full mx-4 p-6" onClick={e => e.stopPropagation()}>
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">{editingMeeting ? 'Edit Meeting' : 'Schedule Meeting'}</h2>
+              <div className="rounded-xl shadow-2xl max-w-lg w-full mx-4 p-6" style={{ background: 'var(--bg-card)' }} onClick={e => e.stopPropagation()}>
+                <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{editingMeeting ? 'Edit Meeting' : 'Schedule Meeting'}</h2>
                 <form onSubmit={saveMeeting} className="space-y-4">
-                  <input type="text" required value={meetingForm.title} onChange={e => setMeetingForm({ ...meetingForm, title: e.target.value })} className="input-field" placeholder="Meeting title" />
-                  <textarea rows={2} value={meetingForm.description} onChange={e => setMeetingForm({ ...meetingForm, description: e.target.value })} className="input-field" placeholder="Description" />
+                  <input type="text" required value={meetingForm.title} onChange={e => setMeetingForm({ ...meetingForm, title: e.target.value })} className="neon-input" placeholder="Meeting title" />
+                  <textarea rows={2} value={meetingForm.description} onChange={e => setMeetingForm({ ...meetingForm, description: e.target.value })} className="neon-input" placeholder="Description" />
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Scheduled Date & Time</label>
-                      <input type="datetime-local" required value={meetingForm.scheduledAt} onChange={e => setMeetingForm({ ...meetingForm, scheduledAt: e.target.value })} className="input-field" />
+                      <label className="block text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Scheduled Date & Time</label>
+                      <input type="datetime-local" required value={meetingForm.scheduledAt} onChange={e => setMeetingForm({ ...meetingForm, scheduledAt: e.target.value })} className="neon-input" />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Duration (min)</label>
-                      <input type="number" value={meetingForm.durationMinutes} onChange={e => setMeetingForm({ ...meetingForm, durationMinutes: parseInt(e.target.value) || 60 })} className="input-field" min={5} />
+                      <label className="block text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Duration (min)</label>
+                      <input type="number" value={meetingForm.durationMinutes} onChange={e => setMeetingForm({ ...meetingForm, durationMinutes: parseInt(e.target.value) || 60 })} className="neon-input" min={5} />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Recording URL (after meeting ends)</label>
-                    <input type="url" value={meetingForm.recordingUrl} onChange={e => setMeetingForm({ ...meetingForm, recordingUrl: e.target.value })} className="input-field" placeholder="https://..." />
+                    <label className="block text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Recording URL (after meeting ends)</label>
+                    <input type="url" value={meetingForm.recordingUrl} onChange={e => setMeetingForm({ ...meetingForm, recordingUrl: e.target.value })} className="neon-input" placeholder="https://..." />
                   </div>
                   <div className="flex justify-end space-x-3 pt-2">
-                    <button type="button" onClick={() => setShowMeetingModal(false)} className="btn-secondary">Cancel</button>
-                    <button type="submit" disabled={saving} className="btn-primary">{saving ? 'Saving...' : editingMeeting ? 'Update' : 'Schedule'}</button>
+                    <button type="button" onClick={() => setShowMeetingModal(false)} className="neon-btn-ghost">Cancel</button>
+                    <button type="submit" disabled={saving} className="neon-btn">{saving ? 'Saving...' : editingMeeting ? 'Update' : 'Schedule'}</button>
                   </div>
                 </form>
               </div>
@@ -987,10 +1017,10 @@ const [draggingLesson, setDraggingLesson] = useState(null);
       {/* ===== TAB: GRADES ===== */}
       {activeTab === 'grades' && (
         <div className="space-y-6">
-          <div className="card">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Student Grades</h2>
+          <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
+            <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Student Grades</h2>
             {students.length === 0 ? (
-              <div className="text-center py-8 text-gray-400">
+              <div className="text-center py-8" style={{ color: 'var(--text-muted)' }}>
                 <Users size={40} className="mx-auto mb-2" />
                 <p>No students enrolled in this course yet.</p>
               </div>
@@ -998,32 +1028,33 @@ const [draggingLesson, setDraggingLesson] = useState(null);
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left py-3 px-4 font-medium text-gray-500">Student</th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-500">Progress</th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-500">Status</th>
-                      <th className="text-right py-3 px-4 font-medium text-gray-500">Grade</th>
+                    <tr style={{ borderColor: 'var(--border-neon)' }}>
+                      <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Student</th>
+                      <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Progress</th>
+                      <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Status</th>
+                      <th className="text-right py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Grade</th>
                     </tr>
                   </thead>
                   <tbody>
                     {students.map((s) => (
-                      <tr key={s.enrollment_id} className="border-b border-gray-100 hover:bg-gray-50">
-                        <td className="py-3 px-4 font-medium text-gray-900">{s.first_name} {s.last_name}</td>
+                      <tr key={s.enrollment_id} style={{ borderColor: 'var(--border-neon)' }}
+                        onMouseEnter={e=>e.currentTarget.style.background='rgba(0,255,65,0.05)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
+                        <td className="py-3 px-4 font-medium" style={{ color: 'var(--text-primary)' }}>{s.first_name} {s.last_name}</td>
                         <td className="py-3 px-4 text-center">
                           <div className="flex items-center justify-center space-x-2">
-                            <div className="w-20 bg-gray-200 rounded-full h-2"><div className="bg-indigo-600 rounded-full h-2" style={{ width: `${s.progress || 0}%` }} /></div>
-                            <span className="text-xs text-gray-500">{Number(s.progress ?? 0).toFixed(0)}%</span>
+                            <div className="w-20 rounded-full h-2" style={{ background: 'var(--bg-card)' }}><div style={{ background: 'var(--neon)', borderRadius: '9999px', height: '0.5rem', width: `${s.progress || 0}%` }} /></div>
+                            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{Number(s.progress ?? 0).toFixed(0)}%</span>
                           </div>
                         </td>
                         <td className="py-3 px-4 text-center">
-                          <span className={`badge ${s.is_completed ? 'badge-success' : 'badge-warning'}`}>{s.is_completed ? 'Completed' : 'In Progress'}</span>
+                          <span className={`neon-badge ${s.is_completed ? 'neon-badge-success' : 'neon-badge-warning'}`}>{s.is_completed ? 'Completed' : 'In Progress'}</span>
                         </td>
                         <td className="py-3 px-4 text-right">
                           <form onSubmit={submitGrade} className="flex items-center justify-end space-x-2" onClick={e => e.stopPropagation()}>
                             <input type="hidden" value={s.enrollment_id} />
-                            <input type="number" placeholder="Score" className="input-field w-20 text-sm py-1" value={gradeForm.studentId === s.enrollment_id ? gradeForm.score : ''}
+                            <input type="number" placeholder="Score" className="neon-input w-20 text-sm py-1" value={gradeForm.studentId === s.enrollment_id ? gradeForm.score : ''}
                               onChange={e => setGradeForm({ ...gradeForm, studentId: s.enrollment_id, score: e.target.value })} />
-                            <button type="submit" className="btn-primary text-xs py-1.5 px-3">Save</button>
+                            <button type="submit" className="neon-btn text-xs py-1.5 px-3">Save</button>
                           </form>
                         </td>
                       </tr>
@@ -1039,15 +1070,15 @@ const [draggingLesson, setDraggingLesson] = useState(null);
       {/* ===== TAB: CERTIFICATES ===== */}
       {activeTab === 'certificates' && (
         <div className="space-y-6">
-          <div className="card">
+          <div className="neon-card" style={{ background: 'var(--bg-card)' }}>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">Issue Certificates</h2>
-                <p className="text-sm text-gray-500 mt-1">Only students who have completed the course can receive certificates.</p>
+                <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Issue Certificates</h2>
+                <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>Only students who have completed the course can receive certificates.</p>
               </div>
               {certificateTemplates.length > 0 && (
                 <select value={selectedTemplateId} onChange={e => setSelectedTemplateId(e.target.value)}
-                  className="input-field text-sm max-w-xs">
+                  className="neon-input text-sm max-w-xs">
                   <option value="">Default Template</option>
                   {certificateTemplates.map(t => (
                     <option key={t.id} value={t.id}>{t.name}</option>
@@ -1056,41 +1087,42 @@ const [draggingLesson, setDraggingLesson] = useState(null);
               )}
             </div>
             {students.filter(s => s.is_completed).length === 0 ? (
-              <div className="text-center py-8 text-gray-400">
+              <div className="text-center py-8" style={{ color: 'var(--text-muted)' }}>
                 <Award size={40} className="mx-auto mb-2" />
                 <p>No students have completed this course yet.</p>
                 <p className="text-sm mt-1">Students must finish all lessons to become eligible for a certificate.</p>
               </div>
             ) : (
               <>
-                <div className="flex items-center justify-between px-4 pb-3 border-b border-gray-100">
-                  <span className="text-sm text-gray-500">{students.filter(s => s.is_completed).length} eligible student(s)</span>
+                <div className="flex items-center justify-between px-4 pb-3" style={{ borderColor: 'var(--border-neon)' }}>
+                  <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{students.filter(s => s.is_completed).length} eligible student(s)</span>
                   <button onClick={issueAllCertificates} disabled={issuingAll}
-                    className="btn-secondary text-xs py-1.5 px-3 flex items-center space-x-1">
+                    className="neon-btn-ghost text-xs py-1.5 px-3 flex items-center space-x-1">
                     <Award size={14} /><span>{issuingAll ? 'Issuing...' : 'Issue to All Completed'}</span>
                   </button>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-gray-200">
-                        <th className="text-left py-3 px-4 font-medium text-gray-500">Student</th>
-                        <th className="text-center py-3 px-4 font-medium text-gray-500">Progress</th>
-                        <th className="text-center py-3 px-4 font-medium text-gray-500">Completed</th>
-                        <th className="text-right py-3 px-4 font-medium text-gray-500">Action</th>
+                      <tr style={{ borderColor: 'var(--border-neon)' }}>
+                        <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Student</th>
+                        <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Progress</th>
+                        <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Completed</th>
+                        <th className="text-right py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {students.filter(s => s.is_completed).map((s) => (
-                        <tr key={s.enrollment_id} className="border-b border-gray-100 hover:bg-gray-50">
-                          <td className="py-3 px-4 font-medium text-gray-900">{s.first_name} {s.last_name}</td>
-                          <td className="py-3 px-4 text-center text-gray-600">{Number(s.progress ?? 0).toFixed(0)}%</td>
+                        <tr key={s.enrollment_id} style={{ borderColor: 'var(--border-neon)' }}
+                          onMouseEnter={e=>e.currentTarget.style.background='rgba(0,255,65,0.05)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
+                          <td className="py-3 px-4 font-medium" style={{ color: 'var(--text-primary)' }}>{s.first_name} {s.last_name}</td>
+                          <td className="py-3 px-4 text-center" style={{ color: 'var(--text-secondary)' }}>{Number(s.progress ?? 0).toFixed(0)}%</td>
                           <td className="py-3 px-4 text-center">
-                            <span className="badge badge-success">Completed</span>
+                            <span className="neon-badge neon-badge-success">Completed</span>
                           </td>
                           <td className="py-3 px-4 text-right">
                             <button onClick={() => issueCertificate(s.enrollment_id)} disabled={issuingCert}
-                              className="btn-primary text-xs py-1.5 px-3 flex items-center space-x-1 ml-auto">
+                              className="neon-btn text-xs py-1.5 px-3 flex items-center space-x-1 ml-auto">
                               <Award size={14} /><span>{issuingCert ? 'Issuing...' : 'Issue'}</span>
                             </button>
                           </td>

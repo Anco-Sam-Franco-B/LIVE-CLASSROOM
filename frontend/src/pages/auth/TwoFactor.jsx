@@ -32,15 +32,15 @@ export default function TwoFactor() {
     <div className="min-h-[80vh] flex items-center justify-center px-4">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">Two-Factor Auth</h2>
-          <p className="mt-2 text-gray-600">Enter the code from your authenticator app</p>
+          <h2 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>Two-Factor Auth</h2>
+          <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>Enter the code from your authenticator app</p>
         </div>
-        <form onSubmit={handleSubmit} className="card space-y-6">
-          {error && <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm">{error}</div>}
+        <form onSubmit={handleSubmit} className="neon-card space-y-6">
+          {error && <div className="px-4 py-3 rounded-lg text-sm" style={{ background: 'rgba(255,0,0,0.1)', color: '#ff4444' }}>{error}</div>}
           <div>
-            <input type="text" required value={code} onChange={e => setCode(e.target.value)} className="input-field text-center text-2xl tracking-widest" placeholder="000000" maxLength={6} />
+            <input type="text" required value={code} onChange={e => setCode(e.target.value)} className="neon-input text-center text-2xl tracking-widest" placeholder="000000" maxLength={6} />
           </div>
-          <button type="submit" disabled={loading} className="btn-primary w-full">{loading ? 'Verifying...' : 'Verify Code'}</button>
+          <button type="submit" disabled={loading} className="neon-btn w-full" style={{ background: 'var(--neon)', color: '#fff' }}>{loading ? 'Verifying...' : 'Verify Code'}</button>
         </form>
       </div>
     </div>

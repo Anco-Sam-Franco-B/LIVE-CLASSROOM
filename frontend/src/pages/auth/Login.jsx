@@ -35,29 +35,29 @@ export default function Login() {
     <div className="min-h-[80vh] flex items-center justify-center px-4">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">Welcome back</h2>
-          <p className="mt-2 text-gray-600">Sign in to your account</p>
+          <h2 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>Welcome back</h2>
+          <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>Sign in to your account</p>
         </div>
-        <form onSubmit={handleSubmit} className="card space-y-6">
-          {error && <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm">{error}</div>}
+        <form onSubmit={handleSubmit} className="neon-card space-y-6">
+          {error && <div className="px-4 py-3 rounded-lg text-sm" style={{ background: 'rgba(255,0,0,0.1)', color: '#ff4444' }}>{error}</div>}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input type="email" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="input-field" placeholder="you@example.com" />
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Email</label>
+            <input type="email" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="neon-input" placeholder="you@example.com" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <input type="password" required value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} className="input-field" placeholder="Enter your password" />
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Password</label>
+            <input type="password" required value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} className="neon-input" placeholder="Enter your password" />
           </div>
           <div className="flex items-center justify-between">
-            <label className="flex items-center space-x-2 text-sm text-gray-600">
-              <input type="checkbox" checked={form.rememberMe} onChange={e => setForm({ ...form, rememberMe: e.target.checked })} className="rounded border-gray-300 text-indigo-600" />
+            <label className="flex items-center space-x-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+              <input type="checkbox" checked={form.rememberMe} onChange={e => setForm({ ...form, rememberMe: e.target.checked })} className="rounded" style={{ borderColor: 'var(--border-neon)', color: 'var(--neon)' }} />
               <span>Remember me</span>
             </label>
-            <Link to="/forgot-password" className="text-sm text-indigo-600 hover:text-indigo-500">Forgot password?</Link>
+            <Link to="/forgot-password" className="text-sm" style={{ color: 'var(--neon)' }}>Forgot password?</Link>
           </div>
-          <button type="submit" disabled={loading} className="btn-primary w-full">{loading ? 'Signing in...' : 'Sign In'}</button>
-          <p className="text-center text-sm text-gray-600">
-            Don't have an account? <Link to="/register" className="text-indigo-600 hover:text-indigo-500 font-medium">Sign up</Link>
+          <button type="submit" disabled={loading} className="neon-btn w-full" style={{ background: 'var(--neon)', color: '#fff' }}>{loading ? 'Signing in...' : 'Sign In'}</button>
+          <p className="text-center text-sm" style={{ color: 'var(--text-secondary)' }}>
+            Don't have an account? <Link to="/register" className="font-medium" style={{ color: 'var(--neon)' }}>Sign up</Link>
           </p>
         </form>
       </div>

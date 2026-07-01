@@ -27,43 +27,44 @@ export default function TeacherStudents() {
   return (
     <div>
       <PageHeader title="Students" />
-      <div className="card mb-6">
+      <div className="neon-card mb-6" style={{ background: 'var(--bg-card)' }}>
         <div className="flex space-x-3">
           <DebouncedInput value={courseId} onChange={setCourseId} placeholder="Enter Course ID" className="flex-1" />
-          <button onClick={loadStudents} className="btn-primary"><Search size={18} /></button>
+          <button onClick={loadStudents} className="neon-btn"><Search size={18} /></button>
         </div>
       </div>
       {loading ? (
         <TableSkeleton rows={5} cols={5} />
       ) : students.length > 0 ? (
-        <div className="card overflow-hidden">
+        <div className="neon-card overflow-hidden" style={{ background: 'var(--bg-card)' }}>
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-200">
-                <th className="text-left py-3 px-4 font-medium text-gray-500">Name</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-500">Email</th>
-                <th className="text-center py-3 px-4 font-medium text-gray-500">Progress</th>
-                <th className="text-center py-3 px-4 font-medium text-gray-500">Status</th>
-                <th className="text-right py-3 px-4 font-medium text-gray-500">Enrolled</th>
+              <tr style={{ borderColor: 'var(--border-neon)' }}>
+                <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Name</th>
+                <th className="text-left py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Email</th>
+                <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Progress</th>
+                <th className="text-center py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Status</th>
+                <th className="text-right py-3 px-4 font-medium" style={{ color: 'var(--text-secondary)' }}>Enrolled</th>
               </tr>
             </thead>
             <tbody>
               {students.map((s) => (
-                <tr key={s.enrollment_id} className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="py-3 px-4 font-medium text-gray-900">{s.first_name} {s.last_name}</td>
-                  <td className="py-3 px-4 text-gray-600">{s.email}</td>
+                <tr key={s.enrollment_id} style={{ borderColor: 'var(--border-neon)' }}
+                  onMouseEnter={e=>e.currentTarget.style.background='rgba(0,255,65,0.05)'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
+                  <td className="py-3 px-4 font-medium" style={{ color: 'var(--text-primary)' }}>{s.first_name} {s.last_name}</td>
+                  <td className="py-3 px-4" style={{ color: 'var(--text-secondary)' }}>{s.email}</td>
                   <td className="py-3 px-4 text-center">
                     <div className="flex items-center justify-center space-x-2">
-                      <div className="w-16 bg-gray-200 rounded-full h-2">
-                        <div className="bg-indigo-600 rounded-full h-2" style={{ width: `${s.progress}%` }} />
+                      <div className="w-16 rounded-full h-2" style={{ background: 'var(--bg-card)' }}>
+                        <div style={{ background: 'var(--neon)', borderRadius: '9999px', height: '0.5rem', width: `${s.progress}%` }} />
                       </div>
-                      <span className="text-gray-600">{Number(s.progress ?? 0).toFixed(0)}%</span>
+                      <span style={{ color: 'var(--text-secondary)' }}>{Number(s.progress ?? 0).toFixed(0)}%</span>
                     </div>
                   </td>
                   <td className="py-3 px-4 text-center">
-                    <span className={`badge ${s.status === 'active' ? 'badge-success' : 'badge-danger'}`}>{s.status}</span>
+                    <span className={`neon-badge ${s.status === 'active' ? 'neon-badge-success' : 'neon-badge-danger'}`}>{s.status}</span>
                   </td>
-                  <td className="py-3 px-4 text-right text-gray-600">{new Date(s.enrolled_at).toLocaleDateString()}</td>
+                  <td className="py-3 px-4 text-right" style={{ color: 'var(--text-secondary)' }}>{new Date(s.enrolled_at).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>
