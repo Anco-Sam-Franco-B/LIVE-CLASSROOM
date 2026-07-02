@@ -745,20 +745,22 @@ export default function LiveKitMeeting({ meetingId, roomName: roomNameProp, onLe
           <div className="relative flex-1 flex flex-col h-full overflow-hidden">
             
             {/* Transparent Floating Header */}
-            <header className="flex items-center justify-between px-6 py-4 shrink-0 select-none z-30 bg-[rgba(10,10,15,0.5)] backdrop-blur-md border-b border-[rgba(255,255,255,0.05)] shadow-sm">
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-2.5 h-2.5 rounded-full shrink-0 animate-pulse shadow-[0_0_10px_rgba(0,255,65,0.8)]" style={{ background: 'var(--neon)' }} />
-                <span className="text-sm font-semibold tracking-wider uppercase text-white truncate">Live Class</span>
-                <div className="hidden sm:block h-4 w-px bg-[rgba(255,255,255,0.1)]" />
-                <ConnectionIndicator />
-              </div>
-              
-              <div className="flex items-center gap-4 text-xs">
-                <ParticipantsBadge />
-                <div className="h-4 w-px bg-[rgba(255,255,255,0.1)]" />
-                <span className="tabular-nums font-mono font-semibold px-2 py-1 rounded bg-[rgba(255,255,255,0.05)] text-gray-300">{elapsed}</span>
-              </div>
-            </header>
+            <div className="w-full absolute top-0">
+              <header className="flex items-center justify-between px-6 py-4 shrink-0 select-none z-30">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-2.5 h-2.5 rounded-full shrink-0 animate-pulse shadow-[0_0_10px_rgba(0,255,65,0.8)]" style={{ background: 'var(--neon)' }} />
+                  <span className="text-sm font-semibold tracking-wider uppercase text-white truncate">Live Class</span>
+                  <div className="hidden sm:block h-4 w-px bg-[rgba(255,255,255,0.1)]" />
+                  <ConnectionIndicator />
+                </div>
+                
+                <div className="flex items-center gap-4 text-xs">
+                  <ParticipantsBadge />
+                  <div className="h-4 w-px bg-[rgba(255,255,255,0.1)]" />
+                  <span className="tabular-nums font-mono font-semibold px-2 py-1 rounded bg-[rgba(255,255,255,0.05)] text-gray-300">{elapsed}</span>
+                </div>
+              </header>
+            </div>
 
             {/* Video + Panel drawers container */}
             <div className="flex-1 flex overflow-hidden relative">
