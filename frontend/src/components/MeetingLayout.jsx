@@ -67,7 +67,7 @@ function MainView({ trackRef }) {
 
   return (
     <div
-      className="relative w-full h-full rounded-2xl overflow-hidden"
+      className="relative w-full h-full overflow-hidden"
       style={{
         background: 'var(--bg-dark-secondary)',
         ...(isSpeaking ? { boxShadow: '0 0 25px rgba(0,255,65,0.2)', borderColor: 'var(--neon)' } : {}),
