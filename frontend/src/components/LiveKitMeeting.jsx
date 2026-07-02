@@ -157,7 +157,7 @@ function PreJoinScreen({ onJoin }) {
             )}
             
             {/* Camera Overlay Toolbar */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 px-4 py-2.5 rounded-full bg-[rgba(10,10,15,0.75)] backdrop-blur-md border border-[rgba(255,255,255,0.08)] shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 px-4 py-2.5 rounded-full bg-[rgba(10,10,15,0.2)] backdrop-blur-md border border-[rgba(255,255,255,0.08)] shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
               <button 
                 onClick={toggleAudio}
                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
